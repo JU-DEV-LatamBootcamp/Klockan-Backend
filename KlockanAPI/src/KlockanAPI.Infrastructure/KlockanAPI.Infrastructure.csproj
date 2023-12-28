@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\Migrations\.gitkeep" />
+    <None Remove="Repositories\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Data\Migrations\.gitkeep" />
+    <Compile Include="Repositories\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Interfaces\" />
+  </ItemGroup>
+
+</Project>
