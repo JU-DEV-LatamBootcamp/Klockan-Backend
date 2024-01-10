@@ -1,0 +1,6 @@
+@KlockanAPI.Presentation_HostAddress = http://localhost:5209
+
+GET {{KlockanAPI.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

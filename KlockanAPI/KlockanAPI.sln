@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Presentation", "src\KlockanAPI.Presentation\KlockanAPI.Presentation.csproj", "{E6373241-F425-41F2-8357-3CC5AF035074}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Domain", "src\KlockanAPI.Domain\KlockanAPI.Domain.csproj", "{21050B8F-D8DB-462D-A616-810607EBCCBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFFF7C75-8F3E-46E2-BA62-CF227F01A2CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{8B3F0D4A-8433-47AD-8D9A-3F7F7159460C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Application", "src\KlockanAPI.Application\KlockanAPI.Application.csproj", "{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Infrastructure", "src\KlockanAPI.Infrastructure\KlockanAPI.Infrastructure.csproj", "{5434C994-1757-4F5B-BD49-E56F2670983C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraestructure", "{C115EBDE-18D2-4601-98E1-4F4CAB4E71ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{BBD8E456-006B-418F-BE70-C7CDA8382349}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E6373241-F425-41F2-8357-3CC5AF035074}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6373241-F425-41F2-8357-3CC5AF035074}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6373241-F425-41F2-8357-3CC5AF035074}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6373241-F425-41F2-8357-3CC5AF035074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21050B8F-D8DB-462D-A616-810607EBCCBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21050B8F-D8DB-462D-A616-810607EBCCBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21050B8F-D8DB-462D-A616-810607EBCCBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21050B8F-D8DB-462D-A616-810607EBCCBC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5434C994-1757-4F5B-BD49-E56F2670983C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5434C994-1757-4F5B-BD49-E56F2670983C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5434C994-1757-4F5B-BD49-E56F2670983C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5434C994-1757-4F5B-BD49-E56F2670983C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E6373241-F425-41F2-8357-3CC5AF035074} = {BBD8E456-006B-418F-BE70-C7CDA8382349}
+		{21050B8F-D8DB-462D-A616-810607EBCCBC} = {8B3F0D4A-8433-47AD-8D9A-3F7F7159460C}
+		{8B3F0D4A-8433-47AD-8D9A-3F7F7159460C} = {EFFF7C75-8F3E-46E2-BA62-CF227F01A2CD}
+		{B3FFF1D8-B8FE-4755-87B6-F12E30AA5766} = {8B3F0D4A-8433-47AD-8D9A-3F7F7159460C}
+		{5434C994-1757-4F5B-BD49-E56F2670983C} = {C115EBDE-18D2-4601-98E1-4F4CAB4E71ED}
+		{C115EBDE-18D2-4601-98E1-4F4CAB4E71ED} = {EFFF7C75-8F3E-46E2-BA62-CF227F01A2CD}
+		{BBD8E456-006B-418F-BE70-C7CDA8382349} = {EFFF7C75-8F3E-46E2-BA62-CF227F01A2CD}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3004B085-3136-4885-B608-AC306FEEF44B}
+	EndGlobalSection
+EndGlobal

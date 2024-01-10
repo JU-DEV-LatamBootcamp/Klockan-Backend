@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="CrossCutting\.gitkeep" />
+    <None Remove="DTOs\.gitkeep" />
+    <None Remove="DTOs\entityName\.gitkeep" />
+    <None Remove="Mappings\.gitkeep" />
+    <None Remove="Services\Interfaces\.gitkeep" />
+    <None Remove="Services\.gitkeep" />
+    <None Remove="Validators\.gitkeep" />
+    <None Remove="Validators\Interfaces\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="CrossCutting\.gitkeep" />
+    <Compile Include="DTOs\.gitkeep" />
+    <Compile Include="DTOs\entityName\.gitkeep" />
+    <Compile Include="Mappings\.gitkeep" />
+    <Compile Include="Services\Interfaces\.gitkeep" />
+    <Compile Include="Services\.gitkeep" />
+    <Compile Include="Validators\.gitkeep" />
+    <Compile Include="Validators\Interfaces\.gitkeep" />
+  </ItemGroup>
+
+</Project>
