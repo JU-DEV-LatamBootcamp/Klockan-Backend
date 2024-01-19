@@ -1,7 +1,8 @@
 using KlockanAPI.Domain.Entities.Interfaces;
 
 namespace KlockanAPI.Domain.Entities;
-public class Course(int id, string name, string code, string description, int sessions, int sessionDuration, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) : IEntity {
+public class Course(int id, string name, string code, string description, int sessions, int sessionDuration, DateTime createdAt, DateTime updatedAt, DateTime deletedAt) : IEntity
+{
 
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
