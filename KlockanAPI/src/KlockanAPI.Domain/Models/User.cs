@@ -1,7 +1,6 @@
 namespace KlockanAPI.Domain.Models;
 
 public class User(
-    int id,
     string firstName,
     string lastName,
     string email,
@@ -10,12 +9,9 @@ public class User(
     Country? country,
     Role role,
     Meeting[]? meetings,
-    Classroom? classrooms,
-    DateTime createdAt,
-    DateTime updatedAt,
-    DateTime deletedAt)
+    Classroom? classrooms
+    ) : BaseModel
 {
-    public int Id { get; set; } = id;
     public string FirstName { get; set; } = firstName;
     public string LastName { get; set; } = lastName;
     public string Email { get; set; } = email;
@@ -25,7 +21,4 @@ public class User(
     public Role Role { get; set; } = role;
     public Meeting[]? Meetings { get; set; } = meetings;
     public Classroom? Classrooms { get; set; } = classrooms;
-    public DateTime CreatedAt { get; set; } = createdAt;
-    public DateTime UpdatedAt { get; set; } = updatedAt;
-    public DateTime DeletedAt { get; set; } = deletedAt;
 }
