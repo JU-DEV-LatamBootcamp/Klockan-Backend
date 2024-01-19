@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KlockanAPI.Presentation.Controllers {
@@ -14,7 +15,7 @@ namespace KlockanAPI.Presentation.Controllers {
         public WeatherForecastController(ILogger<WeatherForecastController> logger) {
             _logger = logger;
         }
-
+        [Authorize]
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get() {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast {

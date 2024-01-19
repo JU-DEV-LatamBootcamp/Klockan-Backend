@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<InvariantGlobalization>true</InvariantGlobalization>
+		<UserSecretsId>973af2ef-1b86-4032-907f-77a51d25a1dd</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,6 +18,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\KlockanAPI.Infrastructure\KlockanAPI.Infrastructure.csproj" />
 	</ItemGroup>
 
 </Project>
