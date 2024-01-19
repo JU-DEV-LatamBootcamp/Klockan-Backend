@@ -1,5 +1,3 @@
-using System.Data.Common;
-
 namespace KlockanAPI.Domain.Models;
 
 public class MeetingAttendace(MeetingAttendanceStatus status, Meeting meeting, ClassroomUser user, int minutesAttended) : BaseModel

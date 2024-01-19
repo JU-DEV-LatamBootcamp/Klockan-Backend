@@ -1,5 +1,3 @@
-using KlockanAPI.Domain.Entities.Interfaces;
-
 namespace KlockanAPI.Domain.Models;
 
 public class Meeting(int classNumber, DateOnly date, TimeOnly time, Classroom classroom, ClassroomUser trainer, ClassroomUser[] participants) : BaseModel
