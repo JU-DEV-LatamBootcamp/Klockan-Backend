@@ -1,6 +1,6 @@
 namespace KlockanAPI.Domain.Models;
 
-public class Class(int id, string name, string code, string description, int sessions, int sessionDuration, DateTime createdAt, DateTime updatedAt, DateTime deletedAt)
+public class Course(int id, string name, string code, string description, int sessions, int sessionDuration, DateTime createdAt, DateTime updatedAt, DateTime deletedAt)
 {
     public int Id { get; set; } = id;
     public string Name { get; set; } = name;
