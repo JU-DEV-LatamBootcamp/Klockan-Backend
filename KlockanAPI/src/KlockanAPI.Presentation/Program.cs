@@ -1,8 +1,4 @@
-
-using Microsoft.AspNetCore.Authentication.Cookies;
 using KlockanAPI.Infrastructure.CrossCutting.Authentication;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
 namespace KlockanAPI.Presentation
