@@ -2,11 +2,11 @@
 
 ## Setting up the Backend API and Database in a Container:
 
-Follow these steps to set up the Keycloak Server using Docker:
+Follow these steps to set up the API and Database using Docker:
 
 ### 1. Navigate to the Work Directory:
    
-   Change your working directory to the location where you want to set up the Keycloak Server.
+   Change your working directory to the location where you want to set up the API.
    
 ### 2. Build the Container:
    
