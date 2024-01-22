@@ -1,6 +1,6 @@
 namespace KlockanAPI.Domain.Models;
 
-public class Weekdays(string name) : BaseModel
+public class Weekday(string name) : BaseModel
 {
     public string Name { get; set; } = name;
 }
