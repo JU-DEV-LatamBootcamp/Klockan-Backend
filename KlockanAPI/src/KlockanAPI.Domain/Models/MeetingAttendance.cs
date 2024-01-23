@@ -1,10 +1,12 @@
 namespace KlockanAPI.Domain.Models;
 
-public class MeetingAttendance(MeetingAttendanceStatus status, Meeting meeting, ClassroomUser user, int minutesAttended) : BaseModel
+public class MeetingAttendance : BaseModel
 {
-    public Meeting Meeting { get; set; } = meeting;
-    public MeetingAttendanceStatus Status { get; set; } = status;
-    public ClassroomUser User { get; set; } = user;
-    public int MinutesAttended { get; set; } = minutesAttended;
-
+    public int MinutesAttended { get; set; } 
+    public int MeetingId { get; set; }
+    public Meeting Meeting { get; set; } = new Meeting();
+    public int ClassroomUserId { get; set; }
+    public ClassroomUser User { get; set; } = new ClassroomUser();
+    public int MeetingAttendanceStatusId { get; set; }
+    public MeetingAttendanceStatus Status { get; set; } = new MeetingAttendanceStatus();
 }
