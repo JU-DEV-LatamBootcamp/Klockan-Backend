@@ -1,10 +1,8 @@
 namespace KlockanAPI.Domain.Models;
 
-public class Country(string name, string code, City[] cities) : BaseModel
+public class Country : BaseModel
 {
-
-    public string Name { get; set; } = name;
-    public string Code { get; set; } = code;
-    public City[] Cities { get; set; } = cities;
-
+    public string Name { get; set; } = string.Empty;
+    public string? Code { get; set; } = string.Empty;
+    public ICollection<City> Cities { get; set; } = new List<City>();
 }
