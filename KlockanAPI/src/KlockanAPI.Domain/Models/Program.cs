@@ -1,8 +1,8 @@
 ﻿namespace KlockanAPI.Domain.Models;
 
-public class Program(string name, string description) : BaseModel
+public class Program : BaseModel
 {
-    public string Name { get; set; } = name;
-    public string Description { get; set; } = description;
-
+    public string Name { get; set; } = string.Empty;
+    public string? Description { get; set; } 
+    public ICollection<Classroom> Classrooms { get; set; } = new List<Classroom>();
 }
