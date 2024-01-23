@@ -1,8 +1,10 @@
 namespace KlockanAPI.Domain.Models;
 
-public class City(string name, string code, Country country) : BaseModel
+public class City: BaseModel
 {
-    public string Name { get; set; } = name;
-    public string Code { get; set; } = code;
-    public Country Country { get; set; } = country;
+    public string Name { get; set; } = string.Empty;
+    public string? Code { get; set; } = string.Empty;
+    public int CountryId { get; set; } 
+    public Country Country { get; set; } = new Country();
+    public ICollection<User> Users { get; set; } = new List<User>();
 }
