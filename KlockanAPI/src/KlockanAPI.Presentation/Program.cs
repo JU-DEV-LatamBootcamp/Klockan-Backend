@@ -1,9 +1,12 @@
 
 using Microsoft.AspNetCore.Authentication.Cookies;
-using KlockanAPI.Infrastructure.CrossCutting.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+using KlockanAPI.Infrastructure.Data;
+using KlockanAPI.Infrastructure.CrossCutting.Authentication;
 
 namespace KlockanAPI.Presentation
 {
@@ -46,6 +49,9 @@ namespace KlockanAPI.Presentation
 
             builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
 
+            builder.Services.AddDbContext<KlockanContext>(options =>
+               options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -57,7 +63,7 @@ namespace KlockanAPI.Presentation
             app.UseCors(c =>
             {
                 var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-                if(allowedOrigins is not null)
+                if (allowedOrigins is not null)
                     c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
             });
 
