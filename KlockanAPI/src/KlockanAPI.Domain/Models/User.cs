@@ -5,7 +5,7 @@ public class User : BaseModel
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public DateOnly Birthdate { get; set; } 
+    public DateOnly Birthdate { get; set; }
     public int CityId { get; set; }
     public City City { get; set; } = new City();
     public int RoleId { get; set; }

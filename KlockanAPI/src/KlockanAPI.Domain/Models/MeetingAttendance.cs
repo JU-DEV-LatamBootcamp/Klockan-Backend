@@ -2,7 +2,7 @@ namespace KlockanAPI.Domain.Models;
 
 public class MeetingAttendance : BaseModel
 {
-    public int MinutesAttended { get; set; } 
+    public int MinutesAttended { get; set; }
     public int MeetingId { get; set; }
     public Meeting Meeting { get; set; } = new Meeting();
     public int ClassroomUserId { get; set; }
