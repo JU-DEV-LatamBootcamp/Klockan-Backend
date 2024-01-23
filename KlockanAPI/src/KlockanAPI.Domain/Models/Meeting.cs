@@ -1,11 +1,12 @@
 namespace KlockanAPI.Domain.Models;
 
-public class Meeting(int classNumber, DateOnly date, TimeOnly time, Classroom classroom, ClassroomUser trainer, ClassroomUser[] participants) : BaseModel
+public class Meeting: BaseModel
 {
-    public int ClassNumber { get; set; } = classNumber;
-    public DateOnly date { get; set; } = date;
-    public TimeOnly Time { get; set; } = time;
-    public Classroom Classroom { get; set; } = classroom;
-    public ClassroomUser Trainer { get; set; } = trainer;
-    public ClassroomUser[]? Participants { get; set; } = participants;
+    public int SessionNumber { get; set; } 
+    public DateOnly Date { get; set; } 
+    public TimeOnly Time { get; set; } 
+    public int ClassroomId { get; set; }
+    public Classroom Classroom { get; set; } = new Classroom();
+    public int ClassroomUserId { get; set; }
+    public ClassroomUser Trainer { get; set; } = new ClassroomUser(); 
 }
