@@ -17,7 +17,7 @@ public class ProgramService : IProgramService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<ProgramDTO>> GetAllAsync()
+    public async Task<IEnumerable<ProgramDTO>> GetAllProgramsAsync()
     {
         var progrmas = await _programRepository.GetAllProgramsAsync();
         var progrmasDTO = _mapper.Map<IEnumerable<ProgramDTO>>(progrmas);

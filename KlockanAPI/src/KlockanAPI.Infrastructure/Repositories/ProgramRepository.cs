@@ -13,7 +13,7 @@ public class ProgramRepository : IProgramRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Program>> GetProgramsAsync()
+    public async Task<IEnumerable<Program>> GetAllProgramsAsync()
     {
         return await Task.FromResult(_context.Programs.ToList());
 
