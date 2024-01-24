@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authentication
 {
@@ -20,6 +21,15 @@ namespace KlockanAPI.Infrastructure.CrossCutting.Authentication
                 o.RequireHttpsMetadata = env.IsProduction();
                 o.Authority = KeyCloakSecrets["Authority"];
                 o.Audience = KeyCloakSecrets["Audience"];
+
+                var tokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = KeyCloakSecrets["AuthorizationUrl"],
+                    ValidateIssuerSigningKey = true,
+                };
+                o.TokenValidationParameters = tokenValidationParameters;
+                
                 o.Events = new JwtBearerEvents()
                 {
                     OnAuthenticationFailed = c =>
