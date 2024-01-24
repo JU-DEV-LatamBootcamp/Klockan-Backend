@@ -39,7 +39,7 @@ namespace KlockanAPI.Presentation
                     c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
             });
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -52,6 +52,7 @@ namespace KlockanAPI.Presentation
         public static WebApplicationBuilder ConfigureServicesAndMiddlewares(WebApplicationBuilder builder)
         {
             // ***********  API CONTROLLERS AND RESPONSES ************
+
             builder.Services.AddControllers(configure =>
             {
                 configure.ReturnHttpNotAcceptable = true;
@@ -60,6 +61,7 @@ namespace KlockanAPI.Presentation
                 configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
                 configure.Filters.Add(new AuthorizeFilter());
             });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
