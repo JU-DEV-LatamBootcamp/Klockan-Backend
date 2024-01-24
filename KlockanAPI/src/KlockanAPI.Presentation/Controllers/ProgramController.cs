@@ -24,7 +24,7 @@ public class ProgramController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ProgramDTO>>> GetPrograms()
     {
-        var programs = await _programService.GetProgramsAsync();
+        var programs = await _programService.GetAllProgramsAsync();
         return Ok(programs);
     }
 }

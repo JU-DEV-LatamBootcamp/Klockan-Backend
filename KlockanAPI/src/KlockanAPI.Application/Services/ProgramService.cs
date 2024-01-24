@@ -17,10 +17,10 @@ public class ProgramService : IProgramService
         _mapper = mapper;
     }
 
-    public async Task<List<ProgramDTO>> GetProgramsAsync()
+    public async Task<IEnumerable<ProgramDTO>> GetAllAsync()
     {
-        var progrmas = await _programRepository.GetProgramsAsync();
-        var progrmasDTO = _mapper.Map<List<ProgramDTO>>(progrmas);
+        var progrmas = await _programRepository.GetAllProgramsAsync();
+        var progrmasDTO = _mapper.Map<IEnumerable<ProgramDTO>>(progrmas);
 
         return progrmasDTO;
     }
