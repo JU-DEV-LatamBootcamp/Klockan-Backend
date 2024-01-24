@@ -12,15 +12,15 @@ public class ProgramService : IProgramService
 
     public ProgramService(IProgramRepository programRepository, IMapper mapper)
     {
-        this._programRepository = programRepository;
-        this._mapper = mapper;
+        _programRepository = programRepository;
+        _mapper = mapper;
     }
 
     public async Task<List<ProgramDTO>> GetProgramsAsync()
     {
-        var result = await _programRepository.GetProgramsAsync();
-        var resultDTO = _mapper.Map<List<ProgramDTO>>(result);
+        var progrmas = await _programRepository.GetProgramsAsync();
+        var progrmasDTO = _mapper.Map<List<ProgramDTO>>(progrmas);
 
-        return resultDTO;
+        return progrmasDTO;
     }
 }
