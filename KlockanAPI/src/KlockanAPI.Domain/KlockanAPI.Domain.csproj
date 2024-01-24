@@ -6,18 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Entities\.gitkeep" />
-    <None Remove="Entities\Interfaces\.gitkeep" />
-    <None Remove="Models\.gitkeep" />
-    <None Remove="Models\Interfaces\.gitkeep" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Entities\.gitkeep" />
-    <Compile Include="Entities\Interfaces\.gitkeep" />
-    <Compile Include="Models\.gitkeep" />
-    <Compile Include="Models\Interfaces\.gitkeep" />
-  </ItemGroup>
-
 </Project>
