@@ -2,6 +2,7 @@
 using MapsterMapper;
 using KlockanAPI.Application.DTOs.Program;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 namespace KlockanAPI.Application.Services;
 

@@ -27,7 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\KlockanAPI.Application\KlockanAPI.Application.csproj" />
 		<ProjectReference Include="..\KlockanAPI.Domain\KlockanAPI.Domain.csproj" />
 	</ItemGroup>
 
