@@ -1,5 +1,4 @@
-﻿using Mapster;
-using MapsterMapper;
+﻿using MapsterMapper;
 using KlockanAPI.Application.DTOs.Program;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;

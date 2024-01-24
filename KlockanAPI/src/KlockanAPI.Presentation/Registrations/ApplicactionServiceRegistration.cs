@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
 using Mapster;
 using MapsterMapper;
-using Microsoft.Extensions.DependencyInjection;
 
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;

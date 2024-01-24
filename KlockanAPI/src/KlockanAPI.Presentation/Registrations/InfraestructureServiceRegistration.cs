@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-using KlockanAPI.Infrastructure.Repositories;
+﻿using KlockanAPI.Infrastructure.Repositories;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
-
-
 
 namespace KlockanAPI.Infrastructure;
 
