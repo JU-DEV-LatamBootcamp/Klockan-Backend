@@ -1,31 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="CrossCutting\.gitkeep" />
-    <None Remove="DTOs\.gitkeep" />
-    <None Remove="DTOs\entityName\.gitkeep" />
-    <None Remove="Mappings\.gitkeep" />
-    <None Remove="Services\Interfaces\.gitkeep" />
-    <None Remove="Services\.gitkeep" />
-    <None Remove="Validators\.gitkeep" />
-    <None Remove="Validators\Interfaces\.gitkeep" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="CrossCutting\.gitkeep" />
+		<None Remove="Mappings\.gitkeep" />
+		<None Remove="Validators\.gitkeep" />
+		<None Remove="Validators\Interfaces\.gitkeep" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Include="CrossCutting\.gitkeep" />
-    <Compile Include="DTOs\.gitkeep" />
-    <Compile Include="DTOs\entityName\.gitkeep" />
-    <Compile Include="Mappings\.gitkeep" />
-    <Compile Include="Services\Interfaces\.gitkeep" />
-    <Compile Include="Services\.gitkeep" />
-    <Compile Include="Validators\.gitkeep" />
-    <Compile Include="Validators\Interfaces\.gitkeep" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Include="CrossCutting\.gitkeep" />
+		<Compile Include="Mappings\.gitkeep" />
+		<Compile Include="Validators\.gitkeep" />
+		<Compile Include="Validators\Interfaces\.gitkeep" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentValidation" Version="11.8.1" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+		<PackageReference Include="Mapster" Version="7.4.0" />
+		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\KlockanAPI.Domain\KlockanAPI.Domain.csproj" />
+		<ProjectReference Include="..\KlockanAPI.Infrastructure\KlockanAPI.Infrastructure.csproj" />
+	</ItemGroup>
 
 </Project>
