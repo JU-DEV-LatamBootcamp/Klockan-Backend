@@ -16,7 +16,7 @@ public class ProgramsControllerTests
     {
         _programService = Substitute.For<IProgramService>();
     }
-    private ProgramController GetControllerInstance() => new(_programService);
+    private ProgramsController GetControllerInstance() => new(_programService);
 
     [Fact]
     public async Task GetAllPrograms_ShouldReturnOk()
