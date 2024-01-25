@@ -22,7 +22,7 @@ public class ProgramController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ProgramDTO>>> GetPrograms()
+    public async Task<ActionResult<IEnumerable<ProgramDTO>>> GetAllPrograms()
     {
         var programs = await _programService.GetAllProgramsAsync();
         return Ok(programs);
