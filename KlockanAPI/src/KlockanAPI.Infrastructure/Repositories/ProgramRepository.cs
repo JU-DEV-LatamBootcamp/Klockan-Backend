@@ -4,6 +4,7 @@ using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 namespace KlockanAPI.Infrastructure.Repositories;
+
 public class ProgramRepository : IProgramRepository
 {
     private readonly KlockanContext _context;
@@ -16,6 +17,5 @@ public class ProgramRepository : IProgramRepository
     public async Task<IEnumerable<Program>> GetAllProgramsAsync()
     {
         return await Task.FromResult(_context.Programs.ToList());
-
     }
 }
