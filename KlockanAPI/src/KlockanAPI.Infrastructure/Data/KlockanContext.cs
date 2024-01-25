@@ -5,9 +5,6 @@ namespace KlockanAPI.Infrastructure.Data;
 
 public class KlockanContext : DbContext
 {
-    public KlockanContext(DbContextOptions options) : base()
-    {
-    }
     public KlockanContext(DbContextOptions<KlockanContext> options) : base(options)
     {
     }
