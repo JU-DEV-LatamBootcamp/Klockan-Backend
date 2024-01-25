@@ -26,7 +26,7 @@ public class Program
         var app = builder.Build();
         app.UseResponseCompression();
         // Configure the HTTP request pipeline.
-        if(app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -34,7 +34,7 @@ public class Program
         app.UseCors(c =>
         {
             var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-            if(allowedOrigins is not null)
+            if (allowedOrigins is not null)
                 c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
         });
 
@@ -60,6 +60,8 @@ public class Program
             configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
             configure.Filters.Add(new AuthorizeFilter());
         });
+
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();

@@ -9,11 +9,11 @@ namespace KlockanAPI.Presentation.Controllers;
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class ProgramController : ControllerBase
+public class ProgramsController : ControllerBase
 {
     private readonly IProgramService _programService;
 
-    public ProgramController(IProgramService programService)
+    public ProgramsController(IProgramService programService)
     {
         _programService = programService;
     }
