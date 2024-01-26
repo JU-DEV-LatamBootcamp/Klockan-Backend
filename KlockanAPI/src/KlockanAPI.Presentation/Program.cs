@@ -1,39 +1,103 @@
+using Asp.Versioning;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
+using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.CrossCutting.Authentication;
+using KlockanAPI.Application;
 
-namespace KlockanAPI.Presentation
+namespace KlockanAPI.Presentation;
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        var builder = WebApplication.CreateBuilder(args);
+        // Add services to the container.
+        builder = ConfigureServicesAndMiddlewares(builder);
+
+
+        var app = builder.Build();
+        app.UseResponseCompression();
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
         {
-            var builder = WebApplication.CreateBuilder(args);
-            // Add services to the container.
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+        app.UseCors(c =>
+        {
+            var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+            if (allowedOrigins is not null)
+                c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
+        });
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
+        // app.UseHttpsRedirection();
 
-            builder.Services.AddSwaggerGen(c =>
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllers();
+        app.MapHealthChecks("/health");
+        app.Run();
+    }
+
+    public static WebApplicationBuilder ConfigureServicesAndMiddlewares(WebApplicationBuilder builder)
+    {
+        // ***********  API CONTROLLERS AND RESPONSES ************
+
+        builder.Services.AddControllers(configure =>
+        {
+            configure.ReturnHttpNotAcceptable = true;
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+            configure.Filters.Add(new AuthorizeFilter());
+        });
+
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+
+        // ***********  API SWAGGER GEN ************
+        builder.Services.AddSwaggerGen(c =>
+        {
+            // General information
+            c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
             {
-                // Keycloak
-                c.AddSecurityDefinition("KeyCloakBearerAuth", new OpenApiSecurityScheme
+                Title = "Klockan API",
+                Version = "v1",
+                Description = "This API lets you access to Klockan Project.",
+                Contact = new()
                 {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer",
-                    BearerFormat = "JWT",
-                    Description = "JWT Authorization header using the Bearer scheme.",
-                    In = ParameterLocation.Header
-                });
+                    Name = "Klockan Project",
+                    Email = "klockanporject@gmail.com"
+                },
+                License = new()
+                {
+                    Name = "MIT License",
+                },
+            });
 
-                var securityRequirement = new OpenApiSecurityRequirement
-                {
+            // Keycloak
+            c.AddSecurityDefinition("KeyCloakBearerAuth", new OpenApiSecurityScheme
+            {
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Description = "JWT Authorization header using the Bearer scheme.",
+                In = ParameterLocation.Header
+            });
+
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -41,39 +105,51 @@ namespace KlockanAPI.Presentation
                         },
                         Array.Empty<string>()
                     }
-                };
+            };
 
-                c.AddSecurityRequirement(securityRequirement);
-            });
+            c.AddSecurityRequirement(securityRequirement);
+        });
 
-            builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
+        // ***********  API VERSIONING ************
+        var apiVersioningBuilder = builder.Services.AddApiVersioning(setupAction =>
+        {
+            setupAction.AssumeDefaultVersionWhenUnspecified = true;
+            setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+            setupAction.ReportApiVersions = true;
 
-            builder.Services.AddDbContext<KlockanContext>(options =>
-               options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        });
+        apiVersioningBuilder.AddApiExplorer(options =>
+        {
+            // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
+            // note: the specified format code will format the version as "'v'major[.minor][-status]"
+            options.GroupNameFormat = "'v'VVV";
 
-            var app = builder.Build();
+            // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
+            // can also be used to control the format of the API version in route templates
+            options.SubstituteApiVersionInUrl = true;
+        });
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-            app.UseCors(c =>
-            {
-                var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-                if (allowedOrigins is not null)
-                    c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
-            });
+        // ***********  GZIP COMPRESSION ************
+        builder.Services.AddResponseCompression(options =>
+        {
+            options.EnableForHttps = true;
+            options.Providers.Add<GzipCompressionProvider>();
+        });
 
-            app.UseHttpsRedirection();
+        // ***********  KEYCLOAK ************
+        builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+        // ***********  DEPENDENCY INJECTION ************
+        builder.Services.AddApplicationServices();
+        builder.Services.AddInfraestructureRepositories();
 
-            app.MapControllers();
+        // ***********  HEALTHCHECK ************
+        builder.Services.AddHealthChecks();
 
-            app.Run();
-        }
+        // ***********  DBCONTEXT ************
+        builder.Services.AddDbContext<KlockanContext>(options =>
+           options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+        return builder;
     }
 }
