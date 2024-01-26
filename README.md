@@ -112,3 +112,6 @@ Inside `KlockanAPI.Infrastructure`, follow these steps:
 -
 
 ![Folder Structure](./assets/folderStructure.png)
+
+
+
