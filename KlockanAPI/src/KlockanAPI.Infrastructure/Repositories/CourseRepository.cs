@@ -18,4 +18,10 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses.ToListAsync();
     }
+
+    public async Task<Course> CreateAsync(Course course)
+    {
+        await _context.AddAsync(course);
+        return course;
+    }
 }

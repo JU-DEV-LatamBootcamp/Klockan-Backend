@@ -26,4 +26,11 @@ public class CoursesController : ControllerBase
         return Ok(courses);
     }
 
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<CourseDto>> CreateCourse(CourseDto course)
+    {
+        await _courseService.CreateCourseAsync(course);
+        return Ok(course);
+    }
 }
