@@ -16,7 +16,7 @@ RUN dotnet restore src/KlockanAPI.Presentation/KlockanAPI.Presentation.csproj
 
 # Copy everything else and build
 # COPY KlockanAPI/src src
-COPY KlockanAPI/src/KlockanAPI.Application/. src/KlockanAPI.Application/
+COPY KlockanAPI/src/KlockanAPI.Application/. ./src/KlockanAPI.Application/
 COPY KlockanAPI/src/KlockanAPI.Domain/. ./src/KlockanAPI.Domain/
 COPY KlockanAPI/src/KlockanAPI.Infrastructure/. ./src/KlockanAPI.Infrastructure/
 COPY KlockanAPI/src/KlockanAPI.Presentation/. ./src/KlockanAPI.Presentation/
@@ -25,11 +25,15 @@ COPY KlockanAPI/tests/KlockanAPI.Application.Tests/. ./tests/KlockanAPI.Applicat
 COPY KlockanAPI/tests/KlockanAPI.Infraestructure.Tests/. ./tests/KlockanAPI.Infraestructure.Tests/
 COPY KlockanAPI/tests/KlockanAPI.Presentation.Tests/. ./tests/KlockanAPI.Presentation.Tests/
 
+# Copy Certificates directory
+# COPY KlockanAPI/src/KlockanAPI.Presentation/Certificates/. ./src/KlockanAPI.Presentation/
+
 RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
 COPY --from=build /app/out/ .
+COPY KlockanAPI/src/KlockanAPI.Presentation/Certificates/. /app/Certificates
 
 ENTRYPOINT ["dotnet", "KlockanAPI.Presentation.dll"]
