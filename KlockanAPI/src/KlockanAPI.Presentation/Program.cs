@@ -12,6 +12,7 @@ using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.CrossCutting.Authentication;
 using KlockanAPI.Application;
+using KlockanAPI.Presentation.Middlewares;
 
 namespace KlockanAPI.Presentation;
 public class Program
@@ -26,7 +27,7 @@ public class Program
         var app = builder.Build();
         app.UseResponseCompression();
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        if(app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -34,7 +35,7 @@ public class Program
         app.UseCors(c =>
         {
             var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-            if (allowedOrigins is not null)
+            if(allowedOrigins is not null)
                 c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
         });
 
@@ -138,6 +139,10 @@ public class Program
 
         // ***********  KEYCLOAK ************
         builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
+
+        // ***********  EXCEPTIONS ************
+        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+        builder.Services.AddProblemDetails();
 
         // ***********  DEPENDENCY INJECTION ************
         builder.Services.AddApplicationServices();
