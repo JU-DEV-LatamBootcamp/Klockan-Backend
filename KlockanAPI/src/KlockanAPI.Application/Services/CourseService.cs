@@ -24,12 +24,16 @@ public class CourseService : ICourseService
     }
     public async Task<CourseDto?> DeleteCourseAsync(int id)
     {
-        var course = await _courseRepository.DeleteCourseAsync(id);
+        var course = await _courseRepository.GetCourseByIdAsync(id);
         NotFoundException.ThrowIfNull(course, $"Course with id {id} not found");
 
         // check if course is not used in any classroom
         //var classroom = await _classroomRepository.GetClassroomByCourseIdAsync(id);
+        //FoundException.ThrowIfNotNull(classroom, $"Course with id {id} is used in a classroom");
 
-        return _mapper.Map<CourseDto>(course);
+        var deletedCourse = await _courseRepository.DeleteCourseAsync(course!);
+
+
+        return _mapper.Map<CourseDto>(deletedCourse);
     }
 }
