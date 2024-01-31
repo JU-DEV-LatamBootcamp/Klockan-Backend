@@ -49,6 +49,20 @@ public class GlobalExceptionHandler : IExceptionHandler
 
                     return true;
                 }
+            case FoundException:
+                {
+                    var foundProblemDetails = new ProblemDetails
+                    {
+                        Title = "The specified resource was found but is used in another resource!",
+                        Status = StatusCodes.Status400BadRequest,
+                        Detail = exceptionMessage,
+                        Instance = $"urn:wakuwaku:error:{Guid.NewGuid()}"
+                    };
+                    httpContext.Response.StatusCode = foundProblemDetails.Status.Value;
+                    await httpContext.Response.WriteAsJsonAsync(foundProblemDetails, cancellationToken);
+
+                    return true;
+                }
             default:
                 var problemDetails = new ProblemDetails
                 {
