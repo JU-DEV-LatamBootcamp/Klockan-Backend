@@ -32,6 +32,7 @@ public class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+        app.UseExceptionHandler();
         app.UseCors(c =>
         {
             var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
