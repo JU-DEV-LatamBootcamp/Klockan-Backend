@@ -28,7 +28,6 @@ public class CourseService : ICourseService
         var course = await _courseRepository.GetCourseByIdAsync(id);
         NotFoundException.ThrowIfNull(course, $"Course with id {id} not found");
 
-        // check if course is not used in any classroom
         var classroom = await _classroomRepository.GetClassroomsByCourseIdAsync(id);
         FoundException.ThrowIfNotNull(classroom, $"Course with id {id} is used in a classroom");
 
