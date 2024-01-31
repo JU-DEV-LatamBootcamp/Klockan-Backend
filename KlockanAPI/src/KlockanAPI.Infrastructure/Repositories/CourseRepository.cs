@@ -18,13 +18,13 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses.ToListAsync();
     }
-
-    public async Task<Course?> DeleteCourseAsync(int id)
+    public async Task<Course?> GetCourseByIdAsync(int id)
     {
-        Course? course = await _context.Courses.FindAsync(id);
+        return await _context.Courses.FindAsync(id);
+    }
 
-        if(course == null) return null;
-
+    public async Task<Course> DeleteCourseAsync(Course course)
+    {
         _context.Courses.Remove(course);
         await _context.SaveChangesAsync();
 
