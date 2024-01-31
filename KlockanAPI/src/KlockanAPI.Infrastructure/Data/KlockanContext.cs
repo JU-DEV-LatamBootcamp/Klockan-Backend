@@ -70,7 +70,7 @@ public class KlockanContext : DbContext
         modelBuilder.Entity<ClassroomUser>()
             .HasMany(cu => cu.Meetings)
             .WithOne(m => m.Trainer)
-            .HasForeignKey(m => m.ClassroomUserId);
+            .HasForeignKey(m => m.TrainerId);
 
         modelBuilder.Entity<ClassroomUser>()
             .HasMany(cu => cu.MeetingAttendances)
@@ -176,57 +176,55 @@ public class KlockanContext : DbContext
             CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
         });
 
+        // Seed data for Classroom
         modelBuilder.Entity<Classroom>().HasData(
-            new Classroom
-            {
-                Id = 1,
-                CourseId = 1,
-                ProgramId = 1,
-                StartDate = new DateOnly(2024, 1, 23),
-            }
-        );
+        new Classroom
+        {
+            Id = 1,
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+        });
 
         // Seed data for Meetings
         modelBuilder.Entity<Meeting>().HasData(
-            new Meeting
-            {
-                Id = 1,
-                SessionNumber = 3,
-                ClassroomId = 1,
-                Date = new DateOnly(2024, 1, 23),
-                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                Time = new TimeOnly(15, 30, 0),
+        new Meeting
+        {
+            Id = 1,
+            SessionNumber = 3,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            Time = new TimeOnly(15, 30, 0),
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
 
-            },
-            new Meeting
-            {
-                Id = 2,
-                SessionNumber = 3,
-                ClassroomId = 1,
-                Date = new DateOnly(2024, 1, 23),
-                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                Time = new TimeOnly(15, 30, 0),
-            },
-            new Meeting
-            {
-                Id = 3,
-                SessionNumber = 3,
-                ClassroomId = 1,
-                Date = new DateOnly(2024, 1, 23),
-                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                Time = new TimeOnly(15, 30, 0),
+        },
+        new Meeting
+        {
+            Id = 2,
+            SessionNumber = 3,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Time = new TimeOnly(15, 30, 0),
+        },
+        new Meeting
+        {
+            Id = 3,
+            SessionNumber = 3,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Time = new TimeOnly(15, 30, 0),
 
-            },
-            new Meeting
-            {
-                Id = 4,
-                SessionNumber = 3,
-                ClassroomId = 1,
-                Date = new DateOnly(2024, 1, 23),
-                CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-                Time = new TimeOnly(15, 30, 0),
-            }
-    );
-
+        },
+        new Meeting
+        {
+            Id = 4,
+            SessionNumber = 3,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Time = new TimeOnly(15, 30, 0),
+        });
     }
 }

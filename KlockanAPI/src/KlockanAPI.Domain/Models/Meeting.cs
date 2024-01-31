@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace KlockanAPI.Domain.Models;
 
 public class Meeting : BaseModel
@@ -6,8 +8,8 @@ public class Meeting : BaseModel
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }
     public int ClassroomId { get; set; }
-    public Classroom Classroom { get; set; } = new Classroom();
-    public int ClassroomUserId { get; set; }
-    public ClassroomUser Trainer { get; set; } = new ClassroomUser();
+    public Classroom Classroom { get; set; }
+    public int? TrainerId { get; set; }
+    public ClassroomUser? Trainer { get; set; }
     public ICollection<MeetingAttendance> MeetingAttendances { get; set; } = new List<MeetingAttendance>();
 }

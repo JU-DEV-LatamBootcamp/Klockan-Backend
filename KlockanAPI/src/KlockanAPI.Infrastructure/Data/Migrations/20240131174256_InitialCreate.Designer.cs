@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KlockanAPI.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(KlockanContext))]
-    [Migration("20240123210051_InitialCreate")]
+    [Migration("20240131174256_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -92,6 +92,16 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("ProgramId");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ProgramId = 1,
+                            StartDate = new DateOnly(2024, 1, 23)
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.ClassroomUser", b =>
@@ -270,9 +280,6 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.Property<int>("ClassroomId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ClassroomUserId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -288,6 +295,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.Property<TimeOnly>("Time")
                         .HasColumnType("time without time zone");
 
+                    b.Property<int?>("TrainerId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -295,9 +305,47 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     b.HasIndex("ClassroomId");
 
-                    b.HasIndex("ClassroomUserId");
+                    b.HasIndex("TrainerId");
 
                     b.ToTable("Meetings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Date = new DateOnly(2024, 1, 23),
+                            SessionNumber = 3,
+                            Time = new TimeOnly(15, 30, 0)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Date = new DateOnly(2024, 1, 23),
+                            SessionNumber = 3,
+                            Time = new TimeOnly(15, 30, 0)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Date = new DateOnly(2024, 1, 23),
+                            SessionNumber = 3,
+                            Time = new TimeOnly(15, 30, 0)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Date = new DateOnly(2024, 1, 23),
+                            SessionNumber = 3,
+                            Time = new TimeOnly(15, 30, 0)
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.MeetingAttendance", b =>
@@ -626,9 +674,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     b.HasOne("KlockanAPI.Domain.Models.ClassroomUser", "Trainer")
                         .WithMany("Meetings")
-                        .HasForeignKey("ClassroomUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TrainerId");
 
                     b.Navigation("Classroom");
 
