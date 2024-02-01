@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using FluentValidation.AspNetCore;
 
 using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
@@ -61,6 +62,10 @@ public class Program
             configure.Filters.Add(new AuthorizeFilter());
         });
 
+        // ***********  FLUENT VALIDATION ************
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
+        
         builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

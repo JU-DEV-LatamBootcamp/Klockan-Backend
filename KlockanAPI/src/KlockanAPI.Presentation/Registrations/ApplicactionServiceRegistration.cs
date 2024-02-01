@@ -4,6 +4,7 @@ using MapsterMapper;
 
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;
+using FluentValidation;
 
 namespace KlockanAPI.Application;
 public static class ApplicactionServiceRegistration
@@ -19,6 +20,9 @@ public static class ApplicactionServiceRegistration
             .AddScoped<ICourseService, CourseService>()
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
+
+        services
+            .AddValidatorsFromAssemblyContaining<CreateCourseDtoValidator>();
 
         return services;
     }

@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using KlockanAPI.Application;
 using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +28,23 @@ public class CoursesController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<CourseDto>> CreateCourse(CourseDto course)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CourseDto>> CreateCourse([FromBody] CreateCourseDto createCourseDto)
     {
-        await _courseService.CreateCourseAsync(course);
-        return Ok(course);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdCourseDto = await _courseService.CreateCourseAsync(createCourseDto);
+            return CreatedAtAction(null, new { id = createdCourseDto.Id }, createdCourseDto);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 }
