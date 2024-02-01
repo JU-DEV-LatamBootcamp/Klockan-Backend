@@ -69,4 +69,36 @@ public class CoursesControllerTests
         var coursesData = okResult?.Value as IEnumerable<CourseDto>;
         coursesData.Should().BeEquivalentTo(sampleCourses);
     }
+
+    [Fact]
+    public async Task Delete_ShouldReturnOk()
+    {
+        // Arrange
+        CourseDto sampleCourse = new CourseDto
+        {
+            Id = 1,
+            Name = "Frontend Development",
+            Code = "FE",
+            Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
+            Sessions = 10,
+            SessionDuration = 60,
+        };
+
+        _courseService.DeleteCourseAsync(1).Returns(Task.FromResult<CourseDto?>(sampleCourse));
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.Delete(1);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<CourseDto>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var courseData = okResult?.Value as CourseDto;
+        courseData.Should().BeEquivalentTo(sampleCourse);
+    }
 }
