@@ -1,6 +1,8 @@
 ﻿using NSubstitute;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Moq;
 
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Program;
@@ -11,10 +13,14 @@ namespace KlockanAPI.Presentation.Tests.Controllers;
 public class ProgramsControllerTests
 {
     private readonly IProgramService _programService;
+    private readonly Mock<IProgramService> _mockProgramService;
+    private readonly ProgramsController _controller;
 
     public ProgramsControllerTests()
     {
         _programService = Substitute.For<IProgramService>();
+        _mockProgramService = new Mock<IProgramService>();
+        _controller = new ProgramsController(_mockProgramService.Object);
     }
     private ProgramsController GetControllerInstance() => new(_programService);
 
@@ -36,5 +42,54 @@ public class ProgramsControllerTests
 
         // Verify the status code
         (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+    }
+
+    [Fact]
+    public async Task CreateProgram_Returns201Created_WithValidInput()
+    {
+        // Arrange
+        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
+        var createdProgramDto = new ProgramDTO { /* Populate with expected result */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
+                           .ReturnsAsync(createdProgramDto);
+
+        // Act
+        var result = await _controller.CreateProgram(createProgramDto);
+
+        // Assert
+        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        Assert.Equal(201, actionResult.StatusCode);
+        Assert.Equal(createdProgramDto, actionResult.Value);
+    }
+
+    [Fact]
+    public async Task CreateProgram_Returns400BadRequest_WithInvalidModel()
+    {
+        // Arrange
+        _controller.ModelState.AddModelError("Error", "Sample error");
+
+        // Act
+        var result = await _controller.CreateProgram(new CreateProgramDTO());
+
+        // Assert
+        var actionResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        Assert.Equal(400, actionResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateProgram_HandlesException_WithInternalServerError()
+    {
+        // Arrange
+        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
+                           .ThrowsAsync(new System.Exception("Test exception"));
+
+        // Act
+        var result = await _controller.CreateProgram(createProgramDto);
+
+        // Assert
+        var actionResult = Assert.IsType<ObjectResult>(result.Result);
+        Assert.Equal(500, actionResult.StatusCode);
+        Assert.Contains("Internal server error", actionResult.Value.ToString());
     }
 }

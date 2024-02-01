@@ -58,8 +58,6 @@ public class ProgramRepositoryTests
             }
         };
 
-
-        // Configurar la propiedad Programs del contexto para devolver el DbSet simulado
         _context.Programs.AddRange(programs);
         await _context.SaveChangesAsync();
 
@@ -73,5 +71,32 @@ public class ProgramRepositoryTests
         result.Should().Equal(programs);
         result.First().Name.Should().Be(programs.First().Name);
         result.First().Description.Should().Be(programs.First().Description);
+    }
+
+    [Fact]
+    public async Task CreateProgramAsync_ShouldAddProgram_WhenCalled()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "ProgramRepositoryDB") 
+            .Options;
+
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new ProgramRepository(context);
+
+            var newProgram = new Program
+            {
+                // Configura las propiedades necesarias de tu modelo
+            };
+
+            // Act
+            var result = await repository.CreateProgramAsync(newProgram);
+
+            // Assert
+            Assert.NotNull(result);
+            var programInDb = await context.Programs.FindAsync(result.Id);
+            Assert.NotNull(programInDb);
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Moq;
+using NSubstitute;
 using FluentAssertions;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,9 @@ public class ProgramServiceTests
 
     private readonly IProgramRepository _programRepository;
     private readonly IMapper _mapper;
+
+    private readonly Mock<IProgramRepository> _programRepositoryMock = new();
+    private readonly Mock<IMapper> _mapperMock = new();
 
     public ProgramServiceTests()
     {
@@ -79,5 +83,48 @@ public class ProgramServiceTests
 
         // Ensure that each item in the result is of the expected type ProgramDTO
         result.Should().ContainItemsAssignableTo<ProgramDTO>();
+    }
+
+    [Fact]
+    public async Task CreateProgramAsync_ShouldReturnProgramDTO_WhenCreateIsSuccessful()
+    {
+        // Arrange
+        var createProgramDto = new CreateProgramDTO 
+        {
+            Name = "Create Program DTO Test",
+            Description = "Create Program DTO Test Description.",
+        };
+
+        var program = new Program
+        {
+            Id = 1,
+            Name = "Program Test",
+            Description = "Program Test Description.",
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        };
+
+        var programDTO = new ProgramDTO
+        {
+            Id = 2,
+            Name = "Program DTO Test",
+            Description = "Program DTO Test Description.",
+        };
+
+        _mapperMock.Setup(m => m.Map<Program>(It.IsAny<CreateProgramDTO>())).Returns(program);
+        _programRepositoryMock.Setup(repo => repo.CreateProgramAsync(It.IsAny<Program>())).ReturnsAsync(program);
+        _mapperMock.Setup(m => m.Map<ProgramDTO>(It.IsAny<Program>())).Returns(programDTO);
+
+        var service = new ProgramService(_programRepositoryMock.Object, _mapperMock.Object);
+
+        // Act
+        var result = await service.CreateProgramAsync(createProgramDto);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(programDTO, result);
+        Assert.Equal(programDTO.Name, result.Name);
+        Assert.Equal(programDTO.Description, result.Description);
+        _programRepositoryMock.Verify(repo => repo.CreateProgramAsync(It.IsAny<Program>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<ProgramDTO>(It.IsAny<Program>()), Times.Once);
     }
 }
