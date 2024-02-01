@@ -23,11 +23,11 @@ public class CourseService : ICourseService
         return _mapper.Map<IEnumerable<CourseDto>>(courses);
     }
 
-    public async Task<CourseDto> CreateCourseAsync(CourseDto courseDto)
+    public async Task<CourseDto> CreateCourseAsync(CreateCourseDto createCourseDto)
     {
-        var course = _mapper.Map<Course>(courseDto);
-        await _courseRepository.CreateAsync(course);
+        var course = _mapper.Map<Course>(createCourseDto);
+        var createdCourse = await _courseRepository.CreateAsync(course);
         
-        return _mapper.Map<CourseDto>(course);
+        return _mapper.Map<CourseDto>(createdCourse);
     }
 }

@@ -5,5 +5,5 @@ namespace KlockanAPI.Application.Services.Interfaces;
 public interface ICourseService
 {
     Task<IEnumerable<CourseDto>> GetAllCoursesAsync();
-    Task<CourseDto> CreateCourseAsync(CourseDto courseDto);
+    Task<CourseDto> CreateCourseAsync(CreateCourseDto createCourseDto);
 }
