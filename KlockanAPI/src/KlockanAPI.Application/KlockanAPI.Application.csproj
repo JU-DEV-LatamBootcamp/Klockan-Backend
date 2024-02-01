@@ -7,13 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="CrossCutting\.gitkeep" />
 		<None Remove="Mappings\.gitkeep" />
 		<None Remove="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Include="CrossCutting\.gitkeep" />
 		<Compile Include="Mappings\.gitkeep" />
 		<Compile Include="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
