@@ -25,7 +25,6 @@ public class CourseRepositoryTests
             {
                 Id = 1,
                 Name = "Frontend Development",
-                Code = "FE",
                 Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
                 Sessions = 10,
                 SessionDuration = 60,
@@ -35,7 +34,6 @@ public class CourseRepositoryTests
             {
                 Id = 2,
                 Name = "Backend Development",
-                Code = "BE",
                 Description = "Course on server side programming, databases, and API construction.",
                 Sessions = 12,
                 SessionDuration = 75,
@@ -45,7 +43,6 @@ public class CourseRepositoryTests
             {
                 Id = 3,
                 Name = "Full Stack Development",
-                Code = "FS",
                 Description = "Comprehensive course covering both frontend and backend development to build complete applications.",
                 Sessions = 15,
                 SessionDuration = 90,
