@@ -22,6 +22,7 @@ public class CourseRepository : ICourseRepository
     public async Task<Course> CreateAsync(Course course)
     {
         await _context.AddAsync(course);
+        await _context.SaveChangesAsync();
         return course;
     }
 }
