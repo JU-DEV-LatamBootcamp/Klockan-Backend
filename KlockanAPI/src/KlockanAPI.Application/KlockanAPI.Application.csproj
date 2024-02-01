@@ -9,20 +9,17 @@
 	<ItemGroup>
 		<None Remove="CrossCutting\.gitkeep" />
 		<None Remove="Mappings\.gitkeep" />
-		<None Remove="Validators\.gitkeep" />
 		<None Remove="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="CrossCutting\.gitkeep" />
 		<Compile Include="Mappings\.gitkeep" />
-		<Compile Include="Validators\.gitkeep" />
 		<Compile Include="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation" Version="11.8.1" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
 		<PackageReference Include="Mapster" Version="7.4.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
