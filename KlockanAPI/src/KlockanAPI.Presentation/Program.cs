@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using FluentValidation.AspNetCore;
 
 using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
@@ -53,13 +54,17 @@ public class Program
         // ***********  API CONTROLLERS AND RESPONSES ************
 
         builder.Services.AddControllers(configure =>
-        {
-            configure.ReturnHttpNotAcceptable = true;
-            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
-            configure.Filters.Add(new AuthorizeFilter());
-        });
+            {
+                configure.ReturnHttpNotAcceptable = true;
+                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+                configure.Filters.Add(new AuthorizeFilter());
+            });
+
+        // ***********  FLUENT VALIDATION ************
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
 
         builder.Services.AddRouting(options => options.LowercaseUrls = true);
 

@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using Mapster;
 using MapsterMapper;
+using FluentValidation;
 
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Application.Validators;
 
 namespace KlockanAPI.Application;
 public static class ApplicactionServiceRegistration
@@ -19,6 +21,9 @@ public static class ApplicactionServiceRegistration
             .AddScoped<ICourseService, CourseService>()
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
+
+        services
+            .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>();
 
         return services;
     }
