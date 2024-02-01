@@ -6,7 +6,7 @@ public class EmptyIdException : ArgumentException
     {
     }
 
-    public static void ThrowIfEmpty(
+    public static void ThrowIfIdZero(
         int id, string? message = null, string? elementName = null)
     {
         if(id == 0)
