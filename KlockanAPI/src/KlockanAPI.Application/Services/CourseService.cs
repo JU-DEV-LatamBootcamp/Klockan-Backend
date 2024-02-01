@@ -1,8 +1,10 @@
 ﻿using MapsterMapper;
+
 using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Application.CrossCutting;
+
 namespace KlockanAPI.Application.Services;
 
 public class CourseService : ICourseService
