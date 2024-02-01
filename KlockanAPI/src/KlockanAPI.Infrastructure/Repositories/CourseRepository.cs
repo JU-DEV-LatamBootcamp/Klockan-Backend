@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
