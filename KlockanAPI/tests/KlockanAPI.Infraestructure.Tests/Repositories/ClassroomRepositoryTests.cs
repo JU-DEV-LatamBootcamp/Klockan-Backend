@@ -30,7 +30,6 @@ public class ClassroomRepositoryTests : IDisposable
             new Classroom { Id = 1, StartDate = new DateOnly(2024, 1, 23), CourseId = 1, ProgramId = 1 },
             new Classroom { Id = 2, StartDate = new DateOnly(2024, 1, 30), CourseId = 1, ProgramId = 1 },
             new Classroom { Id = 3, StartDate = new DateOnly(2024, 2, 6), CourseId = 2, ProgramId = 1 }
-
         };
 
         context.Classrooms.AddRange(classrooms);
