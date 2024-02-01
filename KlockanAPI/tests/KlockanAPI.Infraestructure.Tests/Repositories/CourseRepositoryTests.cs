@@ -101,6 +101,7 @@ public class CourseRepositoryTests : IDisposable
     public void Dispose()
     {
         using var context = new KlockanContext(_options);
-        context.Database.EnsureDeleted(); // Asegurarse de que la base de datos en memoria se elimine al finalizar todas las pruebas
+        // Make sure that the in-memory database is deleted at the end of all tests.
+        context.Database.EnsureDeleted();
     }
 }
