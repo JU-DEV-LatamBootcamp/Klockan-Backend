@@ -3,6 +3,7 @@ using KlockanAPI.Application.DTOs.Program;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.CrossCutting;
 
 namespace KlockanAPI.Application.Services;
 
@@ -30,9 +31,14 @@ public class ProgramService : IProgramService
         return _mapper.Map<ProgramDTO>(createdProgram);
     }
 
-    public Task<ProgramDTO?> DeleteProgramAsync(int id)
+    async public Task<ProgramDTO?> DeleteProgramAsync(int id)
     {
-        throw new NotImplementedException();
+        var program = await _programRepository.GetProgramByIdAsync(id);
+        NotFoundException.ThrowIfNull(program, $"Program with id {id} not found");
+
+        var deletedProgram = await _programRepository.DeleteProgramAsync(program!);
+
+        return _mapper.Map<ProgramDTO>(deletedProgram);
     }
 
 }
