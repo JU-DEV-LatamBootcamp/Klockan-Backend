@@ -24,10 +24,11 @@ public class GlobalExceptionHandler : IExceptionHandler
                 {
                     var badRequestProblemDetails = new ProblemDetails
                     {
-                        Title = "The specified resource was not found!",
+                        Title = "Id cannot be empty!",
                         Status = StatusCodes.Status400BadRequest,
-                        Detail = exceptionMessage,
-                        Instance = $"urn:wakuwaku:error:{Guid.NewGuid()}"
+                        Errors = exceptionMessage,
+                        Type = exception.GetType().ToString(),
+                        TraceId = Guid.NewGuid()
                     };
 
                     httpContext.Response.StatusCode = badRequestProblemDetails.Status.Value;
@@ -41,7 +42,9 @@ public class GlobalExceptionHandler : IExceptionHandler
                     {
                         Title = "The specified resource was not found!",
                         Status = StatusCodes.Status404NotFound,
-                        Detail = exceptionMessage
+                        Errors = exceptionMessage,
+                        Type = exception.GetType().ToString(),
+                        TraceId = Guid.NewGuid()
                     };
                     httpContext.Response.StatusCode = notFoundProblemDetails.Status.Value;
                     await httpContext.Response.WriteAsJsonAsync(notFoundProblemDetails, cancellationToken);
@@ -54,7 +57,9 @@ public class GlobalExceptionHandler : IExceptionHandler
                     {
                         Title = "The specified resource was found but is used in another resource!",
                         Status = StatusCodes.Status409Conflict,
-                        Detail = exceptionMessage
+                        Errors = exceptionMessage,
+                        Type = exception.GetType().ToString(),
+                        TraceId = Guid.NewGuid()
                     };
                     httpContext.Response.StatusCode = foundProblemDetails.Status.Value;
                     await httpContext.Response.WriteAsJsonAsync(foundProblemDetails, cancellationToken);
@@ -66,7 +71,9 @@ public class GlobalExceptionHandler : IExceptionHandler
                 {
                     Title = "An unexpected error occurred!",
                     Status = StatusCodes.Status500InternalServerError,
-                    Detail = exceptionMessage
+                    Errors = exceptionMessage,
+                    Type = exception.GetType().ToString(),
+                    TraceId = Guid.NewGuid()
                 };
                 httpContext.Response.StatusCode = problemDetails.Status.Value;
                 await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
