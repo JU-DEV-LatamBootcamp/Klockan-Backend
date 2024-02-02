@@ -18,4 +18,11 @@ public class ProgramRepository : IProgramRepository
     {
         return await Task.FromResult(_context.Programs.ToList());
     }
+
+    public async Task<Program> CreateProgramAsync(Program program)
+    {
+        await _context.Programs.AddAsync(program);
+        await _context.SaveChangesAsync();
+        return program;
+    }
 }

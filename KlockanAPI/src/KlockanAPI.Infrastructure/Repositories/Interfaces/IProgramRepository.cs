@@ -4,5 +4,6 @@ namespace KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 public interface IProgramRepository
 {
-    public Task<IEnumerable<Program>> GetAllProgramsAsync();
+    Task<IEnumerable<Program>> GetAllProgramsAsync();
+    Task<Program> CreateProgramAsync(Program program);
 }

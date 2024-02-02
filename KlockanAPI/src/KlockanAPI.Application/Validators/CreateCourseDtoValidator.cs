@@ -2,9 +2,9 @@
 
 namespace KlockanAPI.Application;
 
-public class CreateCourseDtoValidator : AbstractValidator<CreateCourseDto>
+public class CreateCourseDTOValidator : AbstractValidator<CreateCourseDTO>
 {
-    public CreateCourseDtoValidator()
+    public CreateCourseDTOValidator()
     {
         RuleFor(c => c.Name)
             .NotEmpty().WithMessage("The name is required.")

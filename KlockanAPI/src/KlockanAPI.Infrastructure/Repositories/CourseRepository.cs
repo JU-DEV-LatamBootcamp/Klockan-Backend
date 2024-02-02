@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
@@ -23,6 +24,19 @@ public class CourseRepository : ICourseRepository
     {
         await _context.AddAsync(course);
         await _context.SaveChangesAsync();
+        return course;
+    }
+
+    public async Task<Course?> GetCourseByIdAsync(int id)
+    {
+        return await _context.Courses.FindAsync(id);
+    }
+
+    public async Task<Course> DeleteCourseAsync(Course course)
+    {
+        _context.Courses.Remove(course);
+        await _context.SaveChangesAsync();
+
         return course;
     }
 }
