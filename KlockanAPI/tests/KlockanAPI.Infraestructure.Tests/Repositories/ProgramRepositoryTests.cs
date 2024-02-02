@@ -18,7 +18,6 @@ public class ProgramRepositoryTests
             .UseInMemoryDatabase(Guid.NewGuid().ToString());
 
         _context = new KlockanContext(dbContextOptions.Options);
-        //_context = Substitute.For<KlockanContext>(new DbContextOptions<KlockanContext>());
     }
     private ProgramRepository GetRepositoryInstance() => new(_context);
 
@@ -78,7 +77,7 @@ public class ProgramRepositoryTests
     {
         // Arrange
         var options = new DbContextOptionsBuilder<KlockanContext>()
-            .UseInMemoryDatabase(databaseName: "ProgramRepositoryDB") 
+            .UseInMemoryDatabase(databaseName: "ProgramRepositoryDB")
             .Options;
 
         using (var context = new KlockanContext(options))
@@ -99,4 +98,29 @@ public class ProgramRepositoryTests
             Assert.NotNull(programInDb);
         }
     }
+
+    [Fact]
+    public async Task DeleteProgramAsync_ShouldReturnDeletedProgram()
+    {
+        // Arrange
+        var program = new Program
+        {
+            Id = 1,
+            Name = "Frontend Development",
+            Description = "Program to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        };
+
+        _context.Programs.Add(program);
+        await _context.SaveChangesAsync();
+
+        var repository = new ProgramRepository(_context);
+
+        // Act
+        var result = await repository.DeleteProgramAsync(program);
+
+        // Assert
+        Assert.Equal(program, result);
+    }
+
 }

@@ -45,11 +45,37 @@ public class ClassroomRepositoryTests : IDisposable
         Assert.Equal(2, result!.Count());
     }
 
+    [Fact]
+    public async Task GetClassroomsByProgramIdAsync_ShouldReturnClassroomsByProgramId()
+    {
+        // Arrange
+
+        using var context = new KlockanContext(_options);
+
+        var classrooms = new List<Classroom>
+        {
+            new Classroom { Id = 1, StartDate = new DateOnly(2024, 1, 23), CourseId = 1, ProgramId = 1 },
+            new Classroom { Id = 2, StartDate = new DateOnly(2024, 1, 30), CourseId = 1, ProgramId = 1 },
+            new Classroom { Id = 3, StartDate = new DateOnly(2024, 2, 6), CourseId = 2, ProgramId = 1 }
+        };
+
+        context.Classrooms.AddRange(classrooms);
+        await context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(context);
+
+        // Act
+        var result = await repository.GetClassroomsByProgramIdAsync(1);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(3, result!.Count());
+    }
+
     // Implement IDisposable to destroy the context after each test case
     public void Dispose()
     {
         using var context = new KlockanContext(_options);
         context.Database.EnsureDeleted(); // Asegurarse de que la base de datos en memoria se elimine al finalizar todas las pruebas
     }
-
 }
