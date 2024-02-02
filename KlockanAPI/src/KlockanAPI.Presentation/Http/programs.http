@@ -5,5 +5,16 @@ Accept: application/json
 Authorization: {{token}}
 
 ###
-@program_id = invalid-id
+POST {{programs_url}}
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "name": "program name",
+  "description": "program description",
+}
+
+###
+@program_id = 5
 DELETE {{programs_url}}/{{program_id}}
+Authorization: {{token}}

@@ -29,4 +29,10 @@ public class ProgramService : IProgramService
         var createdProgram = await _programRepository.CreateProgramAsync(program);
         return _mapper.Map<ProgramDTO>(createdProgram);
     }
+
+    public Task<ProgramDTO?> DeleteProgramAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
 }

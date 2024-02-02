@@ -47,4 +47,15 @@ public class ProgramsController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ProgramDTO>> Delete(int id)
+    {
+        var course = await _programService.DeleteProgramAsync(id);
+
+        return Ok(course);
+    }
 }
