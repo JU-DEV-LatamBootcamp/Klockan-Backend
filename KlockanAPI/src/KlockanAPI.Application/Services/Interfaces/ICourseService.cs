@@ -4,5 +4,8 @@ namespace KlockanAPI.Application.Services.Interfaces;
 
 public interface ICourseService
 {
-    Task<IEnumerable<CourseDto>> GetAllCoursesAsync();
+    Task<IEnumerable<CourseDTO>> GetAllCoursesAsync();
+    Task<CourseDTO> CreateCourseAsync(CreateCourseDTO createCourseDTO);
+    Task<CourseDTO?> DeleteCourseAsync(int id);
 }
+

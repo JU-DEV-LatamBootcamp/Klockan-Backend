@@ -1,7 +1,8 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+using KlockanAPI.Application;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -20,10 +21,41 @@ public class CoursesController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<CourseDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<CourseDTO>>> GetAll()
     {
         var courses = await _courseService.GetAllCoursesAsync();
         return Ok(courses);
     }
 
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<CourseDTO>> CreateCourse([FromBody] CreateCourseDTO createCourseDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdCourseDTO = await _courseService.CreateCourseAsync(createCourseDTO);
+            return CreatedAtAction(null, new { id = createdCourseDTO.Id }, createdCourseDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<CourseDTO>> Delete(int id)
+    {
+        var course = await _courseService.DeleteCourseAsync(id);
+
+        return Ok(course);
+    }
 }
