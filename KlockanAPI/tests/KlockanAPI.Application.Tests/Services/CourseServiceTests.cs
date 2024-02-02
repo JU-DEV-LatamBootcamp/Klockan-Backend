@@ -6,6 +6,7 @@ using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.CrossCutting;
+using Moq;
 
 namespace KlockanAPI.Application.Tests.Services;
 
@@ -14,6 +15,8 @@ public class CourseServiceTests
     private readonly ICourseRepository _courseRepository;
     private readonly IClassroomRepository _classroomRepository;
     private readonly IMapper _mapper;
+    private readonly Mock<ICourseRepository> _courseRepositoryMock = new();
+    private readonly Mock<IMapper> _mapperMock = new();
 
     public CourseServiceTests()
     {
@@ -87,7 +90,6 @@ public class CourseServiceTests
         {
             Id = 1,
             Name = "Frontend Development",
-            Code = "FE",
             Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
             Sessions = 10,
             SessionDuration = 60,
@@ -133,7 +135,6 @@ public class CourseServiceTests
         {
             Id = 1,
             Name = "Frontend Development",
-            Code = "FE",
             Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
             Sessions = 10,
             SessionDuration = 60,
@@ -156,6 +157,51 @@ public class CourseServiceTests
 
         // Assert
         await act.Should().ThrowAsync<FoundException>().WithMessage("Course with id 1 is used in a classroom");
+    }
+
+    [Fact]
+    public async Task CreateProgramAsync_ShouldReturnProgramDTO_WhenCreateIsSuccessful()
+    {
+        // Arrange
+        var createCourseDTO = new CreateCourseDTO
+        {
+            Name = "Create Course DTO Test",
+            Description = "Create Course DTO Test Description.",
+        };
+
+        var course = new Course
+        {
+            Id = 1,
+            Name = "Course Test",
+            Description = "Course Test Description.",
+            Sessions = 10,
+            SessionDuration = 60,
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        };
+
+        var courseDTO = new CourseDTO
+        {
+            Id = 2,
+            Name = "Course DTO Test",
+            Description = "Course DTO Test Description.",
+        };
+
+        _mapperMock.Setup(m => m.Map<Course>(It.IsAny<CreateCourseDTO>())).Returns(course);
+        _courseRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<Course>())).ReturnsAsync(course);
+        _mapperMock.Setup(m => m.Map<CourseDTO>(It.IsAny<Course>())).Returns(courseDTO);
+
+        var service = new CourseService(_courseRepositoryMock.Object, _classroomRepository, _mapperMock.Object);
+
+        // Act
+        var result = await service.CreateCourseAsync(createCourseDTO);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(courseDTO, result);
+        Assert.Equal(courseDTO.Name, result.Name);
+        Assert.Equal(courseDTO.Description, result.Description);
+        _courseRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Course>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<CourseDTO>(It.IsAny<Course>()), Times.Once);
     }
 }
 
