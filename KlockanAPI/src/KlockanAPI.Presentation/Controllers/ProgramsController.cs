@@ -52,7 +52,7 @@ public class ProgramsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ProgramDTO>> Delete(int id)
+    public async Task<ActionResult<ProgramDTO>> DeleteProgram(int id)
     {
         var course = await _programService.DeleteProgramAsync(id);
 
