@@ -67,10 +67,6 @@ public class Program
         // ***********  FLUENT VALIDATION ************
         builder.Services.AddFluentValidationAutoValidation();
         builder.Services.AddFluentValidationClientsideAdapters();
-
-        // ***********  FLUENT VALIDATION ************
-        builder.Services.AddFluentValidationAutoValidation();
-        builder.Services.AddFluentValidationClientsideAdapters();
         
         builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
