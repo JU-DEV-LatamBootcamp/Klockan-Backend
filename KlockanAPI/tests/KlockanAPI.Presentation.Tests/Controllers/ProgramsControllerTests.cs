@@ -48,18 +48,18 @@ public class ProgramsControllerTests
     public async Task CreateProgram_Returns201Created_WithValidInput()
     {
         // Arrange
-        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
-        var createdProgramDto = new ProgramDTO { /* Populate with expected result */ };
-        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
-                           .ReturnsAsync(createdProgramDto);
+        var createProgramDTO = new CreateProgramDTO { /* Populate required properties */ };
+        var createdProgramDTO = new ProgramDTO { /* Populate with expected result */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
+                           .ReturnsAsync(createdProgramDTO);
 
         // Act
-        var result = await _controller.CreateProgram(createProgramDto);
+        var result = await _controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
         Assert.Equal(201, actionResult.StatusCode);
-        Assert.Equal(createdProgramDto, actionResult.Value);
+        Assert.Equal(createdProgramDTO, actionResult.Value);
     }
 
     [Fact]
@@ -80,12 +80,12 @@ public class ProgramsControllerTests
     public async Task CreateProgram_HandlesException_WithInternalServerError()
     {
         // Arrange
-        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
-        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
+        var createProgramDTO = new CreateProgramDTO { /* Populate required properties */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
                            .ThrowsAsync(new System.Exception("Test exception"));
 
         // Act
-        var result = await _controller.CreateProgram(createProgramDto);
+        var result = await _controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<ObjectResult>(result.Result);

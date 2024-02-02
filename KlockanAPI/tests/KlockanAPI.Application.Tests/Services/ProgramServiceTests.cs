@@ -89,7 +89,7 @@ public class ProgramServiceTests
     public async Task CreateProgramAsync_ShouldReturnProgramDTO_WhenCreateIsSuccessful()
     {
         // Arrange
-        var createProgramDto = new CreateProgramDTO 
+        var createProgramDTO = new CreateProgramDTO 
         {
             Name = "Create Program DTO Test",
             Description = "Create Program DTO Test Description.",
@@ -117,7 +117,7 @@ public class ProgramServiceTests
         var service = new ProgramService(_programRepositoryMock.Object, _mapperMock.Object);
 
         // Act
-        var result = await service.CreateProgramAsync(createProgramDto);
+        var result = await service.CreateProgramAsync(createProgramDTO);
 
         // Assert
         Assert.NotNull(result);

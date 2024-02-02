@@ -19,6 +19,14 @@ public class CourseRepository : ICourseRepository
     {
         return await _context.Courses.ToListAsync();
     }
+
+    public async Task<Course> CreateAsync(Course course)
+    {
+        await _context.AddAsync(course);
+        await _context.SaveChangesAsync();
+        return course;
+    }
+
     public async Task<Course?> GetCourseByIdAsync(int id)
     {
         return await _context.Courses.FindAsync(id);

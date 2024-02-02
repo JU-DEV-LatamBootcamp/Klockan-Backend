@@ -23,9 +23,9 @@ public class ProgramService : IProgramService
         return _mapper.Map<IEnumerable<ProgramDTO>>(programs);
     }
 
-    public async Task<ProgramDTO> CreateProgramAsync(CreateProgramDTO createProgramDto)
+    public async Task<ProgramDTO> CreateProgramAsync(CreateProgramDTO createProgramDTO)
     {
-        var program = _mapper.Map<Program>(createProgramDto);
+        var program = _mapper.Map<Program>(createProgramDTO);
         var createdProgram = await _programRepository.CreateProgramAsync(program);
         return _mapper.Map<ProgramDTO>(createdProgram);
     }
