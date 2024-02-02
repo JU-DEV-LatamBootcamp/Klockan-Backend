@@ -1,0 +1,6 @@
+GET {{presentation_host}}/weatherforecast/
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET {{presentation_host}}/health

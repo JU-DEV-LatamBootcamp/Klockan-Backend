@@ -1,0 +1,9 @@
+@programs_url = {{presentation_host}}/api/v1/programs
+
+GET {{programs_url}}
+Accept: application/json
+Authorization: {{token}}
+
+###
+@program_id = invalid-id
+DELETE {{programs_url}}/{{program_id}}
