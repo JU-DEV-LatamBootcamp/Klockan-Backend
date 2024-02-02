@@ -11,10 +11,10 @@ Content-Type: application/json
 
 {
   "name": "program name",
-  "description": "program description",
+  "description": "program description"
 }
 
 ###
-@program_id = 5
+@program_id = 6
 DELETE {{programs_url}}/{{program_id}}
 Authorization: {{token}}
