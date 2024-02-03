@@ -203,5 +203,67 @@ public class CourseServiceTests
         _courseRepositoryMock.Verify(repo => repo.CreateAsync(It.IsAny<Course>()), Times.Once);
         _mapperMock.Verify(m => m.Map<CourseDTO>(It.IsAny<Course>()), Times.Once);
     }
+
+    [Fact]
+    public async Task UpdateCourseAsync_ShouldReturnUpdatedCourseDTO()
+    {
+        // Arrange
+        var courseService = GetServiceInstance();
+
+        var initialCourse = new Course
+        {
+            Id = 1,
+            Name = "Initial Course",
+        };
+
+        _courseRepository.GetCourseByIdAsync(1).Returns(Task.FromResult<Course?>(initialCourse));
+
+        var updatedCourse = new Course
+        {
+            Id = 1,
+            Name = "Updated Course",
+        };
+
+        _courseRepository
+            .UpdateCourseAsync(Arg.Any<Course>())
+            .Returns(callInfo =>
+            {
+                var courseToUpdate = callInfo.ArgAt<Course>(0);
+
+                initialCourse.Name = courseToUpdate.Name;
+                initialCourse.UpdatedAt = DateTime.UtcNow;
+
+                return Task.FromResult(initialCourse);
+            });
+
+        // Act
+        var result = await courseService.UpdateCourseAsync(updatedCourse);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_mapper.Map<CourseDTO>(updatedCourse));
+    }
+
+    [Fact]
+    public async Task UpdateCourseAsync_ShouldThrowNotFoundException_WhenCourseNotFound()
+    {
+        // Arrange
+        var courseService = GetServiceInstance();
+
+        _courseRepository.GetCourseByIdAsync(1).Returns(Task.FromResult<Course?>(null));
+
+        var updatedCourse = new Course
+        {
+            Id = 1,
+            Name = "Updated Course",
+            // Set other properties with updated values
+        };
+
+        // Act
+        Func<Task> act = async () => await courseService.UpdateCourseAsync(updatedCourse);
+
+        // Assert
+        await act.Should().ThrowAsync<NotFoundException>().WithMessage("Course with id 1 not found");
+    }
 }
 
