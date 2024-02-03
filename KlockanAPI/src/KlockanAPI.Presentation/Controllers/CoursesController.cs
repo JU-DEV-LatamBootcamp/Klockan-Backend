@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application;
+using KlockanAPI.Domain.Models;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -57,5 +58,15 @@ public class CoursesController : ControllerBase
         var course = await _courseService.DeleteCourseAsync(id);
 
         return Ok(course);
+    }
+
+    [HttpPut("{courseId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<CourseDTO>> UpdateCourse([FromBody] Course course)
+    {
+        var _course = await _courseService.UpdateCourseAsync(course);
+        return Ok(_course);
     }
 }
