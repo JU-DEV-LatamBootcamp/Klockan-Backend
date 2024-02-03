@@ -32,7 +32,7 @@ public class CourseService : ICourseService
     {
         var course = _mapper.Map<Course>(createCourseDTO);
         var createdCourse = await _courseRepository.CreateAsync(course);
-        
+
         return _mapper.Map<CourseDTO>(createdCourse);
     }
 

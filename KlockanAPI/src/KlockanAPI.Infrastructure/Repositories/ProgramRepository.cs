@@ -25,4 +25,17 @@ public class ProgramRepository : IProgramRepository
         await _context.SaveChangesAsync();
         return program;
     }
+
+    public async Task<Program> DeleteProgramAsync(Program program)
+    {
+        _context.Programs.Remove(program);
+        await _context.SaveChangesAsync();
+
+        return program;
+    }
+
+    public async Task<Program?> GetProgramByIdAsync(int id)
+    {
+        return await _context.Programs.FindAsync(id);
+    }
 }
