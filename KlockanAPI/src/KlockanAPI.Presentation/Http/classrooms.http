@@ -1,0 +1,7 @@
+@classrooms_url = {{presentation_host}}/api/v1/classrooms
+
+GET {{classrooms_url}}
+Accept: application/json
+Authorization: {{token}}
+
+### 
