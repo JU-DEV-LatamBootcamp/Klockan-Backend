@@ -150,6 +150,6 @@ public class CoursesControllerTests
         // Assert
         var actionResult = Assert.IsType<ObjectResult>(result.Result);
         Assert.Equal(500, actionResult.StatusCode);
-        Assert.Contains("Internal server error", actionResult.Value.ToString());
+        Assert.Contains("Internal server error", actionResult?.Value?.ToString());
     }
 }
