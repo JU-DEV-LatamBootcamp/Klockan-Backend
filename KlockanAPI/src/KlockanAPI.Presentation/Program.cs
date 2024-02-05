@@ -67,7 +67,7 @@ public class Program
         // ***********  FLUENT VALIDATION ************
         builder.Services.AddFluentValidationAutoValidation();
         builder.Services.AddFluentValidationClientsideAdapters();
-
+        
         builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

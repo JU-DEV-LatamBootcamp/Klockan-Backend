@@ -28,7 +28,6 @@ public class CourseRepositoryTests : IDisposable
             {
                 Id = 1,
                 Name = "Frontend Development",
-                Code = "FE",
                 Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
                 Sessions = 10,
                 SessionDuration = 60,
@@ -38,7 +37,6 @@ public class CourseRepositoryTests : IDisposable
             {
                 Id = 2,
                 Name = "Backend Development",
-                Code = "BE",
                 Description = "Course on server side programming, databases, and API construction.",
                 Sessions = 12,
                 SessionDuration = 75,
@@ -48,7 +46,6 @@ public class CourseRepositoryTests : IDisposable
             {
                 Id = 3,
                 Name = "Full Stack Development",
-                Code = "FS",
                 Description = "Comprehensive course covering both frontend and backend development to build complete applications.",
                 Sessions = 15,
                 SessionDuration = 90,
@@ -78,7 +75,6 @@ public class CourseRepositoryTests : IDisposable
         {
             Id = 1,
             Name = "Frontend Development",
-            Code = "FE",
             Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
             Sessions = 10,
             SessionDuration = 60,
@@ -103,5 +99,32 @@ public class CourseRepositoryTests : IDisposable
         using var context = new KlockanContext(_options);
         // Make sure that the in-memory database is deleted at the end of all tests.
         context.Database.EnsureDeleted();
+    }
+
+    [Fact]
+    public async Task CreateCourseAsync_ShouldAddCourse_WhenCalled()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "CourseRepositoryDB")
+            .Options;
+
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new CourseRepository(context);
+
+            var newCourse = new Course
+            {
+                // Configura las propiedades necesarias de tu modelo
+            };
+
+            // Act
+            var result = await repository.CreateAsync(newCourse);
+
+            // Assert
+            Assert.NotNull(result);
+            var courseInDb = await context.Courses.FindAsync(result.Id);
+            Assert.NotNull(courseInDb);
+        }
     }
 }

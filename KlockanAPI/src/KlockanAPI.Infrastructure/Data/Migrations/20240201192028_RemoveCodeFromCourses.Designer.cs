@@ -3,6 +3,7 @@ using System;
 using KlockanAPI.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KlockanAPI.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(KlockanContext))]
-    partial class KlockanContextModelSnapshot : ModelSnapshot
+    [Migration("20240201192028_RemoveCodeFromCourses")]
+    partial class RemoveCodeFromCourses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,16 +92,6 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("ProgramId");
 
                     b.ToTable("Classrooms");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CourseId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProgramId = 1,
-                            StartDate = new DateOnly(2024, 1, 23)
-                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.ClassroomUser", b =>
@@ -271,6 +264,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.Property<int>("ClassroomId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ClassroomUserId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -286,9 +282,6 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.Property<TimeOnly>("Time")
                         .HasColumnType("time without time zone");
 
-                    b.Property<int?>("TrainerId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -296,47 +289,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     b.HasIndex("ClassroomId");
 
-                    b.HasIndex("TrainerId");
+                    b.HasIndex("ClassroomUserId");
 
                     b.ToTable("Meetings");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ClassroomId = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Date = new DateOnly(2024, 1, 23),
-                            SessionNumber = 3,
-                            Time = new TimeOnly(15, 30, 0)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClassroomId = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Date = new DateOnly(2024, 1, 23),
-                            SessionNumber = 3,
-                            Time = new TimeOnly(15, 30, 0)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClassroomId = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Date = new DateOnly(2024, 1, 23),
-                            SessionNumber = 3,
-                            Time = new TimeOnly(15, 30, 0)
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClassroomId = 1,
-                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Date = new DateOnly(2024, 1, 23),
-                            SessionNumber = 3,
-                            Time = new TimeOnly(15, 30, 0)
-                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.MeetingAttendance", b =>
@@ -665,7 +620,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     b.HasOne("KlockanAPI.Domain.Models.ClassroomUser", "Trainer")
                         .WithMany("Meetings")
-                        .HasForeignKey("TrainerId");
+                        .HasForeignKey("ClassroomUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Classroom");
 

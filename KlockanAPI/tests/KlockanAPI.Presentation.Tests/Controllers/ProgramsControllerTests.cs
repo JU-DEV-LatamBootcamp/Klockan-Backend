@@ -48,18 +48,18 @@ public class ProgramsControllerTests
     public async Task CreateProgram_Returns201Created_WithValidInput()
     {
         // Arrange
-        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
-        var createdProgramDto = new ProgramDTO { /* Populate with expected result */ };
-        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
-                           .ReturnsAsync(createdProgramDto);
+        var createProgramDTO = new CreateProgramDTO { /* Populate required properties */ };
+        var createdProgramDTO = new ProgramDTO { /* Populate with expected result */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
+                           .ReturnsAsync(createdProgramDTO);
 
         // Act
-        var result = await _controller.CreateProgram(createProgramDto);
+        var result = await _controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
         Assert.Equal(201, actionResult.StatusCode);
-        Assert.Equal(createdProgramDto, actionResult.Value);
+        Assert.Equal(createdProgramDTO, actionResult.Value);
     }
 
     [Fact]
@@ -80,16 +80,45 @@ public class ProgramsControllerTests
     public async Task CreateProgram_HandlesException_WithInternalServerError()
     {
         // Arrange
-        var createProgramDto = new CreateProgramDTO { /* Populate required properties */ };
-        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDto))
+        var createProgramDTO = new CreateProgramDTO { /* Populate required properties */ };
+        _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
                            .ThrowsAsync(new System.Exception("Test exception"));
 
         // Act
-        var result = await _controller.CreateProgram(createProgramDto);
+        var result = await _controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<ObjectResult>(result.Result);
         Assert.Equal(500, actionResult.StatusCode);
-        Assert.Contains("Internal server error", actionResult.Value.ToString());
+        Assert.Contains("Internal server error", actionResult?.Value?.ToString());
+    }
+
+    [Fact]
+    public async Task DeleteProgram_ShouldReturnOk()
+    {
+        // Arrange
+        ProgramDTO sampleProgram = new ProgramDTO
+        {
+            Id = 1,
+            Name = "Frontend Development",
+            Description = "Program to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
+        };
+
+        _programService.DeleteProgramAsync(1).Returns(Task.FromResult<ProgramDTO?>(sampleProgram));
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.DeleteProgram(1);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ProgramDTO>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var programData = okResult?.Value as ProgramDTO;
+        programData.Should().BeEquivalentTo(sampleProgram);
     }
 }

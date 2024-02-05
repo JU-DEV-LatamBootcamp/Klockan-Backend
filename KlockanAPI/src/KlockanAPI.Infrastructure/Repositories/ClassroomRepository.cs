@@ -20,4 +20,10 @@ public class ClassroomRepository : IClassroomRepository
         var classrooms = await _context.Classrooms.Where(c => c.CourseId == courseId).ToListAsync();
         return classrooms.Count > 0 ? classrooms : null;
     }
+
+    public async Task<IEnumerable<Classroom>?> GetClassroomsByProgramIdAsync(int programId)
+    {
+        var classrooms = await _context.Classrooms.Where(c => c.ProgramId == programId).ToListAsync();
+        return classrooms.Count > 0 ? classrooms : null;
+    }
 }

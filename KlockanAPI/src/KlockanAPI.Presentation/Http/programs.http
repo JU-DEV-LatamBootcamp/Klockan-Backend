@@ -1,0 +1,20 @@
+@programs_url = {{presentation_host}}/api/v1/programs
+
+GET {{programs_url}}
+Accept: application/json
+Authorization: {{token}}
+
+###
+POST {{programs_url}}
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "name": "program name",
+  "description": "program description"
+}
+
+###
+@program_id = 6
+DELETE {{programs_url}}/{{program_id}}
+Authorization: {{token}}

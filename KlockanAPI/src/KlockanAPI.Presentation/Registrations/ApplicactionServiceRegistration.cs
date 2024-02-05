@@ -7,6 +7,7 @@ using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.Validators;
 
+
 namespace KlockanAPI.Application;
 public static class ApplicactionServiceRegistration
 {
@@ -24,6 +25,7 @@ public static class ApplicactionServiceRegistration
             .AddScoped<IMapper, ServiceMapper>();
 
         services
+            .AddValidatorsFromAssemblyContaining<CreateCourseDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>();
 
         return services;

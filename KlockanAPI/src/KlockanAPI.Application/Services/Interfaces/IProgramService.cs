@@ -5,5 +5,7 @@ namespace KlockanAPI.Application.Services.Interfaces;
 public interface IProgramService
 {
     Task<IEnumerable<ProgramDTO>> GetAllProgramsAsync();
-    Task<ProgramDTO> CreateProgramAsync(CreateProgramDTO createProgramDto);
+    Task<ProgramDTO> CreateProgramAsync(CreateProgramDTO createProgramDTO);
+    Task<ProgramDTO?> DeleteProgramAsync(int id);
+
 }
