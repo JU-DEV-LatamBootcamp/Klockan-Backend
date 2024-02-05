@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace KlockanAPI.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(KlockanContext))]
-    [Migration("20240201192028_RemoveCodeFromCourses")]
-    partial class RemoveCodeFromCourses
+    [Migration("20240205153638_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,32 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("ProgramId");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 1,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseId = 2,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 1,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseId = 1,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 2,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.ClassroomUser", b =>

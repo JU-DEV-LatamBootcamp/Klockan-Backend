@@ -46,7 +46,6 @@ public class CourseService : ICourseService
 
         var deletedCourse = await _courseRepository.DeleteCourseAsync(course!);
 
-
         return _mapper.Map<CourseDTO>(deletedCourse);
     }
 }
