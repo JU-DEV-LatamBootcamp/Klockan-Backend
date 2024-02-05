@@ -41,7 +41,7 @@ public class ProgramRepository : IProgramRepository
 
     public async Task<Program> EditProgramAsync(Program program)
     {
-        var editedProgram = await _context.Programs.FindAsync(program.Id);        
+        var editedProgram = await _context.Programs.FindAsync(program.Id);         
         _context.Programs.Entry(editedProgram!).CurrentValues.SetValues(program);
         await _context.SaveChangesAsync();
         return program;
