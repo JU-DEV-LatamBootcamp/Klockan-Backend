@@ -173,7 +173,7 @@ public class KlockanContext : DbContext
             CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
         });
 
-        // Seed data for Program
+        // Seed data for Classroom
         modelBuilder.Entity<Classroom>().HasData(
         new Classroom
         {

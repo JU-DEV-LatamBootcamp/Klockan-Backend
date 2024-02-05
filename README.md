@@ -1,6 +1,71 @@
 ﻿# Klockan-Backend
 
----
+## Folder Structure
+
+```
+|-- KlockanAPI
+    |-- src
+        |-- KlockanAPI.Application
+            |-- CrossCutting
+                |-- Login
+                |-- Security
+                |-- Extensions
+                |-- Utilities
+            |-- DTOs
+            |-- Mappings
+            |-- Services
+                |-- Intefaces
+                |-- [+] Implementations
+            |-- Validators
+                |-- Intefaces
+                |-- [+] Implementations
+            |-- KlockanAPI.Application.csproj
+
+        |-- KlockanAPI.Domain
+            |-- Models
+            |-- Entities
+            |-- Enums
+            |-- Events
+            |-- Exceptions
+            |-- Interfaces
+            |-- KlockanAPI.Domain.csproj
+
+        |-- KlockanAPI.Infrastructure
+            |-- CrossCutting
+            |-- Data
+                |-- [+] Migrations
+                KlockanContext.cs
+            |-- Repositories
+                |-- Intefaces
+                |-- [+] Implementations
+            |-- KlockanAPI.Infrastructure.csproj
+
+        |-- KlockanAPI.Presentation
+            |-- Certificates
+            |-- Controllers
+            |-- Http
+            |-- Middlewares
+            |-- Properties
+                |-- launchSettings.json
+            |-- Registrations
+            |-- KlockanAPI.Presentation.csproj
+            |-- Program.cs
+
+    |-- tests
+        |-- KlockanAPI.Application.Tests
+            |-- Services
+            |-- KlockanAPI.Application.Tests.csproj
+
+        |-- KlockanAPI.Infrastructure.Tests
+            |-- Repositories
+            |-- KlockanAPI.Infrastructure.Tests.csproj
+
+        |-- KlockanAPI.Presentation.Tests
+            |-- Controllers
+            |-- KlockanAPI.Presentation.Tests.csproj
+
+    |-- KlockanAPI.sln
+```
 
 ## Database Connection
 
@@ -62,57 +127,21 @@ Inside `KlockanAPI.Infrastructure`, follow these steps:
    dotnet ef database update --project ../KlockanAPI.Infrastructure/ --startup-project ../KlockanAPI.Presentation/
    ```
 
-## Folder Structure
+## Configuration
 
-# Klockan
+### REST Client (.http files Compiler)
 
-## Core
+#### VS Code
 
-- **Domain**
-  - _Models_
-  - _Entities_
-  - _Enums_
-  - _Events_
-  - _Exceptions_
-  - _Interfaces_
+Add the following configurations to the project's `VS Code` settings file, `.vscode/settings.json`.
 
-## Infrastructure
-
-- **Data**
-  - _Context_
-  - _Repositories_
-  - _Configurations_
-- **ExternalServices**
-- **Migrations**
-
-## Application
-
-- **Services**
-  - _Implementations_
-  - _Interfaces_
-- **DTOs**
-- **Mappings**
-- **CrossCuttingConcerns**
-  - _Logging_
-  - _Security_
-  - _Extensions_
-  - _Utilities_
-
-## Presentation
-
-- **API**
-  - _Controllers_
-  - _ViewModels_
-- **Web**
-  - _Views_
-  - _Controllers_
-  - _ViewModels_
-
-## Tests
-
-- **UnitTests**
-- **IntegrationTests**
-
--
-
-![Folder Structure](./assets/folderStructure.png)
+```json
+{
+  "rest-client.environmentVariables": {
+    "$shared": {
+      "token": "Bearer <authentication_token>",
+      "presentation_host": "https://localhost:5001"
+    }
+  }
+}
+```
