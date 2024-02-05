@@ -11,9 +11,19 @@ namespace KlockanAPI.Application.Services;
 
 public class ClassroomService : IClassroomService
 {
-    public Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
+    private readonly IClassroomRepository _classroomRepository;
+    private readonly IMapper _mapper;
+
+    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper)
     {
-        throw new NotImplementedException();
+        _classroomRepository = classroomRepository;
+        _mapper = mapper;
+    }
+
+    public async Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
+    {
+        var classrooms = await _classroomRepository.GetAllClassroomsAsync();
+        return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
 }
 

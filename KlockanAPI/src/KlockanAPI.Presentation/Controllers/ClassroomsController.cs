@@ -22,7 +22,8 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<ClassroomDTO>>> GetAllClassrooms()
     {
-        throw new NotImplementedException();
+        var classrooms = await _classroomService.GetAllClassroomsAsync();
+        return Ok(classrooms);
     }
 
     [HttpPost]

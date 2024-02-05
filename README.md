@@ -45,18 +45,22 @@ Inside `KlockanAPI.Infrastructure`, follow these steps:
 
 #### Alternatively, you can use these .NET Core CLI commands:
 
+1. Move to `KlockanAPI.Infrastructure` directory
+
+   ```bash
+   cd KlockanAPI/src/KlockanAPI.Infrastructure/
+   ```
+
 1. Run the following command to add a new migration:
 
    ```bash
-   dotnet ef migrations add InitialCreate --output-dir Data/Migrations
+   dotnet ef migrations add InitialCreate --output-dir Data/Migrations --project ../KlockanAPI.Infrastructure/ --startup-project ../KlockanAPI.Presentation/
    ```
 
-2. Update the database:
+1. Update the database:
    ```bash
-   dotnet ef database update
+   dotnet ef database update --project ../KlockanAPI.Infrastructure/ --startup-project ../KlockanAPI.Presentation/
    ```
-
----
 
 ## Folder Structure
 
@@ -112,6 +116,3 @@ Inside `KlockanAPI.Infrastructure`, follow these steps:
 -
 
 ![Folder Structure](./assets/folderStructure.png)
-
-
-
