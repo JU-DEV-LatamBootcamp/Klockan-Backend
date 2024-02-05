@@ -17,10 +17,13 @@ public class ClassroomRepository : IClassroomRepository
 
     public async Task<IEnumerable<Classroom>> GetAllClassroomsAsync()
     {
-        var classrooms = await Task.FromResult(_context.Classrooms.ToList());
+        var classrooms = await Task.FromResult(_context.Classrooms
+            .Include(c => c.Program)
+            .Include(c => c.Course)
+            .ToList());
+
         return classrooms;
     }
-
 
     public async Task<IEnumerable<Classroom>?> GetClassroomsByCourseIdAsync(int courseId)
     {
