@@ -8,5 +8,6 @@ public interface ICourseRepository
     Task<Course> CreateAsync(Course course);
     Task<Course?> GetCourseByIdAsync(int id);
     Task<Course> DeleteCourseAsync(Course course);
+    Task<Course> UpdateCourseAsync(Course course);
 }
 

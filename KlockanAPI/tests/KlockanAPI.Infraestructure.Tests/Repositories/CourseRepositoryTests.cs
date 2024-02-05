@@ -127,4 +127,38 @@ public class CourseRepositoryTests : IDisposable
             Assert.NotNull(courseInDb);
         }
     }
+
+    [Fact]
+    public async Task UpdateCourseAsync_ShouldReturnUpdatedCourse()
+    {
+        // Arrange
+        using var context = new KlockanContext(_options);
+
+        var initialCourse = new Course
+        {
+            Id = 1,
+            Name = "Initial Course",
+            // Set other properties
+        };
+
+        context.Courses.Add(initialCourse);
+        await context.SaveChangesAsync();
+
+        var updatedCourse = new Course
+        {
+            Id = 1,
+            Name = "Updated Course",
+        };
+
+        var repository = new CourseRepository(context);
+
+        // Act
+        var result = await repository.UpdateCourseAsync(updatedCourse);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(updatedCourse.Id, result.Id);
+        Assert.Equal(updatedCourse.Name, result.Name);
+        // Add assertions for other properties as needed
+    }
 }
