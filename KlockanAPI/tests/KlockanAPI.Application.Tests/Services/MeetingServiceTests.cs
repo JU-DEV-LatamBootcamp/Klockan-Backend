@@ -32,7 +32,8 @@ public class MeetingServiceTest
 
         List<Meeting> sampleMeetings = new List<Meeting>
         {
-            new Meeting{
+            new Meeting
+            {
             Id = 1,
             SessionNumber = 3,
             ClassroomId = 1,
@@ -40,7 +41,8 @@ public class MeetingServiceTest
             Time = new TimeOnly(15, 30, 0),
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             },
-            new Meeting{
+            new Meeting
+            {
             Id = 2,
             SessionNumber = 3,
             ClassroomId = 1,
@@ -48,7 +50,8 @@ public class MeetingServiceTest
             Time = new TimeOnly(15, 30, 0),
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             },
-            new Meeting{
+            new Meeting
+            {
             Id = 3,
             SessionNumber = 3,
             ClassroomId = 1,
@@ -56,7 +59,8 @@ public class MeetingServiceTest
             Time = new TimeOnly(15, 30, 0),
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             },
-            new Meeting{
+            new Meeting
+            {
             Id = 4,
             SessionNumber = 3,
             ClassroomId = 1,

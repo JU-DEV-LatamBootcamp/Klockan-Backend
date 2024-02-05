@@ -17,6 +17,7 @@ public class MeetingRepository : IMeetingRepository
 
     public async Task<IEnumerable<Meeting>> GetAllAsync()
     {
+        //Include trainer relationship when seeders impleemted 
         return await _context.Meetings.Include(m => m.Classroom).ToListAsync();
     }
 }

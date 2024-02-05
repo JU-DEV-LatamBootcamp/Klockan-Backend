@@ -25,28 +25,32 @@ public class MeetingsControllerTest
     {
         // Arrange
         var sampleMeetings = new List<MeetingDto>{
-            new MeetingDto{
+            new MeetingDto
+            {
             Id = 1,
             SessionNumber = 3,
             ClassroomId = 1,
             Date = new DateOnly(2024, 1, 23),
             Time = new TimeOnly(15, 30, 0),
             },
-            new MeetingDto{
+            new MeetingDto
+            {
             Id = 2,
             SessionNumber = 3,
             ClassroomId = 1,
             Date = new DateOnly(2024, 1, 23),
             Time = new TimeOnly(15, 30, 0),
             },
-            new MeetingDto{
+            new MeetingDto
+            {
             Id = 3,
             SessionNumber = 3,
             ClassroomId = 1,
             Date = new DateOnly(2024, 1, 23),
             Time = new TimeOnly(15, 30, 0),
             },
-            new MeetingDto{
+            new MeetingDto
+            {
             Id = 4,
             SessionNumber = 3,
             ClassroomId = 1,

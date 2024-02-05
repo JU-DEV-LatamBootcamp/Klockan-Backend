@@ -7,5 +7,4 @@ public class MeetingDto
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }
     public int ClassroomId { get; set; }
-
 }
