@@ -121,4 +121,33 @@ public class ProgramsControllerTests
         var programData = okResult?.Value as ProgramDTO;
         programData.Should().BeEquivalentTo(sampleProgram);
     }
+
+    [Fact]
+    public async Task EditProgram_ShouldReturnOk()
+    {
+        // Arrange
+        ProgramDTO sampleProgram = new ProgramDTO
+        {
+            Id = 1,
+            Name = "Edited Frontend Development",
+            Description = "Program to develop Web Applications focusing on HTML, CSS.",
+        };
+
+        _programService.EditProgramAsync(sampleProgram).Returns(Task.FromResult<ProgramDTO?>(sampleProgram));
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.EditProgram(sampleProgram);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ProgramDTO>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var programData = okResult?.Value as ProgramDTO;
+        programData.Should().BeEquivalentTo(sampleProgram);
+    }
 }

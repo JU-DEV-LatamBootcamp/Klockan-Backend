@@ -38,4 +38,13 @@ public class ProgramRepository : IProgramRepository
     {
         return await _context.Programs.FindAsync(id);
     }
+
+    public async Task<Program> EditProgramAsync(Program program)
+    {
+        var editedProgram = await _context.Programs.FindAsync(program.Id);        
+        _context.Programs.Entry(editedProgram!).CurrentValues.SetValues(program);
+        await _context.SaveChangesAsync();
+        return program;
+    }
+
 }

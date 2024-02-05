@@ -58,4 +58,25 @@ public class ProgramsController : ControllerBase
 
         return Ok(course);
     }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<ProgramDTO>> EditProgram([FromBody] ProgramDTO editProgramDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var editedProgramDTO = await _programService.EditProgramAsync(editProgramDTO);
+            return Ok(editedProgramDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
 }
