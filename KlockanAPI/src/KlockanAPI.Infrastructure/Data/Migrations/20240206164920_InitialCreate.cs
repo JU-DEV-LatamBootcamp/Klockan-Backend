@@ -38,7 +38,6 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Sessions = table.Column<int>(type: "integer", nullable: true),
                     SessionDuration = table.Column<int>(type: "integer", nullable: true),
@@ -356,12 +355,12 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "Courses",
-                columns: new[] { "Id", "Code", "CreatedAt", "DeletedAt", "Description", "Name", "SessionDuration", "Sessions", "UpdatedAt" },
+                columns: new[] { "Id", "CreatedAt", "DeletedAt", "Description", "Name", "SessionDuration", "Sessions", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "FE", new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.", "Frontend Development", 60, 10, null },
-                    { 2, "BE", new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Course on server side programming, databases, and API construction.", "Backend Development", 75, 12, null },
-                    { 3, "FS", new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Comprehensive course covering both frontend and backend development to build complete applications.", "Full Stack Development", 90, 15, null }
+                    { 1, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.", "Frontend Development", 60, 10, null },
+                    { 2, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Course on server side programming, databases, and API construction.", "Backend Development", 75, 12, null },
+                    { 3, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Comprehensive course covering both frontend and backend development to build complete applications.", "Full Stack Development", 90, 15, null }
                 });
 
             migrationBuilder.InsertData(
@@ -378,7 +377,12 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Classrooms",
                 columns: new[] { "Id", "CourseId", "CreatedAt", "DeletedAt", "ProgramId", "StartDate", "UpdatedAt" },
-                values: new object[] { 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 1, new DateOnly(2024, 1, 23), null });
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, 1, new DateOnly(2024, 2, 23), null },
+                    { 2, 2, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, 1, new DateOnly(2024, 2, 23), null },
+                    { 3, 1, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, 2, new DateOnly(2024, 2, 23), null }
+                });
 
             migrationBuilder.InsertData(
                 table: "Meetings",
