@@ -73,7 +73,7 @@ public class MeetingsControllerTest
         (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
 
         var okResult = result?.Result as OkObjectResult;
-        var coursesData = okResult?.Value as IEnumerable<CourseDto>;
+        var coursesData = okResult?.Value as IEnumerable<CourseDTO>;
         coursesData.Should().BeEquivalentTo(sampleMeetings);
     }
 }
