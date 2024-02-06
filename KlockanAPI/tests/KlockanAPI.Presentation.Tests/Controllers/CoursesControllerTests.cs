@@ -6,6 +6,7 @@ using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application;
 using Moq;
+using KlockanAPI.Domain.Models;
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
@@ -150,6 +151,41 @@ public class CoursesControllerTests
         // Assert
         var actionResult = Assert.IsType<ObjectResult>(result.Result);
         Assert.Equal(500, actionResult.StatusCode);
-        Assert.Contains("Internal server error", actionResult.Value.ToString());
+        Assert.Contains("Internal server error", actionResult?.Value?.ToString());
+    }
+
+    [Fact]
+    public async Task UpdateCourse_ReturnsOk_WithValidInput()
+    {
+        // Arrange
+        var updatedCourse = new Course
+        {
+            Id = 1,
+            Name = "Updated Course",
+        };
+
+        var updatedCourseDTO = new CourseDTO
+        {
+            Id = 1,
+            Name = "Updated Course",
+        };
+
+        _courseService.UpdateCourseAsync(updatedCourse).Returns(Task.FromResult<CourseDTO?>(updatedCourseDTO));
+
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.UpdateCourse(updatedCourse);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<CourseDTO>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var courseData = okResult?.Value as CourseDTO;
+        courseData.Should().BeEquivalentTo(updatedCourseDTO);
     }
 }

@@ -95,6 +95,32 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         {
                             Id = 1,
                             CourseId = 1,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 1,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CourseId = 2,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 1,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CourseId = 1,
+                            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc),
+                            ProgramId = 2,
+                            StartDate = new DateOnly(2024, 2, 23)
+                        });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CourseId = 1,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ProgramId = 1,
                             StartDate = new DateOnly(2024, 1, 23)
