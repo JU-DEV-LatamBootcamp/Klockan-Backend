@@ -45,4 +45,11 @@ public class ProgramService : IProgramService
 
         return _mapper.Map<ProgramDTO>(deletedProgram);
     }
+
+    public async Task<ProgramDTO> EditProgramAsync(ProgramDTO editProgramDTO)
+    {        
+        var program = _mapper.Map<Program>(editProgramDTO);
+        var editedProgram = await _programRepository.EditProgramAsync(program);
+        return _mapper.Map<ProgramDTO>(editedProgram);
+    }
 }

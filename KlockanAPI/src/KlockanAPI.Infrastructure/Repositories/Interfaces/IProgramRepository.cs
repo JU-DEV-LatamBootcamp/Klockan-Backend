@@ -8,4 +8,5 @@ public interface IProgramRepository
     Task<Program> CreateProgramAsync(Program program);
     Task<Program?> GetProgramByIdAsync(int id);
     Task<Program> DeleteProgramAsync(Program program);
+    Task<Program> EditProgramAsync(Program program);
 }
