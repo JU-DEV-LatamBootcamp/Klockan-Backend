@@ -46,8 +46,17 @@ public class CourseService : ICourseService
 
         var deletedCourse = await _courseRepository.DeleteCourseAsync(course!);
 
-
         return _mapper.Map<CourseDTO>(deletedCourse);
+    }
+
+    public async Task<CourseDTO> UpdateCourseAsync(Course course)
+    {
+        var _course = await _courseRepository.GetCourseByIdAsync(course.Id);
+        NotFoundException.ThrowIfNull(_course, $"Course with id {course.Id} not found");
+
+        course.UpdatedAt = DateTime.UtcNow;
+        await _courseRepository.UpdateCourseAsync(course);
+        return _mapper.Map<CourseDTO>(course);
     }
 }
 

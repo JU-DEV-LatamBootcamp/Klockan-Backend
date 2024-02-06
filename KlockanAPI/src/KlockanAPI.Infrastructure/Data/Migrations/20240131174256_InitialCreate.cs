@@ -296,7 +296,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     ClassroomId = table.Column<int>(type: "integer", nullable: false),
-                    ClassroomUserId = table.Column<int>(type: "integer", nullable: false),
+                    TrainerId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     DeletedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
@@ -305,11 +305,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Meetings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Meetings_ClassroomUsers_ClassroomUserId",
-                        column: x => x.ClassroomUserId,
+                        name: "FK_Meetings_ClassroomUsers_TrainerId",
+                        column: x => x.TrainerId,
                         principalTable: "ClassroomUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Meetings_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
@@ -376,6 +375,22 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     { 4, new DateTime(2024, 1, 23, 0, 0, 0, 0, DateTimeKind.Utc), null, "Program covering concepts in software development.", "Bootcamp Developers 02", null }
                 });
 
+            migrationBuilder.InsertData(
+                table: "Classrooms",
+                columns: new[] { "Id", "CourseId", "CreatedAt", "DeletedAt", "ProgramId", "StartDate", "UpdatedAt" },
+                values: new object[] { 1, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, 1, new DateOnly(2024, 1, 23), null });
+
+            migrationBuilder.InsertData(
+                table: "Meetings",
+                columns: new[] { "Id", "ClassroomId", "CreatedAt", "Date", "DeletedAt", "SessionNumber", "Time", "TrainerId", "UpdatedAt" },
+                values: new object[,]
+                {
+                    { 1, 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2024, 1, 23), null, 3, new TimeOnly(15, 30, 0), null, null },
+                    { 2, 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2024, 1, 23), null, 3, new TimeOnly(15, 30, 0), null, null },
+                    { 3, 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2024, 1, 23), null, 3, new TimeOnly(15, 30, 0), null, null },
+                    { 4, 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), new DateOnly(2024, 1, 23), null, 3, new TimeOnly(15, 30, 0), null, null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cities_CountryId",
                 table: "Cities",
@@ -427,9 +442,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                 column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Meetings_ClassroomUserId",
+                name: "IX_Meetings_TrainerId",
                 table: "Meetings",
-                column: "ClassroomUserId");
+                column: "TrainerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_ClassroomId",

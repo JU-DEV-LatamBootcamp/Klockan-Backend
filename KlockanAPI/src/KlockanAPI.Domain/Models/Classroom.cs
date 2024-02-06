@@ -1,3 +1,5 @@
+#nullable disable
+
 namespace KlockanAPI.Domain.Models;
 
 public class Classroom : BaseModel

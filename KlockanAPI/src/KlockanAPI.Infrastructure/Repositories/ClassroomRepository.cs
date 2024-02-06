@@ -15,6 +15,16 @@ public class ClassroomRepository : IClassroomRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<Classroom>> GetAllClassroomsAsync()
+    {
+        var classrooms = await Task.FromResult(_context.Classrooms
+            .Include(c => c.Program)
+            .Include(c => c.Course)
+            .ToList());
+
+        return classrooms;
+    }
+
     public async Task<IEnumerable<Classroom>?> GetClassroomsByCourseIdAsync(int courseId)
     {
         var classrooms = await _context.Classrooms.Where(c => c.CourseId == courseId).ToListAsync();

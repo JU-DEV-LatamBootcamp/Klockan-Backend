@@ -1,17 +1,13 @@
-name: Docker Image CI
+name: .NET
 
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: secrets
     steps:
-    - uses: actions/checkout@v3    
+    - uses: actions/checkout@v3
     - name: Login Dockerhub
       env:
         DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
@@ -23,5 +19,3 @@ jobs:
       run: docker tag klockan-backend:v1 klockan/backend:v1 
     - name: Push to
       run: docker push klockan/backend:v1 
-
-    
