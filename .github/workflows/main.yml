@@ -17,8 +17,8 @@ jobs:
         dotnet-version: 8.0
     - name: Change Folder 
       run: cd KlockanAPI
-    - name: Restore dependencies
-      run: dotnet restore
+  ##  - name: Restore dependencies
+  ##    run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
     - name: Change Folder
