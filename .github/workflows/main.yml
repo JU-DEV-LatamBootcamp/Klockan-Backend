@@ -18,7 +18,7 @@ jobs:
     - name: Change Folder 
       run: cd KlockanAPI
     - name: Show folder
-    - run: ls
+      run: ls
   ##  - name: Restore dependencies
   ##    run: dotnet restore
     - name: Build
