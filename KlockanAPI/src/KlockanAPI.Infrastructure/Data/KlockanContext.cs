@@ -173,7 +173,43 @@ public class KlockanContext : DbContext
             CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
         });
 
-        
+
+        // Seed data for Classroom
+        modelBuilder.Entity<Classroom>().HasData(
+        new Classroom
+        {
+            Id = 1,
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 2, 23),
+            Meetings = [],
+            Schedule = [],
+            ClassroomUsers = [],
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        },
+        new Classroom
+        {
+            Id = 2,
+            CourseId = 2,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 2, 23),
+            Meetings = [],
+            Schedule = [],
+            ClassroomUsers = [],
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        },
+        new Classroom
+        {
+            Id = 3,
+            CourseId = 1,
+            ProgramId = 2,
+            StartDate = new DateOnly(2024, 2, 23),
+            Meetings = [],
+            Schedule = [],
+            ClassroomUsers = [],
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+        }
+        );
 
         // Seed data for Meetings
         modelBuilder.Entity<Meeting>().HasData(
@@ -216,41 +252,5 @@ public class KlockanContext : DbContext
             Time = new TimeOnly(15, 30, 0),
         });
 
-        // Seed data for Classroom
-        modelBuilder.Entity<Classroom>().HasData(
-        new Classroom
-        {
-            Id = 1,
-            CourseId = 1,
-            ProgramId = 1,
-            StartDate = new DateOnly(2024, 2, 23),
-            Meetings = [],
-            Schedule = [],
-            ClassroomUsers = [],
-            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-        },
-        new Classroom
-        {
-            Id = 2,
-            CourseId = 2,
-            ProgramId = 1,
-            StartDate = new DateOnly(2024, 2, 23),
-            Meetings = [],
-            Schedule = [],
-            ClassroomUsers = [],
-            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-        },
-        new Classroom
-        {
-            Id = 3,
-            CourseId = 1,
-            ProgramId = 2,
-            StartDate = new DateOnly(2024, 2, 23),
-            Meetings = [],
-            Schedule = [],
-            ClassroomUsers = [],
-            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-        }
-        );
     }
 }
