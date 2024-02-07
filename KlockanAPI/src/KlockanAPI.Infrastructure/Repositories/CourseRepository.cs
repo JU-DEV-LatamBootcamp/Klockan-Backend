@@ -22,7 +22,7 @@ public class CourseRepository : ICourseRepository
 
     public async Task<Course> CreateAsync(Course course)
     {
-        await _context.AddAsync(course);
+        await _context.Courses.AddAsync(course);
         await _context.SaveChangesAsync();
         return course;
     }
@@ -40,19 +40,11 @@ public class CourseRepository : ICourseRepository
         return course;
     }
 
-    public async Task<Course?> UpdateCourseAsync(Course course)
+    public async Task<Course> UpdateCourseAsync(Course course)
     {
-        var _course = await _context.Courses.FindAsync(course.Id);
-
-        if (_course != null)
-        {
-            _course.Name = course.Name;
-            _course.Sessions = course.Sessions;
-            _course.SessionDuration = course.SessionDuration;
-            _course.Description = course.Description;
-            await _context.SaveChangesAsync();
-        }
-
-        return _course;
+        var editedCourse = await _context.Courses.FindAsync(course.Id);
+        _context.Courses.Entry(editedCourse!).CurrentValues.SetValues(course);
+        await _context.SaveChangesAsync();
+        return course;
     }
 }

@@ -31,6 +31,7 @@ public class CourseService : ICourseService
     public async Task<CourseDTO> CreateCourseAsync(CreateCourseDTO createCourseDTO)
     {
         var course = _mapper.Map<Course>(createCourseDTO);
+        course.CreatedAt = DateTime.UtcNow;
         var createdCourse = await _courseRepository.CreateAsync(course);
 
         return _mapper.Map<CourseDTO>(createdCourse);
