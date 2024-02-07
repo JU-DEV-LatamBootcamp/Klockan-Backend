@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authentication;
 
@@ -32,6 +34,13 @@ public static class KeyCloakAuthentication
 
             o.Events = new JwtBearerEvents()
             {
+                OnTokenValidated = (TokenValidatedContext context) =>
+                {
+                    return Task.CompletedTask;
+                }
+                //validar token
+
+                /*
                 OnAuthenticationFailed = c =>
                 {
                     c.NoResult();
@@ -43,6 +52,7 @@ public static class KeyCloakAuthentication
                     }
                     return c.Response.WriteAsJsonAsync("An error occured processing your authentication.");
                 }
+                */
             };
         });
     }
