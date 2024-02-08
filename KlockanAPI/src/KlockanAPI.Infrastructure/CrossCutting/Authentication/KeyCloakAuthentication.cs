@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authentication;
 
@@ -24,11 +25,14 @@ public static class KeyCloakAuthentication
             o.Authority = KeyCloakSecrets["Authority"];
             o.Audience = KeyCloakSecrets["Audience"];
 
+
             var tokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
                 ValidIssuer = KeyCloakSecrets["Authority"],
-                ValidateIssuerSigningKey = true,
+                ValidateIssuerSigningKey = false,
+                //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asdsad")),
+
             };
             o.TokenValidationParameters = tokenValidationParameters;
 
