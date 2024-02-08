@@ -31,8 +31,8 @@ public static class KeyCloakAuthentication
                 ValidateIssuer = true,
                 ValidIssuer = KeyCloakSecrets["Authority"],
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["CertsUrl"]),
-                //IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["Certs"]),
+                //IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["CertsUrl"]),
+                IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["Certs"]),
 
             };
             o.TokenValidationParameters = tokenValidationParameters;
