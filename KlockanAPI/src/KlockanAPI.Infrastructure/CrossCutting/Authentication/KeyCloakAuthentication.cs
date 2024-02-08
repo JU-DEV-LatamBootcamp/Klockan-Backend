@@ -32,6 +32,7 @@ public static class KeyCloakAuthentication
                 ValidIssuer = KeyCloakSecrets["Authority"],
                 ValidateIssuerSigningKey = false,
                 //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("asdsad")),
+
             };
             o.TokenValidationParameters = tokenValidationParameters;
 
