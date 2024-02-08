@@ -27,7 +27,7 @@ public static class KeyCloakAuthentication
             var tokenValidationParameters = new TokenValidationParameters()
             {
                 ValidateIssuer = true,
-                ValidIssuer = KeyCloakSecrets["AuthorizationUrl"],
+                ValidIssuer = KeyCloakSecrets["Authority"],
                 ValidateIssuerSigningKey = true,
             };
             o.TokenValidationParameters = tokenValidationParameters;
