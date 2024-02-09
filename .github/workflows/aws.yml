@@ -1,0 +1,26 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches: [ "develop" ]
+
+permissions:
+  contents: read, whrite
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+    - name: Checkout the files
+      uses: actions/checkout@v2
+
+    - name: Executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.ASW_HOST_DNS }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.AWS_SSH_KEY }}
+        script: |
+            sudo docker image ls
