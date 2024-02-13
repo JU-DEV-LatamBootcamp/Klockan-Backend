@@ -40,6 +40,7 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ClassroomDTO>> DeleteClassroom(int id)
     {
-        throw new NotImplementedException();
+        var classroom = await _classroomService.DeleteClassroomAsync(id);
+        return Ok(classroom);
     }
 }
