@@ -1,23 +1,18 @@
-name: Deploy to Amazon ECS
+name: Deploy
 
 on:
-  push:
-    branches: [ "try" ]
+  workflow_run:
+    workflows: [".NET"]
+    types:
+      - completed
 
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-    - name: Checkout the files
-      uses: actions/checkout@v2
+  build:
+    runs-on: self-hosted
 
-    - name: Executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.ASW_HOST_DNS }}
-        username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.AWS_SSH_KEY }}
-        script: |
-            sudo docker image ls
+    steps:
+      - name: Pull image
+        run: sudo docker pull klockan/frontend:v1
+      - name: Run
+        run: sudo docker-compose build
+      
