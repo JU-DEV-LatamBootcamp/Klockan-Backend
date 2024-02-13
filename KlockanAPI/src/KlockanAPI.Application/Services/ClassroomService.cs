@@ -25,5 +25,14 @@ public class ClassroomService : IClassroomService
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
+
+    public async Task<ClassroomDTO?> DeleteClassroomAsync(int id)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(id);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with {id} not found");
+
+        var deletedClassroom = await _classroomRepository.DeleteClassroomAsync(classroom!);
+        return _mapper.Map<ClassroomDTO>(deletedClassroom);
+    }
 }
 
