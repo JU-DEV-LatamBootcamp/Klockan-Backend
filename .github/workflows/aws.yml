@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Pull image
-        run: sudo docker pull klockan/frontend:v1
+        run: sudo docker pull klockan/backend:v1
       - name: Run
         run: sudo docker-compose build
       
