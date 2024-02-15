@@ -85,5 +85,24 @@ public class ClassroomServiceTests
 
         result.Should().ContainItemsAssignableTo<ClassroomDTO>();
     }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldReturnDeleteClassrooomDto()
+    {
+        ClassroomService classroomService = GetServiceInstance();
+        Classroom sampleClassroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _classroomRepository.GetClassroomByIdAsync(1).Returns(Task.FromResult<Classroom?>(sampleClassroom));
+        var result = await classroomService.DeleteClassroomAsync(1);
+
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_mapper.Map<ClassroomDTO>(sampleClassroom));
+    }
 }
 
