@@ -163,4 +163,25 @@ public class ClassroomRepositoryTests
         Assert.NotNull(result);
         Assert.Equal(3, result!.Count());
     }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldReturnDeletedClassroom()
+    {
+        var classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _context.Classrooms.Add(classroom);
+        await _context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(_context);
+
+        var result = await repository.DeleteClassroomAsync(classroom);
+
+        Assert.Equal(classroom, result);
+    }
 }
