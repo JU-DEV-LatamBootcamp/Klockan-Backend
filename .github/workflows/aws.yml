@@ -7,12 +7,24 @@ on:
       - completed
 
 jobs:
-  build:
-    runs-on: self-hosted
-
+  Deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+ 
     steps:
-      - name: Pull image
-        run: sudo docker pull klockan/backend:v1
-      - name: Run
-        run: sudo docker-compose build
-      
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Set up SSH key and deploy
+        run: |
+          echo "$PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key $USER_NAME@$HOSTNAME << EOF
+            cd /home/ubuntu/Klockan-App
+            docker compose pull
+            docker compose up -d
+          EOF
+        env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOSTNAME: ${{ secrets.HOST_NAME }}
+          USER_NAME: ${{ secrets.USER_NAME }}
