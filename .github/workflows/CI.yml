@@ -16,6 +16,14 @@ jobs:
     - name: Build the Docker image
       run: docker-compose build
     - name: Tagin back
-      run: docker tag klockan-backend:v1 klockan/backend:v1 
+      run: docker tag klockan-backend:v1 klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}  
     - name: Push to
-      run: docker push klockan/backend:v1 
+      run: docker push klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}  
+    - name: Tagin frontend with latest
+      run: docker tag klockan-backend:v1 klockan/backend:latest
+    - name: Push to docker hub
+      run: docker push klockan/backend:latest 
+
+
+
+
