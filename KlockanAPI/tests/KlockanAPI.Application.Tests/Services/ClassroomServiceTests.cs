@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
 using FluentAssertions;
+using KlockanAPI.Application.CrossCutting;
 using MapsterMapper;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
@@ -35,7 +36,8 @@ public class ClassroomServiceTests
         var classroomservice = GetServiceInstance();
 
         // Define some sample classrooms from the repository
-        List<Classroom> sampleClassrooms = new List<Classroom>{
+        List<Classroom> sampleClassrooms = new List<Classroom>
+        {
             new Classroom
             {
                 Id = 1,
@@ -99,10 +101,26 @@ public class ClassroomServiceTests
         };
 
         _classroomRepository.GetClassroomByIdAsync(1).Returns(Task.FromResult<Classroom?>(sampleClassroom));
+
+        _classroomRepository.DeleteClassroomAsync(sampleClassroom).Returns(Task.FromResult(sampleClassroom));
         var result = await classroomService.DeleteClassroomAsync(1);
 
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(_mapper.Map<ClassroomDTO>(sampleClassroom));
     }
-}
 
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldThrowNotFoundException_WhenCourseNotFound()
+    {
+        //Arrange
+        ClassroomService classroomService = GetServiceInstance();
+
+        _classroomRepository.GetClassroomByIdAsync(10).Returns(Task.FromResult<Classroom?>(null));
+
+        //Act
+        Func<Task> act = async () => await classroomService.DeleteClassroomAsync(10);
+
+        //Assert
+        await act.Should().ThrowAsync<NotFoundException>().WithMessage("Classroom with id 10 not found");
+    }
+}
