@@ -1,6 +1,7 @@
 ﻿using KlockanAPI.Application.DTOs.Country;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure;
+using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using MapsterMapper;
 
 namespace KlockanAPI.Application.Services;

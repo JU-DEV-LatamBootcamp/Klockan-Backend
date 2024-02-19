@@ -1,6 +1,6 @@
 ﻿using KlockanAPI.Domain.Models;
 
-namespace KlockanAPI.Infrastructure;
+namespace KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 public interface ICountryRepository
 {
