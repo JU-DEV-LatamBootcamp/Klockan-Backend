@@ -18,9 +18,9 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    public async Task<IEnumerable<UserDto>> GetAllUsersAsync(int pageSize, int pageNumber)
     {
-        var users = await _userRepository.GetAllUsersAsync();
+        var users = await _userRepository.GetAllUsersAsync(pageSize, pageNumber);
         return _mapper.Map<IEnumerable<UserDto>>(users);
     }
 }
