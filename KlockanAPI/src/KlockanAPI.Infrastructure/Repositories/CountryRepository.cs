@@ -1,5 +1,6 @@
 ﻿using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
+using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace KlockanAPI.Infrastructure;
