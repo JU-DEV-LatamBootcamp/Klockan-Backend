@@ -240,4 +240,32 @@ public class UserRepositoryTests
         // Response should be equal to the second user in the sampleUsers list
         result.Should().BeEquivalentTo(sampleUsers.Skip((pageNumber - 1) * pageSize).Take(pageSize), options => options.ExcludingMissingMembers());
     }
+
+    [Fact]
+    public async Task CreateUserAsync_ShouldAddUser_WhenCalled()
+    {
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+                    .UseInMemoryDatabase(databaseName: "UserRepositoryDB")
+                    .Options;
+
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new UserRepository(context);
+
+            var newUser = new User
+            {
+                FirstName = "Test",
+                LastName = "User",
+                Email = "test@user.com",
+                CityId = 1,
+                RoleId = 1
+            };
+
+            var result = await repository.CreateUserAsync(newUser);
+
+            Assert.NotNull(result);
+            var userInDb = await context.Users.FindAsync(result.Id);
+            Assert.NotNull(userInDb);
+        }
+    }
 }
