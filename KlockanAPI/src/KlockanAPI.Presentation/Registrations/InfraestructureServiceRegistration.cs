@@ -12,6 +12,7 @@ public static class InfraestructureServiceRegistration
         services.AddScoped<IMeetingRepository, MeetingRepository>();
         services.AddScoped<IClassroomRepository, ClassroomRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICountryRepository, CountryRepository>();
         return services;
     }
 }
