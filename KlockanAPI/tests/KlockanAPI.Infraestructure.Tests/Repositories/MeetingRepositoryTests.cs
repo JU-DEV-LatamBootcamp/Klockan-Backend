@@ -1,3 +1,4 @@
+using FluentAssertions;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories;
@@ -9,61 +10,45 @@ namespace KlockanAPI.Infraestructure.Tests.Repositories;
 public class MeetingRepositoryTests
 {
     [Fact]
-    public async Task GetAllAsync_ReturnsAllCourses()
+    public async Task GetAllAsync_ReturnsAllMeetingsIncludingClassrooms()
     {
+        // Arrange
+        var dbName = Guid.NewGuid().ToString();
         var options = new DbContextOptionsBuilder<KlockanContext>()
-          .UseInMemoryDatabase(databaseName: "TestDb")
-          .Options;
+            .UseInMemoryDatabase(databaseName: dbName)
+            .Options;
 
-        using var context = new KlockanContext(options);
-
-        var meetings = new List<Meeting> {
-            new Meeting
+        // Seed the database
+        using (var context = new KlockanContext(options))
+        {
+            var classrooms = new List<Classroom>
             {
-            Id = 1,
-            SessionNumber = 3,
-            ClassroomId = 1,
-            Date = new DateOnly(2024, 1, 23),
-            Time = new TimeOnly(15, 30, 0),
-            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            },
-            new Meeting
-            {
-            Id = 2,
-            SessionNumber = 3,
-            ClassroomId = 1,
-            Date = new DateOnly(2024, 1, 23),
-            Time = new TimeOnly(15, 30, 0),
-            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            },
-            new Meeting
-            {
-            Id = 3,
-            SessionNumber = 3,
-            ClassroomId = 1,
-            Date = new DateOnly(2024, 1, 23),
-            Time = new TimeOnly(15, 30, 0),
-            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            },
-            new Meeting
-            {
-            Id = 4,
-            SessionNumber = 3,
-            ClassroomId = 1,
-            Date = new DateOnly(2024, 1, 23),
-            Time = new TimeOnly(15, 30, 0),
-            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            },
-        };
+                new Classroom { Id = 1},
+                new Classroom { Id = 2}
+            };
 
-        context.Meetings.AddRange(meetings);
-        await context.SaveChangesAsync();
-        var repository = new MeetingRepository(context);
+            var meetings = new List<Meeting>
+            {
+                new Meeting { Id = 1, Classroom = classrooms[0], Date = new DateOnly(2024, 1, 23), Time = new TimeOnly(15, 30) },
+                new Meeting { Id = 2, Classroom = classrooms[1], Date = new DateOnly(2024, 1, 24), Time = new TimeOnly(16, 30) }
+            };
 
-        //Act
-        var result = await repository.GetAllAsync();
+            context.Classrooms.AddRange(classrooms);
+            context.Meetings.AddRange(meetings);
+            await context.SaveChangesAsync();
+        }
 
-        //Assert 
-        Assert.Equal(meetings.Count, result.Count());
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new MeetingRepository(context);
+
+            // Act
+            var result = await repository.GetAllAsync();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.All(result, meeting => Assert.NotNull(meeting.Classroom));
+        }
     }
 }
