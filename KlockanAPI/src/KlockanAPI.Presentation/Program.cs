@@ -3,17 +3,21 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation.AspNetCore;
+using Mapster;
 
 using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.CrossCutting.Authentication;
 using KlockanAPI.Application;
 using KlockanAPI.Presentation.Middlewares;
+using KlockanAPI.Application.Mappings;
 
 namespace KlockanAPI.Presentation;
 public class Program
@@ -61,7 +65,11 @@ public class Program
                 configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
                 configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
                 configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
-                configure.Filters.Add(new AuthorizeFilter());
+            }).AddJsonOptions(o =>
+            {
+                o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
             });
 
         // ***********  FLUENT VALIDATION ************
@@ -145,6 +153,9 @@ public class Program
 
         // ***********  KEYCLOAK ************
         builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
+
+        // ***********  KEYCLOAK ************
+        builder.Services.AddMappingRegistrations();
 
         // ***********  EXCEPTIONS ************
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
