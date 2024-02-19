@@ -47,8 +47,8 @@ public class Program
 
         // app.UseHttpsRedirection();
 
-        // app.UseAuthentication();
-        // app.UseAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapControllers();
         app.MapHealthChecks("/health");
@@ -152,7 +152,7 @@ public class Program
         });
 
         // ***********  KEYCLOAK ************
-        // builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
+        builder.Services.AddKeyCloakJWTAuthentication(builder.Configuration.GetSection("KeyCloakJwt"), builder.Environment);
 
         // ***********  KEYCLOAK ************
         builder.Services.AddMappingRegistrations();
