@@ -4,5 +4,5 @@ namespace KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 public interface IUserRepository
 {
-    Task<IEnumerable<User>> GetAllUsersAsync();
+    Task<IEnumerable<User>> GetAllUsersAsync(int pageSize, int pageNumber);
 }

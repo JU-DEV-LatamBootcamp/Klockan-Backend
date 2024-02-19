@@ -14,12 +14,14 @@ public class UserRepository : IUserRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    public async Task<IEnumerable<User>> GetAllUsersAsync(int pageSize, int pageNumber)
     {
         return await _context.Users
                 .Include(u => u.City)
                     .ThenInclude(c => c!.Country)
                 .Include(u => u.Role)
+                        .Skip((pageNumber - 1) * pageSize)
+        .Take(pageSize)
                 .ToListAsync();
     }
 }
