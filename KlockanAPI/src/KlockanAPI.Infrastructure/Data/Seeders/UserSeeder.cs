@@ -1,4 +1,4 @@
-﻿using KlockanAPI.Domain.Models;
+using KlockanAPI.Domain.Models;
 
 using Microsoft.EntityFrameworkCore;
 

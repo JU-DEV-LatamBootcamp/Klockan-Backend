@@ -1,4 +1,4 @@
-﻿using KlockanAPI.Domain.Models;
+using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 
@@ -23,5 +23,12 @@ public class UserRepository : IUserRepository
                         .Skip((pageNumber - 1) * pageSize)
         .Take(pageSize)
                 .ToListAsync();
+    }
+
+    public async Task<User> CreateUserAsync(User user)
+    {
+        await _context.Users.AddAsync(user);
+        await _context.SaveChangesAsync();
+        return user;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 using Moq;
 using NSubstitute;
@@ -154,5 +154,55 @@ public class UserServiceTests
         result.Should().BeEquivalentTo(sampleUsers.Skip(pageSize).Take(pageSize), options => options.ExcludingMissingMembers());
         // Ensure that each item in the result is of the expected type ProgramDTO
         result.Should().ContainItemsAssignableTo<UserDto>();
+    }
+
+    [Fact]
+    public async Task CreateUserAsync_ShouldReturnUserDTO_WhenCreateIsSuccessful()
+    {
+        var createUserDTO = new CreateUserDTO
+        {
+            FirstName = "Create",
+            LastName = "Dto",
+            Email = "test_create@dto.com",
+            Birthdate = new DateOnly(1990, 1, 1),
+            CityId = 1,
+            RoleId = 1,
+
+        };
+
+        var user = new User
+        {
+            Id = 1,
+            FirstName = "Test",
+            LastName = "User",
+            Email = "test@user.com",
+            Birthdate = new DateOnly(1991, 1, 2),
+            CityId = 14,
+            RoleId = 2
+        };
+
+        var userDTO = new UserDto
+        {
+            Id = 2,
+            FirstName = "User",
+            LastName = "Dto",
+            Email = "test_user@dto.com",
+            Birthdate = new DateOnly(1992, 1, 3)
+        };
+
+        _mapperMock.Setup(m => m.Map<User>(It.IsAny<CreateUserDTO>())).Returns(user);
+        _userRepositoryMock.Setup(repo => repo.CreateUserAsync(It.IsAny<User>())).ReturnsAsync(user);
+        _mapperMock.Setup(m => m.Map<UserDto>(It.IsAny<User>())).Returns(userDTO);
+
+        var service = new UserService(_userRepositoryMock.Object, _mapperMock.Object);
+
+        var result = await service.CreateUserAsync(createUserDTO);
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(userDTO, result);
+        Assert.Equal(userDTO.FirstName, result.FirstName);
+        Assert.Equal(userDTO.LastName, result.LastName);
+        _userRepositoryMock.Verify(repo => repo.CreateUserAsync(It.IsAny<User>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<UserDto>(It.IsAny<User>()), Times.Once);
     }
 }

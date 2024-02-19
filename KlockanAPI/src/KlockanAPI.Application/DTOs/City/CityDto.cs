@@ -1,4 +1,4 @@
-﻿namespace KlockanAPI.Application.DTOs.City;
+namespace KlockanAPI.Application.DTOs.City;
 
 public class CityDto
 {

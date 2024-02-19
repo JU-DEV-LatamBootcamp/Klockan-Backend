@@ -9,6 +9,7 @@ using NSubstitute.ExceptionExtensions;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.User;
+using KlockanAPI.Domain.Models;
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
@@ -67,5 +68,56 @@ public class UsersControllerTests
 
         // Verify the status code
         (result?.Result as ObjectResult)?.StatusCode.Should().Be(500);
+    }
+    [Fact]
+    public async Task CreateProgram_Returns201Created_WithValidInput()
+    {
+        var controller = GetControllerInstance();
+        // Arrange
+        var createUserDTO = new CreateUserDTO { /* Populate required properties */ };
+        var createdUserDTO = new UserDto { /* Populate with expected result */ };
+        _mockUserService.Setup(service => service.CreateUserAsync(createUserDTO))
+                           .ReturnsAsync(createdUserDTO);
+
+        // Act
+        var result = await controller.CreateUser(createUserDTO);
+
+        // Assert
+        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        Assert.Equal(201, actionResult.StatusCode);
+        Assert.Equal(createdUserDTO, actionResult.Value);
+    }
+
+    [Fact]
+    public async Task CreateProgram_Returns400BadRequest_WithInvalidModel()
+    {
+        var controller = GetControllerInstance();
+        // Arrange
+        controller.ModelState.AddModelError("Error", "Sample error");
+
+        // Act
+        var result = await controller.CreateUser(new CreateUserDTO());
+
+        // Assert
+        var actionResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+        Assert.Equal(400, actionResult.StatusCode);
+    }
+
+    [Fact]
+    public async Task CreateProgram_HandlesException_WithInternalServerError()
+    {
+        var controller = GetControllerInstance();
+        // Arrange
+        var createUserDTO = new CreateUserDTO { /* Populate required properties */ };
+        _mockUserService.Setup(service => service.CreateUserAsync(createUserDTO))
+                           .ThrowsAsync(new System.Exception("Test exception"));
+
+        // Act
+        var result = await controller.CreateUser(createUserDTO);
+
+        // Assert
+        var actionResult = Assert.IsType<ObjectResult>(result.Result);
+        Assert.Equal(500, actionResult.StatusCode);
+        Assert.Contains("Internal server error", actionResult?.Value?.ToString());
     }
 }
