@@ -1,4 +1,4 @@
-﻿using KlockanAPI.Domain.Models;
+using KlockanAPI.Domain.Models;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +41,7 @@ public static class UserSeeder
                  Email = "carlos.gutierrez@jala.university",
                  Avatar = $"https://randomuser.me/api/portraits/men/{rnd.Next(1, 99)}.jpg",
                  Birthdate = new DateOnly(1992, 3, 10),
-                 CityId = 21, // ID de una ciudad de Bolivia según el seeder de ciudades
+                 CityId = 21, 
                  RoleId = 2
              },
              new User
@@ -52,7 +52,7 @@ public static class UserSeeder
                  Email = "maria.perez@jala.university",
                  Avatar = $"https://randomuser.me/api/portraits/women/{rnd.Next(1, 99)}.jpg",
                  Birthdate = new DateOnly(1991, 11, 25),
-                 CityId = 22, // ID de otra ciudad de Bolivia según el seeder de ciudades
+                 CityId = 22, 
                  RoleId = 3
              },
              new User

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 using Moq;
 using NSubstitute;
@@ -8,6 +8,7 @@ using MapsterMapper;
 using KlockanAPI.Application.Services;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.DTOs.Program;
 using KlockanAPI.Application.DTOs.User;
 
 namespace KlockanAPI.Application.Tests.Services;

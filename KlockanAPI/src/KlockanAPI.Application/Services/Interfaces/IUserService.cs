@@ -1,4 +1,4 @@
-﻿using KlockanAPI.Application.DTOs.User;
+using KlockanAPI.Application.DTOs.User;
 
 
 namespace KlockanAPI.Application.Services.Interfaces;

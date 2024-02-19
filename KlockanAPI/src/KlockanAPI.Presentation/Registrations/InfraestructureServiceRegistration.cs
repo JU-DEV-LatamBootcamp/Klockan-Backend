@@ -1,4 +1,4 @@
-﻿using KlockanAPI.Infrastructure.Repositories;
+using KlockanAPI.Infrastructure.Repositories;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 
 namespace KlockanAPI.Infrastructure;
