@@ -21,12 +21,15 @@ public class UsersController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers([FromQuery] int pageSize = 10, [FromQuery] int pageNumber = 1)
     {
-        try {
-            var users = await _userService.GetAllUsersAsync();
+        try
+        {
+            var users = await _userService.GetAllUsersAsync(pageSize, pageNumber);
             return Ok(users);
-        } catch(Exception ex){
+        }
+        catch(Exception ex)
+        {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
