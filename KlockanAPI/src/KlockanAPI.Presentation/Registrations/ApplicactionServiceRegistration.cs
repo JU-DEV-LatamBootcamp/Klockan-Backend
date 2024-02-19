@@ -22,6 +22,7 @@ public static class ApplicactionServiceRegistration
             .AddScoped<ICourseService, CourseService>()
             .AddScoped<IClassroomService, ClassroomService>()
             .AddScoped<IMeetingService, MeetingService>()
+            .AddScoped<IUserService, UserService>()
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
 

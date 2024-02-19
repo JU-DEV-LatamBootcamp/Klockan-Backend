@@ -68,12 +68,11 @@ public class MeetingsControllerTest
         // Assert
         result.Should().BeOfType<ActionResult<IEnumerable<MeetingDto>>>();
 
-        result.Result.Should().BeOfType<OkObjectResult>();
+        var okResult = result.Result as OkObjectResult;
+        okResult.Should().NotBeNull();
+        okResult.StatusCode.Should().Be(200);
 
-        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
-
-        var okResult = result?.Result as OkObjectResult;
-        var coursesData = okResult?.Value as IEnumerable<CourseDTO>;
-        coursesData.Should().BeEquivalentTo(sampleMeetings);
+        var meetingsData = okResult.Value as IEnumerable<MeetingDto>;
+        meetingsData.Should().BeEquivalentTo(sampleMeetings);
     }
 }

@@ -127,6 +127,50 @@ Inside `KlockanAPI.Infrastructure`, follow these steps:
    dotnet ef database update --project ../KlockanAPI.Infrastructure/ --startup-project ../KlockanAPI.Presentation/
    ```
 
+## Collecting Code Coverage
+
+To collect code coverage metrics for your .NET tests, use the following command in your terminal:
+
+```sh
+dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults
+```
+
+This command will execute all tests in your solution and collect code coverage data using the cross-platform code coverage tool. 
+
+***The results will be stored in the `./TestResults` directory.***
+
+## Generating Coverage Reports
+
+After collecting code coverage data, you can generate readable reports using ReportGenerator. Use the command below:
+
+```sh
+reportgenerator -reports:"<.../coverage.cobertura.xml>;<.../coverage.cobertura.xml>;<.../coverage.cobertura.xml>" -targetdir:"CoverletReports" -reporttypes:"HtmlInline_AzurePipelines;Cobertura"
+```
+
+Replace `<.../coverage.cobertura.xml>` with the path to your coverage files. 
+
+This command compiles the coverage data into an HTML report.
+
+## Viewing Coverage Reports
+
+Once you have generated the coverage reports, you can view a detailed HTML report by opening the `index.html` file located in the `CoverletReports` directory.
+
+To open the report, navigate to the `CoverletReports` directory and double-click on the `index.html` file. 
+
+Alternatively, you can open it directly from the command line with the following command, depending on your operating system:
+
+For Windows:
+
+```powershell
+start CoverletReports\index.html
+```
+
+For macOS:
+
+```sh
+open CoverletReports/index.html
+```
+
 ## Configuration
 
 ### REST Client (.http files Compiler)
