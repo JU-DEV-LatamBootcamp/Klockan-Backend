@@ -74,7 +74,6 @@ public class UsersControllerTests
     [Fact]
     public async Task CreateUser_Returns201Created_WithValidInput()
     {
-        // var controller = GetControllerInstance();
         // Arrange
         var createUserDTO = new CreateUserDTO { /* Populate required properties */ };
         var createdUserDTO = new UserDto { /* Populate with expected result */ };
