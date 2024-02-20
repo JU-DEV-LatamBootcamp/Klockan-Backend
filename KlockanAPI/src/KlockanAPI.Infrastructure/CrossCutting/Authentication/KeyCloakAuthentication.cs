@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
+using Newtonsoft.Json.Linq;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authentication;
 
@@ -19,39 +21,66 @@ public static class KeyCloakAuthentication
         }).AddJwtBearer(async o =>
         {
             o.RequireHttpsMetadata = env.IsProduction();
-            o.Authority = KeyCloakSecrets["Authority"];
-            o.Audience = KeyCloakSecrets["Audience"];
+            o.Authority = KeyCloakSecrets!["Authority"]!;
+            o.Audience = KeyCloakSecrets!["Audience"]!;
 
-            /*
-            var jwk = new JsonWebKey(KeyCloakSecrets["Certs"]);
-            var tokenValidationParameters = new TokenValidationParameters()
+            var certs = await GetCerts(KeyCloakSecrets!["CertsUrl"]!);
+
+            // Obtener los certificados
+            if(certs != null)
             {
-                ValidateIssuer = true,
-                ValidIssuer = KeyCloakSecrets["Authority"],
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = jwk
-            };
-            o.TokenValidationParameters = tokenValidationParameters;
-            */
-
-
-            var certs = await GetCerts(KeyCloakSecrets["CertsUrl"]!);
-
-            if(certs != null && certs.Length > 1)
-            {
-                var jwk = new JsonWebKey(certs[1]);
-                var tokenValidationParameters = new TokenValidationParameters()
+                // Obtener el token actual
+                o.Events = new JwtBearerEvents
                 {
-                    ValidateIssuer = true,
-                    ValidIssuer = KeyCloakSecrets["Authority"],
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = jwk
+                    OnTokenValidated = context =>
+                    {
+                        var token = context.SecurityToken as JwtSecurityToken;
+                        if(token != null)
+                        {
+                            // Obtener el valor del campo 'jit' del token
+                            var jit = token.Payload["jit"] as string;
+
+                            // Validar el token con cada certificado
+                            foreach(var cert in certs)
+                            {
+                                var jwk = new JsonWebKey(cert);
+                                var validationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = jwk,
+                                    ValidateIssuer = false, // Puedes establecer esto según tus necesidades
+                                    ValidateAudience = false // Puedes establecer esto según tus necesidades
+                                };
+
+                                var tokenHandler = new JwtSecurityTokenHandler();
+                                SecurityToken validatedToken;
+                                try
+                                {
+                                    tokenHandler.ValidateToken(jit, validationParameters, out validatedToken);
+                                    // Si el token se valida con éxito, establece el JsonWebKey y termina la búsqueda
+                                    context.Options.TokenValidationParameters.IssuerSigningKey = jwk;
+                                    break;
+                                }
+                                catch(SecurityTokenSignatureKeyNotFoundException)
+                                {
+                                    // El certificado no coincidió, continuar con el siguiente
+                                    continue;
+                                }
+                                catch(SecurityTokenInvalidSignatureException)
+                                {
+                                    // El certificado no coincidió, continuar con el siguiente
+                                    continue;
+                                }
+                            }
+                        }
+
+                        return Task.CompletedTask;
+                    }
                 };
-                o.TokenValidationParameters = tokenValidationParameters;
             }
             else
             {
-                throw new Exception("No se pudieron obtener los certificados o no hay suficientes certificados disponibles.");
+                throw new Exception("No se pudieron obtener los certificados o no hay certificados disponibles.");
             }
 
 
@@ -63,25 +92,9 @@ public static class KeyCloakAuthentication
                     return Task.CompletedTask;
                 }
 
-                //validar token
-                /*
-                OnAuthenticationFailed = c =>
-                {
-                    c.NoResult();
-                    c.Response.StatusCode = 500;
-                    c.Response.ContentType = "text/plain";
-                    if(env.IsDevelopment())
-                    {
-                        return c.Response.WriteAsJsonAsync(c.Exception.ToString());
-                    }System.Net.Http.HttpRequestException: 'The SSL connection could not be established, see inner exception.'
-
-                    return c.Response.WriteAsJsonAsync("An error occured processing your authentication.");
-                }
-                */
             };
         });
     }
-
     private static async Task<string[]> GetCerts(string certsUrl)
     {
         using var httpClient = new HttpClient();
@@ -90,13 +103,14 @@ public static class KeyCloakAuthentication
         if(response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
-            var jsonArray = JsonConvert.DeserializeObject<string[]>(jsonString);
-            return jsonArray!;
+            var jsonObj = JsonConvert.DeserializeObject<JObject>(jsonString);
+            var keysArray = jsonObj!["keys"]!.ToString();
+            return new string[] { keysArray };
         }
         else
         {
             throw new Exception($"Error al obtener los certificados: {response.StatusCode}");
         }
-    }
 
+    }
 }
