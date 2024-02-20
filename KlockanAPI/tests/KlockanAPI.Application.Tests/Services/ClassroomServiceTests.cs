@@ -15,6 +15,7 @@ public class ClassroomServiceTests
     private readonly IClassroomRepository _classroomRepository;
     private readonly ICourseRepository _courseRepository;
     private readonly IProgramRepository _programRepository;
+    private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
     private readonly Mock<ICourseRepository> _courseRepositoryMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
@@ -24,10 +25,11 @@ public class ClassroomServiceTests
         _classroomRepository = Substitute.For<IClassroomRepository>();
         _courseRepository = Substitute.For<ICourseRepository>();
         _programRepository = Substitute.For<IProgramRepository>();
+        _meetingRepository = Substitute.For<IMeetingRepository>();
         _mapper = new Mapper();
     }
 
-    private ClassroomService GetServiceInstance() => new(_classroomRepository, _mapper);
+    private ClassroomService GetServiceInstance() => new(_classroomRepository, _mapper,_meetingRepository);
 
     [Fact]
     public async Task GetAllClassroomsAsync_ShouldReturnClassroomDTOs()
@@ -119,8 +121,40 @@ public class ClassroomServiceTests
 
         //Act
         Func<Task> act = async () => await classroomService.DeleteClassroomAsync(10);
-
+        
         //Assert
         await act.Should().ThrowAsync<NotFoundException>().WithMessage("Classroom with id 10 not found");
+    }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldThrowFoundException_WhenClassroomHasMeetings()
+    {
+        ClassroomService classroomService = GetServiceInstance();
+
+        Meeting sampleMeeting = new Meeting
+        {
+            Id = 1,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            SessionNumber = 3
+        };
+
+        Classroom sampleClassroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _classroomRepository
+            .GetClassroomByIdAsync(1)
+            .Returns(Task.FromResult<Classroom?>(sampleClassroom));
+        
+        //Act
+        Func<Task> act = async () => await classroomService.DeleteClassroomAsync(1);
+        
+        //Assert
+        await act.Should().ThrowAsync<FoundException>("Classroom 1 has meetings assigned ot it.");
     }
 }

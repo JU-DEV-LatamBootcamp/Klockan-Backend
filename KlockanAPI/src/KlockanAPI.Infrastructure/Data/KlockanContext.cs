@@ -4,7 +4,9 @@ using KlockanAPI.Infrastructure.Data.Seeders;
 
 namespace KlockanAPI.Infrastructure.Data;
 
-public class KlockanContext : DbContext
+public class 
+    
+    KlockanContext : DbContext
 {
     public KlockanContext(DbContextOptions<KlockanContext> options) : base(options)
     {
