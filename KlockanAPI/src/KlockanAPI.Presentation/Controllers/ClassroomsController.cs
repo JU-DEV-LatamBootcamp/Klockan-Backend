@@ -31,7 +31,20 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateClassroomDTO createClassroomDTO)
     {
-        throw new NotImplementedException();
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
+            return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 
     [HttpDelete("{id}")]

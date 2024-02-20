@@ -7,4 +7,6 @@ public interface IClassroomRepository
     Task<IEnumerable<Classroom>> GetAllClassroomsAsync();
     Task<IEnumerable<Classroom>?> GetClassroomsByCourseIdAsync(int courseId);
     Task<IEnumerable<Classroom>?> GetClassroomsByProgramIdAsync(int programId);
+    Task<Classroom> CreateClassroomAsync(Classroom classroom);
+
 }

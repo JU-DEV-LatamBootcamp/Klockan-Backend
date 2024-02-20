@@ -27,7 +27,9 @@ public static class ApplicactionServiceRegistration
 
         services
             .AddValidatorsFromAssemblyContaining<CreateCourseDTOValidator>()
-            .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>();
+            .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>()
+            .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>();
+
 
         return services;
     }

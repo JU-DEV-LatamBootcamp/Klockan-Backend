@@ -1,10 +1,9 @@
 ﻿using MapsterMapper;
-
 using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
-using KlockanAPI.Application.CrossCutting;
+
 
 
 namespace KlockanAPI.Application.Services;
@@ -19,6 +18,14 @@ public class ClassroomService : IClassroomService
         _classroomRepository = classroomRepository;
         _mapper = mapper;
     }
+
+    public async Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO)
+    {
+        var classroom = _mapper.Map<Classroom>(createClassroomDTO);
+        var createdClassroom = await _classroomRepository.CreateClassroomAsync(classroom);
+        return _mapper.Map<ClassroomDTO>(createdClassroom);
+    }
+
 
     public async Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
     {
