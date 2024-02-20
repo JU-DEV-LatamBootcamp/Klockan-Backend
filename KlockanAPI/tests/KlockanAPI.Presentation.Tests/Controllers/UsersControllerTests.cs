@@ -17,11 +17,13 @@ public class UsersControllerTests
 {
     private readonly IUserService _userService;
     private readonly Mock<IUserService> _mockUserService;
+    private readonly UsersController _controller;
 
     public UsersControllerTests()
     {
         _userService = Substitute.For<IUserService>();
         _mockUserService = new Mock<IUserService>();
+        _controller = new UsersController(_mockUserService.Object);
     }
 
     private UsersController GetControllerInstance() => new(_userService);
@@ -70,9 +72,8 @@ public class UsersControllerTests
         (result?.Result as ObjectResult)?.StatusCode.Should().Be(500);
     }
     [Fact]
-    public async Task CreateProgram_Returns201Created_WithValidInput()
+    public async Task CreateUser_Returns201Created_WithValidInput()
     {
-        var controller = GetControllerInstance();
         // Arrange
         var createUserDTO = new CreateUserDTO { /* Populate required properties */ };
         var createdUserDTO = new UserDto { /* Populate with expected result */ };
@@ -80,7 +81,7 @@ public class UsersControllerTests
                            .ReturnsAsync(createdUserDTO);
 
         // Act
-        var result = await controller.CreateUser(createUserDTO);
+        var result = await _controller.CreateUser(createUserDTO);
 
         // Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
@@ -89,7 +90,7 @@ public class UsersControllerTests
     }
 
     [Fact]
-    public async Task CreateProgram_Returns400BadRequest_WithInvalidModel()
+    public async Task CreateUser_Returns400BadRequest_WithInvalidModel()
     {
         var controller = GetControllerInstance();
         // Arrange
@@ -104,13 +105,13 @@ public class UsersControllerTests
     }
 
     [Fact]
-    public async Task CreateProgram_HandlesException_WithInternalServerError()
+    public async Task CreateUser_HandlesException_WithInternalServerError()
     {
         var controller = GetControllerInstance();
         // Arrange
         var createUserDTO = new CreateUserDTO { /* Populate required properties */ };
         _mockUserService.Setup(service => service.CreateUserAsync(createUserDTO))
-                           .ThrowsAsync(new System.Exception("Test exception"));
+                           .ThrowsAsync(new Exception("Test exception"));
 
         // Act
         var result = await controller.CreateUser(createUserDTO);
