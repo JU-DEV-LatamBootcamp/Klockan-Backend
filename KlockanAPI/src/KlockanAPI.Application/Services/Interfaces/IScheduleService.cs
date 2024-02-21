@@ -7,5 +7,8 @@ public interface IScheduleService
 {
     Task<IEnumerable<ScheduleDTO>> GetAllSchedulesAsync();
 
-    Task<ScheduleDTO> CreateScheduleAsync(CreateScheduleDTO createScheduleDTO);
+    Task<List<ScheduleDTO>> CreateScheduleAsync(List<CreateScheduleDTO> createScheduleDTO, int id);
+
+    Task<ScheduleDTO> CreateSAsync(CreateScheduleDTO createScheduleDTO);
+
 }

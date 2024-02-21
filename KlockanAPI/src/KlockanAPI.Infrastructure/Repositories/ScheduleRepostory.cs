@@ -19,6 +19,7 @@ public class ScheduleRepository : IScheduleRepository
     {
         var Schedules = await Task.FromResult(_context.Schedules
             .Include(c => c.Classroom)
+            .Include(c => c.Weekday)
             .ToList());
 
         return Schedules;

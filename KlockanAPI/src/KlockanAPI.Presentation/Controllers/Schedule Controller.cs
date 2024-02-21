@@ -2,6 +2,8 @@
 using KlockanAPI.Application.DTOs.Schedule;
 using Asp.Versioning;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.DTOs.Program;
 
 
 namespace KlockanAPI.Presentation.Controllers;
@@ -27,10 +29,10 @@ public class SchedulesController : ControllerBase
         return Ok(Schedules);
     }
 
-    [HttpPost]
+    [HttpPost("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ScheduleDTO>> CreateSchedule([FromBody] CreateScheduleDTO createScheduleDTO)
+    public async Task<ActionResult<List<ScheduleDTO>>> CreateSchedule([FromBody] List<CreateScheduleDTO> createScheduleDTO, int id)
     {
         if (!ModelState.IsValid)
         {
@@ -39,8 +41,12 @@ public class SchedulesController : ControllerBase
 
         try
         {
-            var createdScheduleDTO = await _ScheduleService.CreateScheduleAsync(createScheduleDTO);
-            return CreatedAtAction(null, new { id = createdScheduleDTO.Id }, createdScheduleDTO);
+
+            var createdScheduleDTO = await _ScheduleService.CreateScheduleAsync(createScheduleDTO,id);
+            return CreatedAtAction(null, new { createdScheduleDTO });
+
+
+
         }
         catch (Exception ex)
         {

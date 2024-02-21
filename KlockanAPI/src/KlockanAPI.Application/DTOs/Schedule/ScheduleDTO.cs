@@ -15,4 +15,6 @@ public class ScheduleDTO
     public WeekdayDTO Weekday { get; set; }
     public TimeOnly StartTime { get; set; }
 
+    public TimeOnly FinisihTime { get; set; }
+
 }
