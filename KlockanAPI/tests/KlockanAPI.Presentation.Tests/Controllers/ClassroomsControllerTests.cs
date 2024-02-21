@@ -5,13 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.Classroom;
+using Moq;
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
 public class ClassroomsControllerTests
 {
     private readonly IClassroomService _classroomService;
-
+    private readonly Mock<IClassroomService> _mockClassroomService;
+    private readonly ClassroomsController _controller;
     public ClassroomsControllerTests()
     {
         _classroomService = Substitute.For<IClassroomService>();
@@ -54,6 +56,24 @@ public class ClassroomsControllerTests
 
         // Verify that first item of the value returned is equivalent to the first item of the classrooms sample
         ((result.Result as OkObjectResult)!.Value as IEnumerable<ClassroomDTO>)?.First().Should().BeEquivalentTo(sampleClassrooms.First());
+    }
+
+    [Fact]
+    public async Task CreateClassroom_Returns201Created_WithValidInput()
+    {
+        // Arrange
+        var createClassroomDTO = new CreateClassroomDTO { /* Populate required properties */ };
+        var createdClassroomDTO = new ClassroomDTO { /* Populate with expected result */ };
+        _mockClassroomService.Setup(service => service.CreateClassroomAsync(createClassroomDTO))
+                           .ReturnsAsync(createdClassroomDTO);
+
+        // Act
+        var result = await _controller.CreateClassroom(createClassroomDTO);
+
+        // Assert
+        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        Assert.Equal(201, actionResult.StatusCode);
+        Assert.Equal(createdClassroomDTO, actionResult.Value);
     }
 
 }

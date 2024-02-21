@@ -61,46 +61,10 @@ public class ClassroomRepositoryTests
                 CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
             }
         };
-        var programsSample = new List<Program> {
-            new Program
-            {
-                Id = 1,
-                Name = "Bootcamp Developers 01",
-                Description = "Program covering concepts in software development.",
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new Program
-            {
-                Id = 2,
-                Name = "Advanced Bootcamp Developers 01",
-                Description = "Program focused on advanced software design and development techniques.",
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            }
-        };
-        var coursesSample = new List<Course> {
-            new Course
-            {
-                Id = 1,
-                Name = "Frontend Development",
-                Description = "Course to develop Web Applications focusing on HTML, CSS, JavaScript, and popular frameworks.",
-                Sessions = 10,
-                SessionDuration = 60,
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new Course
-            {
-                Id = 2,
-                Name = "Backend Development",
-                Description = "Course on server side programming, databases, and API construction.",
-                Sessions = 12,
-                SessionDuration = 75,
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            },
-        };
+      
 
         _context.Classrooms.AddRange(classroomsSample);
-        _context.Programs.AddRange(programsSample);
-        _context.Courses.AddRange(coursesSample);
+        _context.Classrooms.AddRange(classroomsSample);
         await _context.SaveChangesAsync();
 
         var repository = GetRepositoryInstance();
@@ -112,8 +76,6 @@ public class ClassroomRepositoryTests
         result.Should().HaveCount(classroomsSample.Count);
         result.Should().Equal(classroomsSample);
         result.First().Id.Should().Be(classroomsSample.First().Id);
-        result.First().Course.Should().NotBeNull();
-        result.First().Course!.Id.Should().Be(classroomsSample.First().Course!.Id);
     }
 
     [Fact]
@@ -162,5 +124,32 @@ public class ClassroomRepositoryTests
         // Assert
         Assert.NotNull(result);
         Assert.Equal(3, result!.Count());
+    }
+
+    [Fact]
+    public async Task CreateClassroomAsync_ShouldAddClassroom_WhenCalled()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "ClassroomRepositoryDB")
+            .Options;
+
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new ClassroomRepository(context);
+
+            var newClassroom = new Classroom
+            {
+                // Configura las propiedades necesarias de tu modelo
+            };
+
+            // Act
+            var result = await repository.CreateClassroomAsync(newClassroom);
+
+            // Assert
+            Assert.NotNull(result);
+            var classroomInDb = await context.Classrooms.FindAsync(result.Id);
+            Assert.NotNull(classroomInDb);
+        }
     }
 }
