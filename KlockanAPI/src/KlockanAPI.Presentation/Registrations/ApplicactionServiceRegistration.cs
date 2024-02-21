@@ -22,13 +22,17 @@ public static class ApplicactionServiceRegistration
             .AddScoped<ICourseService, CourseService>()
             .AddScoped<IClassroomService, ClassroomService>()
             .AddScoped<IMeetingService, MeetingService>()
+            .AddScoped<IScheduleService, ScheduleService>()
+
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
 
         services
             .AddValidatorsFromAssemblyContaining<CreateCourseDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>()
-            .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>();
+            .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>()
+            .AddValidatorsFromAssemblyContaining<CreateScheduleDTOValidator>();
+
 
 
         return services;

@@ -8,7 +8,7 @@ public class CreateClassroomDTOValidator : AbstractValidator<CreateClassroomDTO>
     public CreateClassroomDTOValidator()
     {
         RuleFor(c => c.StartDate)
-            .NotEmpty().WithMessage("The name is required.");
-   
+            .NotEmpty().WithMessage("Start Date is required.");
+
     }
 }

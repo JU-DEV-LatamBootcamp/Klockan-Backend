@@ -14,8 +14,5 @@ public class ClassroomDTO
     public int CourseId { get; set; }
     public ProgramDTO? Program { get; set; }
     public CourseDTO? Course { get; set; }
-    // TODO: define the business logic about nested arrays
-    // public ICollection<MeetingDTO> Meetings { get; set; } = new List<MeetingDTO>();
-    // public ICollection<ScheduleDTO> Schedule { get; set; } = new List<ScheduleDTO>();
-    // public ICollection<ClassroomUserDTO> ClassroomUsers { get; set; } = new List<ClassroomUserDTO>();
+ 
 }

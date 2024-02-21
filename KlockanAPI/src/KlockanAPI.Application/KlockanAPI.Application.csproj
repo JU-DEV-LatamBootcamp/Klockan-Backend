@@ -8,12 +8,10 @@
 
 	<ItemGroup>
 		<None Remove="Mappings\.gitkeep" />
-		<None Remove="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Compile Include="Mappings\.gitkeep" />
-		<Compile Include="Validators\Interfaces\.gitkeep" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,35 +1,36 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using KlockanAPI.Application.Services.Interfaces;
-using KlockanAPI.Application.DTOs.Classroom;
+using KlockanAPI.Application.DTOs.Schedule;
 using Asp.Versioning;
+using KlockanAPI.Application.Services.Interfaces;
+
 
 namespace KlockanAPI.Presentation.Controllers;
 
 [ApiController]
 [Route("api/v{version:apiVersion}/[controller]")]
 [ApiVersion("1.0")]
-public class ClassroomsController : ControllerBase
+public class SchedulesController : ControllerBase
 {
-    private readonly IClassroomService _classroomService;
+    private readonly IScheduleService _ScheduleService;
 
-    public ClassroomsController(IClassroomService classroomService)
+    public SchedulesController(IScheduleService Scheduleservice)
     {
-        _classroomService = classroomService;
+        _ScheduleService = Scheduleservice;
     }
 
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<ClassroomDTO>>> GetAllClassrooms()
+    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetAllSchedules()
     {
-        var classrooms = await _classroomService.GetAllClassroomsAsync();
-        return Ok(classrooms);
+        var Schedules = await _ScheduleService.GetAllSchedulesAsync();
+        return Ok(Schedules);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateScheduleDTO createClassroomDTO)
+    public async Task<ActionResult<ScheduleDTO>> CreateSchedule([FromBody] CreateScheduleDTO createScheduleDTO)
     {
         if (!ModelState.IsValid)
         {
@@ -38,8 +39,8 @@ public class ClassroomsController : ControllerBase
 
         try
         {
-            var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
-            return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
+            var createdScheduleDTO = await _ScheduleService.CreateScheduleAsync(createScheduleDTO);
+            return CreatedAtAction(null, new { id = createdScheduleDTO.Id }, createdScheduleDTO);
         }
         catch (Exception ex)
         {
@@ -51,7 +52,7 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ClassroomDTO>> DeleteClassroom(int id)
+    public async Task<ActionResult<ScheduleDTO>> DeleteSchedule(int id)
     {
         throw new NotImplementedException();
     }
