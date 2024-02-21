@@ -13,7 +13,14 @@ Authorization: {{token}}
 {
   "startDate": "2024-08-28",
   "programId": "1",
-  "courseId": "1"
+  "courseId": "1",
+  "schedule": [
+    {
+      "weekdayId": 1,
+      "startTime": "00:00:00",
+      "FinishTime": "00:00:00"
+    }
+  ]
 }
 
 ###

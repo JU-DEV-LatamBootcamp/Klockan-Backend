@@ -33,8 +33,6 @@ public static class ApplicactionServiceRegistration
             .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateScheduleDTOValidator>();
 
-
-
         return services;
     }
 }

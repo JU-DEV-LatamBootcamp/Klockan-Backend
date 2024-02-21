@@ -42,6 +42,7 @@ public class ClassroomsController : ControllerBase
         try
         {
             var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
+
             return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
         }
         catch (Exception ex)

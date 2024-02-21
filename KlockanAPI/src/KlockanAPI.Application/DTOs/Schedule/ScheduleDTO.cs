@@ -6,5 +6,5 @@ public class ScheduleDTO
     public int WeekdayId { get; set; }
     public int ClassroomId { get; set; }
     public TimeOnly StartTime { get; set; }
-    public TimeOnly FinisihTime { get; set; }
+    public TimeOnly FinishTime { get; set; }
 }
