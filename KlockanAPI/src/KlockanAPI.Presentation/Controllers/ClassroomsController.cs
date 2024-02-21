@@ -29,7 +29,7 @@ public class ClassroomsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateScheduleDTO createClassroomDTO)
+    public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateClassroomDTO createClassroomDTO)
     {
         if (!ModelState.IsValid)
         {
