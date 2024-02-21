@@ -3,6 +3,7 @@ using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.DTOs.Schedule;
 
 
 
@@ -23,6 +24,7 @@ public class ClassroomService : IClassroomService
     {
         var classroom = _mapper.Map<Classroom>(createClassroomDTO);
         var createdClassroom = await _classroomRepository.CreateClassroomAsync(classroom);
+
         return _mapper.Map<ClassroomDTO>(createdClassroom);
     }
 
@@ -31,6 +33,27 @@ public class ClassroomService : IClassroomService
     {
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
+    }
+
+    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules)
+    {
+        var schedules = classroomSchedules.Aggregate(
+            new List<CreateScheduleDTO>(),
+            (schedules, createClassroomSchedule) =>
+            {
+                var newSchedule = new CreateScheduleDTO(
+                    createClassroomSchedule.WeekdayId,
+                    id,
+                    createClassroomSchedule.StartTime,
+                    createClassroomSchedule.FinishTime
+                );
+                schedules.Add(newSchedule);
+
+                return schedules;
+            }
+        );
+
+        return schedules;
     }
 }
 

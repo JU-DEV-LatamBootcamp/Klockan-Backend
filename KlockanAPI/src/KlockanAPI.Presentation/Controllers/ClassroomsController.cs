@@ -42,6 +42,9 @@ public class ClassroomsController : ControllerBase
         try
         {
             var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
+            var createSchedulesDTOs = _classroomService.MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(createdClassroomDTO.Id, createClassroomDTO.Schedule);
+
+            await _scheduleService.CreateManySchedulesAsync(createSchedulesDTOs);
 
             return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
         }
@@ -67,6 +70,7 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ClassroomDTO>> DeleteClassroom(int id)
     {
+        await Task.FromResult(-1);
         throw new NotImplementedException();
     }
 }

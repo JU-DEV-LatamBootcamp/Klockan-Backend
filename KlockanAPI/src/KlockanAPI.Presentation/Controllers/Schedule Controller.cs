@@ -42,7 +42,7 @@ public class SchedulesController : ControllerBase
         try
         {
 
-            var createdScheduleDTO = await _ScheduleService.CreateScheduleAsync(createScheduleDTO,id);
+            var createdScheduleDTO = await _ScheduleService.CreateScheduleAsync(createScheduleDTO, id);
             return CreatedAtAction(null, new { createdScheduleDTO });
 
 
@@ -60,6 +60,7 @@ public class SchedulesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<ScheduleDTO>> DeleteSchedule(int id)
     {
+        await Task.FromResult(-1);
         throw new NotImplementedException();
     }
 }

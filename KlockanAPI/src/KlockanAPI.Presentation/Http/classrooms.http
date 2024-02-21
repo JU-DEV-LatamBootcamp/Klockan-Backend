@@ -18,13 +18,18 @@ Authorization: {{token}}
     {
       "weekdayId": 1,
       "startTime": "00:00:00",
-      "FinishTime": "00:00:00"
+      "finishTime": "00:00:00"
+    },
+    {
+      "weekdayId": 2,
+      "startTime": "00:00:00",
+      "finishTime": "00:00:00"
     }
   ]
 }
 
 ###
-@classroom_id = 1
+@classroom_id = 62
 
 GET {{classrooms_url}}/{{classroom_id}}/schedules
 Accept: application/json

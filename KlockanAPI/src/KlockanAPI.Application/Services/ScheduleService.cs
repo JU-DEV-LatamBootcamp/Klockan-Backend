@@ -36,13 +36,13 @@ public class ScheduleService : IScheduleService
         foreach (CreateScheduleDTO cShedule in createScheduleDTO)
         {
             cShedule.ClassroomId = id;
-            await CreateSAsync(cShedule);
+            await CreateScheduleAsync(cShedule);
         }
 
         return _mapper.Map<List<ScheduleDTO>>(createScheduleDTO);
     }
 
-    public async Task<ScheduleDTO> CreateSAsync(CreateScheduleDTO createScheduleDTO)
+    public async Task<ScheduleDTO> CreateScheduleAsync(CreateScheduleDTO createScheduleDTO)
     {
         var schedule = _mapper.Map<Schedule>(createScheduleDTO);
         var createdSchedule = await _scheduleRepository.CreateScheduleAsync(schedule);
@@ -55,5 +55,12 @@ public class ScheduleService : IScheduleService
         var Schedules = await _scheduleRepository.GetAllSchedulesAsync();
         return _mapper.Map<IEnumerable<ScheduleDTO>>(Schedules);
     }
-}
 
+    public async Task<bool> CreateManySchedulesAsync(List<CreateScheduleDTO> createScheduleDTOs)
+    {
+        var schedules = _mapper.Map<List<Schedule>>(createScheduleDTOs);
+        var result = await _scheduleRepository.CreateManySchedulesAsync(schedules);
+
+        return result;
+    }
+}

@@ -37,4 +37,12 @@ public class ScheduleRepository : IScheduleRepository
 
         return Schedules;
     }
+
+    public async Task<bool> CreateManySchedulesAsync(IEnumerable<Schedule> schedules)
+    {
+        _context.Schedules.AddRange(schedules);
+
+        return await Task.FromResult(true);
+    }
+
 }
