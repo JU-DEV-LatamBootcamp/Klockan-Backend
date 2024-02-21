@@ -17,19 +17,16 @@ jobs:
       id: time
       uses: nanzm/get-time-action@master
       with:
-        timeZone: UTC+8
+        timeZone: GMT-3
         format: 'YYYY-MM-DD-HH-mm-ss'
       env:
         TIME: "${{ steps.time.outputs.time }}"      
-##    - name: Get current date # get the date of the build
- ##     id: date
-##      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
     - name: Build the Docker image
       run: docker-compose build
     - name: Tagin back
-      run: docker tag klockan-backend:v1 klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}${{ steps.time.outputs.time }} 
+      run: docker tag klockan-backend:v1 klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ steps.time.outputs.time }} 
     - name: Push to
-      run: docker push klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}${{ steps.time.outputs.time }} 
+      run: docker push klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ steps.time.outputs.time }} 
     - name: Tagin frontend with latest
       run: docker tag klockan-backend:v1 klockan/backend:latest
     - name: Push to docker hub
