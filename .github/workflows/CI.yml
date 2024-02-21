@@ -20,10 +20,10 @@ jobs:
         timeZone: UTC+8
         format: 'YYYY-MM-DD-HH-mm-ss'
       env:
-        TIME: " ${{ steps.time.outputs.time }}"      
-    - name: Get current date # get the date of the build
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
+        TIME: "| ${{ steps.time.outputs.time }}"      
+##    - name: Get current date # get the date of the build
+ ##     id: date
+##      run: echo "::set-output name=date::$(date +'%Y-%m-%d--%M-%S')"
     - name: Build the Docker image
       run: docker-compose build
     - name: Tagin back
