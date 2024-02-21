@@ -3,21 +3,32 @@ using KlockanAPI.Application.DTOs.Schedule;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
-
-
-
+using KlockanAPI.Application.CrossCutting;
 
 namespace KlockanAPI.Application.Services;
 
 public class ScheduleService : IScheduleService
 {
-    private readonly IScheduleRepository _ScheduleRepository;
+    private readonly IScheduleRepository _scheduleRepository;
+    private readonly IClassroomRepository _classroomRepository;
     private readonly IMapper _mapper;
 
-    public ScheduleService(IScheduleRepository ScheduleRepository, IMapper mapper)
+    public ScheduleService(IScheduleRepository scheduleRepository, IClassroomRepository classroomRepository, IMapper mapper)
     {
-        _ScheduleRepository = ScheduleRepository;
+        _scheduleRepository = scheduleRepository;
+        _classroomRepository = classroomRepository;
         _mapper = mapper;
+    }
+
+    public async Task<List<ScheduleDTO>> GetSchedulesByClassroomIdAsync(int classroomId)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(classroomId);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with id {classroomId} not found");
+
+        var schedules = await _scheduleRepository.GetAllSchedulesByClassroomIdAsync(classroomId);
+        var schedulesDTOs = _mapper.Map<List<ScheduleDTO>>(schedules);
+
+        return schedulesDTOs;
     }
 
     public async Task<List<ScheduleDTO>> CreateScheduleAsync(List<CreateScheduleDTO> createScheduleDTO, int id)
@@ -25,7 +36,7 @@ public class ScheduleService : IScheduleService
         foreach (CreateScheduleDTO cShedule in createScheduleDTO)
         {
             cShedule.ClassroomId = id;
-            CreateSAsync(cShedule);
+            await CreateSAsync(cShedule);
         }
 
         return _mapper.Map<List<ScheduleDTO>>(createScheduleDTO);
@@ -34,16 +45,15 @@ public class ScheduleService : IScheduleService
     public async Task<ScheduleDTO> CreateSAsync(CreateScheduleDTO createScheduleDTO)
     {
         var schedule = _mapper.Map<Schedule>(createScheduleDTO);
-        var createdSchedule = await _ScheduleRepository.CreateScheduleAsync(schedule);
+        var createdSchedule = await _scheduleRepository.CreateScheduleAsync(schedule);
         return _mapper.Map<ScheduleDTO>(createdSchedule);
     }
 
 
     public async Task<IEnumerable<ScheduleDTO>> GetAllSchedulesAsync()
     {
-        var Schedules = await _ScheduleRepository.GetAllSchedulesAsync();
+        var Schedules = await _scheduleRepository.GetAllSchedulesAsync();
         return _mapper.Map<IEnumerable<ScheduleDTO>>(Schedules);
     }
-
 }
 

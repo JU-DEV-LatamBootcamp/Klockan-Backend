@@ -17,10 +17,7 @@ public class ScheduleRepository : IScheduleRepository
 
     public async Task<IEnumerable<Schedule>> GetAllSchedulesAsync()
     {
-        var Schedules = await Task.FromResult(_context.Schedules
-            .Include(c => c.Classroom)
-            .Include(c => c.Weekday)
-            .ToList());
+        var Schedules = await Task.FromResult(_context.Schedules.ToList());
 
         return Schedules;
     }
@@ -32,5 +29,12 @@ public class ScheduleRepository : IScheduleRepository
         return Schedule;
     }
 
-  
+    public async Task<IEnumerable<Schedule>> GetAllSchedulesByClassroomIdAsync(int id)
+    {
+        var Schedules = await Task.FromResult(_context.Schedules
+            .Where(s => s.ClassroomId == id)
+            .ToList());
+
+        return Schedules;
+    }
 }

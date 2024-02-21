@@ -2,6 +2,7 @@
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Classroom;
 using Asp.Versioning;
+using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -11,10 +12,12 @@ namespace KlockanAPI.Presentation.Controllers;
 public class ClassroomsController : ControllerBase
 {
     private readonly IClassroomService _classroomService;
+    private readonly IScheduleService _scheduleService;
 
-    public ClassroomsController(IClassroomService classroomService)
+    public ClassroomsController(IClassroomService classroomService, IScheduleService scheduleService)
     {
         _classroomService = classroomService;
+        _scheduleService = scheduleService;
     }
 
     [HttpGet]
@@ -45,6 +48,16 @@ public class ClassroomsController : ControllerBase
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
+    }
+
+    [HttpGet("{id}/schedules")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetClassroomSchedules(int id)
+    {
+        var schedules = await _scheduleService.GetSchedulesByClassroomIdAsync(id);
+
+        return schedules;
     }
 
     [HttpDelete("{id}")]

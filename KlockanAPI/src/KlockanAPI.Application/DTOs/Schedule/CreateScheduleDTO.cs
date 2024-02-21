@@ -1,6 +1,4 @@
-﻿
-
-namespace KlockanAPI.Application.DTOs.Schedule;
+﻿namespace KlockanAPI.Application.DTOs.Schedule;
 
 public class CreateScheduleDTO
 {
@@ -8,5 +6,4 @@ public class CreateScheduleDTO
     public int ClassroomId { get; set; }
     public TimeOnly StartTime { get; set; }
     public TimeOnly FinisihTime { get; set; }
-
 }

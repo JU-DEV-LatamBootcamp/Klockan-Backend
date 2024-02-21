@@ -252,5 +252,81 @@ public class KlockanContext : DbContext
             Time = new TimeOnly(15, 30, 0),
         });
 
+        // Seed data for Weekday
+        modelBuilder.Entity<Weekday>().HasData(
+        new Weekday
+        {
+            Id = 1,
+            Name = "Sunday"
+        },
+        new Weekday
+        {
+            Id = 2,
+            Name = "Monday"
+        },
+        new Weekday
+        {
+            Id = 3,
+            Name = "Tuesday"
+        },
+        new Weekday
+        {
+            Id = 4,
+            Name = "Wednesday"
+        },
+        new Weekday
+        {
+            Id = 5,
+            Name = "Thursday"
+        },
+        new Weekday
+        {
+            Id = 6,
+            Name = "Friday"
+        },
+        new Weekday
+        {
+            Id = 7,
+            Name = "Saturday"
+        });
+
+        // Seed data for Schedule
+        modelBuilder.Entity<Schedule>().HasData(
+        new Schedule
+        {
+            Id = 1,
+            ClassroomId = 1,
+            WeekdayId = 1,
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            StartTime = new TimeOnly(15, 30, 0),
+            FinishTime = new TimeOnly(16, 30, 0),
+        },
+        new Schedule
+        {
+            Id = 2,
+            ClassroomId = 1,
+            WeekdayId = 3,
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            StartTime = new TimeOnly(15, 30, 0),
+            FinishTime = new TimeOnly(16, 30, 0),
+        },
+        new Schedule
+        {
+            Id = 3,
+            ClassroomId = 1,
+            WeekdayId = 5,
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            StartTime = new TimeOnly(15, 30, 0),
+            FinishTime = new TimeOnly(16, 30, 0),
+        },
+        new Schedule
+        {
+            Id = 4,
+            ClassroomId = 2,
+            WeekdayId = 7,
+            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            StartTime = new TimeOnly(15, 30, 0),
+            FinishTime = new TimeOnly(16, 30, 0),
+        });
     }
 }
