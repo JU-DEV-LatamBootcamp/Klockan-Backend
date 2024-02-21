@@ -19,7 +19,7 @@ public class ClassroomService : IClassroomService
         _mapper = mapper;
     }
 
-    public async Task<ClassroomDTO> CreateClassroomAsync(CreateScheduleDTO createClassroomDTO)
+    public async Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO)
     {
         var classroom = _mapper.Map<Classroom>(createClassroomDTO);
         var createdClassroom = await _classroomRepository.CreateClassroomAsync(classroom);
