@@ -18,7 +18,7 @@ jobs:
       uses: nanzm/get-time-action@master
       with:
         timeZone: GMT-3
-        format: 'YYYY-MM-DD-HH-mm-ss'
+        format: 'YYYY-MM-DD'
       env:
         TIME: "${{ steps.time.outputs.time }}"      
     - name: Build the Docker image
