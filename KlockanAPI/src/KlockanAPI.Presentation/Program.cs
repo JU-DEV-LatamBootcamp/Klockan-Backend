@@ -41,8 +41,9 @@ public class Program
         app.UseCors(c =>
         {
             var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
+            var allowedOriginsString = string.Join(",", allowedOrigins!);
             if(allowedOrigins is not null)
-                c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
+                c.WithOrigins(allowedOriginsString).AllowAnyHeader().AllowAnyMethod();
         });
 
         // app.UseHttpsRedirection();
