@@ -7,5 +7,5 @@ public interface IClassroomService
 {
     Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync();
 
-    Task<ClassroomDTO> CreateClassroomAsync(CreateScheduleDTO createClassroomDTO);
+    Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO);
 }
