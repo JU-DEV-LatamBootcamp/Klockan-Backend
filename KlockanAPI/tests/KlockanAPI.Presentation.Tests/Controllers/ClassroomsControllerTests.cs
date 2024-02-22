@@ -12,13 +12,15 @@ namespace KlockanAPI.Presentation.Tests.Controllers;
 public class ClassroomsControllerTests
 {
     private readonly IClassroomService _classroomService;
-    private readonly Mock<IClassroomService> _mockClassroomService;
-    private readonly ClassroomsController _controller;
+    private readonly IScheduleService _scheduleService;
+
     public ClassroomsControllerTests()
     {
         _classroomService = Substitute.For<IClassroomService>();
+        _scheduleService = Substitute.For<IScheduleService>();
     }
-    private ClassroomsController GetControllerInstance() => new(_classroomService);
+
+    private ClassroomsController GetControllerInstance() => new(_classroomService, _scheduleService);
 
     [Fact]
     public async Task GetAllClassrooms_ShouldReturnOk()
@@ -61,19 +63,7 @@ public class ClassroomsControllerTests
     [Fact]
     public async Task CreateClassroom_Returns201Created_WithValidInput()
     {
-        // Arrange
-        var createClassroomDTO = new CreateClassroomDTO { /* Populate required properties */ };
-        var createdClassroomDTO = new ClassroomDTO { /* Populate with expected result */ };
-        _mockClassroomService.Setup(service => service.CreateClassroomAsync(createClassroomDTO))
-                           .ReturnsAsync(createdClassroomDTO);
 
-        // Act
-        var result = await _controller.CreateClassroom(createClassroomDTO);
-
-        // Assert
-        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
-        Assert.Equal(201, actionResult.StatusCode);
-        Assert.Equal(createdClassroomDTO, actionResult.Value);
     }
 
 

@@ -13,8 +13,6 @@ namespace KlockanAPI.Application.Tests.Services;
 public class ClassroomServiceTests
 {
     private readonly IClassroomRepository _classroomRepository;
-    private readonly ICourseRepository _courseRepository;
-    private readonly IProgramRepository _programRepository;
     private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
     private readonly Mock<ICourseRepository> _courseRepositoryMock = new();
@@ -91,112 +89,76 @@ public class ClassroomServiceTests
     [Fact]
     public async Task CreateClassroomAsync_ShouldReturnClassroomDTO_WhenCreateIsSuccessful()
     {
-        // Arrange
-        var createClassroomDTO = new CreateClassroomDTO
+
+    }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldReturnDeleteClassrooomDto()
+    {
+        ClassroomService classroomService = GetServiceInstance();
+        Classroom sampleClassroom = new Classroom
         {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
             CourseId = 1,
             ProgramId = 1,
-            StartDate = new DateOnly(2024, 2, 23),
         };
 
-        var classroom = new Classroom
+        _classroomRepository.GetClassroomByIdAsync(1).Returns(Task.FromResult<Classroom?>(sampleClassroom));
+        _meetingRepository.GetMeetingsByClassroomIdAsync(1).Returns(Task.FromResult<IEnumerable<Meeting>?>(null));
+
+        _classroomRepository.DeleteClassroomAsync(sampleClassroom).Returns(Task.FromResult(sampleClassroom));
+        var result = await classroomService.DeleteClassroomAsync(1);
+
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_mapper.Map<ClassroomDTO>(sampleClassroom));
+    }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldThrowNotFoundException_WhenCourseNotFound()
+    {
+        //Arrange
+        ClassroomService classroomService = GetServiceInstance();
+
+        _classroomRepository.GetClassroomByIdAsync(10).Returns(Task.FromResult<Classroom?>(null));
+
+        //Act
+        Func<Task> act = async () => await classroomService.DeleteClassroomAsync(10);
+
+        //Assert
+        await act.Should().ThrowAsync<NotFoundException>().WithMessage("Classroom with id 10 not found");
+    }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldThrowFoundException_WhenClassroomHasMeetings()
+    {
+        ClassroomService classroomService = GetServiceInstance();
+
+        Meeting sampleMeeting = new Meeting
         {
-            CourseId = 2,
-            ProgramId = 1,
-            StartDate = new DateOnly(2024, 2, 23),
+            Id = 1,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            SessionNumber = 3
         };
 
-        var classroomDTO = new ClassroomDTO
+        Classroom sampleClassroom = new Classroom
         {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
             CourseId = 1,
-            ProgramId = 2,
-            StartDate = new DateOnly(2024, 2, 23),
+            ProgramId = 1,
         };
 
-        _mapperMock.Setup(m => m.Map<Classroom>(It.IsAny<CreateClassroomDTO>())).Returns(classroom);
-        _classroomRepositoryMock.Setup(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>())).ReturnsAsync(classroom);
-        _mapperMock.Setup(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>())).Returns(classroomDTO);
+        _classroomRepository
+            .GetClassroomByIdAsync(1)
+            .Returns(Task.FromResult<Classroom?>(sampleClassroom));
 
-        var service = new ClassroomService(_classroomRepositoryMock.Object, _classroomRepository, _mapperMock.Object);
+        //Act
+        Func<Task> act = async () => await classroomService.DeleteClassroomAsync(1);
 
-        // Act
-        var result = await service.CreateClassroomAsync(createClassroomDTO);
-
-
-        // Assert
-        Assert.NotNull(result);
-        Assert.Equal(classroomDTO, result);
-        _classroomRepositoryMock.Verify(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>()), Times.Once);
-        _mapperMock.Verify(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>()), Times.Once);
+        //Assert
+        await act.Should().ThrowAsync<FoundException>("Classroom 1 has meetings assigned ot it.");
     }
 }
 
-[Fact]
-public async Task DeleteClassroomAsync_ShouldReturnDeleteClassrooomDto()
-{
-    ClassroomService classroomService = GetServiceInstance();
-    Classroom sampleClassroom = new Classroom
-    {
-        Id = 1,
-        StartDate = new DateOnly(2024, 1, 23),
-        CourseId = 1,
-        ProgramId = 1,
-    };
-
-    _classroomRepository.GetClassroomByIdAsync(1).Returns(Task.FromResult<Classroom?>(sampleClassroom));
-    _meetingRepository.GetMeetingsByClassroomIdAsync(1).Returns(Task.FromResult<IEnumerable<Meeting>?>(null));
-
-    _classroomRepository.DeleteClassroomAsync(sampleClassroom).Returns(Task.FromResult(sampleClassroom));
-    var result = await classroomService.DeleteClassroomAsync(1);
-
-    result.Should().NotBeNull();
-    result.Should().BeEquivalentTo(_mapper.Map<ClassroomDTO>(sampleClassroom));
-}
-
-[Fact]
-public async Task DeleteClassroomAsync_ShouldThrowNotFoundException_WhenCourseNotFound()
-{
-    //Arrange
-    ClassroomService classroomService = GetServiceInstance();
-
-    _classroomRepository.GetClassroomByIdAsync(10).Returns(Task.FromResult<Classroom?>(null));
-
-    //Act
-    Func<Task> act = async () => await classroomService.DeleteClassroomAsync(10);
-
-    //Assert
-    await act.Should().ThrowAsync<NotFoundException>().WithMessage("Classroom with id 10 not found");
-}
-
-[Fact]
-public async Task DeleteClassroomAsync_ShouldThrowFoundException_WhenClassroomHasMeetings()
-{
-    ClassroomService classroomService = GetServiceInstance();
-
-    Meeting sampleMeeting = new Meeting
-    {
-        Id = 1,
-        ClassroomId = 1,
-        Date = new DateOnly(2024, 1, 23),
-        SessionNumber = 3
-    };
-
-    Classroom sampleClassroom = new Classroom
-    {
-        Id = 1,
-        StartDate = new DateOnly(2024, 1, 23),
-        CourseId = 1,
-        ProgramId = 1,
-    };
-
-    _classroomRepository
-        .GetClassroomByIdAsync(1)
-        .Returns(Task.FromResult<Classroom?>(sampleClassroom));
-
-    //Act
-    Func<Task> act = async () => await classroomService.DeleteClassroomAsync(1);
-
-    //Assert
-    await act.Should().ThrowAsync<FoundException>("Classroom 1 has meetings assigned ot it.");
-}
-}

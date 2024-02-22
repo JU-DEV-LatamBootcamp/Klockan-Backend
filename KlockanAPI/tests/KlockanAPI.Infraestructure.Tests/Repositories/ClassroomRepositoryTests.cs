@@ -32,49 +32,29 @@ public class ClassroomRepositoryTests : IDisposable
     public async Task GetAllClassroomsAsync_ShouldReturnClassroomDTOs()
     {
         // Arrange
-        var classroomsSample = new List<Classroom>
-        {
-            new Classroom
-            {
-                Id = 1,
-                CourseId = 1,
-                ProgramId = 1,
-                StartDate = new DateOnly(2024, 2, 23),
-                Meetings = [],
-                Schedule = [],
-                ClassroomUsers = [],
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new Classroom
-            {
-                Id = 2,
-                CourseId = 2,
-                ProgramId = 1,
-                StartDate = new DateOnly(2024, 2, 23),
-                Meetings = [],
-                Schedule = [],
-                ClassroomUsers = [],
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            },
-            new Classroom
-            {
-                Id = 3,
-                CourseId = 1,
-                ProgramId = 2,
-                StartDate = new DateOnly(2024, 2, 23),
-                Meetings = [],
-                Schedule = [],
-                ClassroomUsers = [],
-                CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
-            }
+        var programsSample = new List<Program> {
+            new Program { Id = 1, Name = "First Program" }
         };
 
+        var coursesSample = new List<Course> {
+            new Course { Id = 1, Name = "First Course" }
+        };
 
+        var classroomsSample = new List<Classroom>
+        {
+            new Classroom { Id = 1, StartDate = new DateOnly(2024, 1, 23), CourseId = 1, ProgramId = 1 },
+            new Classroom { Id = 2, StartDate = new DateOnly(2024, 1, 30), CourseId = 1, ProgramId = 1 },
+            new Classroom { Id = 3, StartDate = new DateOnly(2024, 2, 6), CourseId = 1, ProgramId = 1 }
+        };
+
+        _context.Programs.AddRange(programsSample);
+        _context.Courses.AddRange(coursesSample);
         _context.Classrooms.AddRange(classroomsSample);
-        _context.Classrooms.AddRange(classroomsSample);
+
         await _context.SaveChangesAsync();
 
         var repository = GetRepositoryInstance();
+
         // Act
         var result = await repository.GetAllClassroomsAsync();
 
