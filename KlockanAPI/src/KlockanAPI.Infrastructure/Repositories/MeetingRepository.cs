@@ -92,7 +92,7 @@ public class MeetingRepository : IMeetingRepository
                     await _context.SaveChangesAsync();
                 }
             }
-            //meetingAttendance.Select(ma => ma.ClassroomUserId)
+
             await _context.MeetingAttendances.AddRangeAsync(meetingAttendance);
             await _context.SaveChangesAsync();
         }
