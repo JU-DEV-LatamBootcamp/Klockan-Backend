@@ -299,7 +299,6 @@ public class KlockanContext : DbContext
             WeekdayId = 1,
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             StartTime = new TimeOnly(15, 30, 0),
-            FinishTime = new TimeOnly(16, 30, 0),
         },
         new Schedule
         {
@@ -308,7 +307,6 @@ public class KlockanContext : DbContext
             WeekdayId = 3,
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             StartTime = new TimeOnly(15, 30, 0),
-            FinishTime = new TimeOnly(16, 30, 0),
         },
         new Schedule
         {
@@ -317,7 +315,6 @@ public class KlockanContext : DbContext
             WeekdayId = 5,
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             StartTime = new TimeOnly(15, 30, 0),
-            FinishTime = new TimeOnly(16, 30, 0),
         },
         new Schedule
         {
@@ -326,7 +323,6 @@ public class KlockanContext : DbContext
             WeekdayId = 7,
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             StartTime = new TimeOnly(15, 30, 0),
-            FinishTime = new TimeOnly(16, 30, 0),
         });
     }
 }

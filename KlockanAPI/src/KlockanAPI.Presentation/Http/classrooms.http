@@ -17,19 +17,17 @@ Authorization: {{token}}
   "schedule": [
     {
       "weekdayId": 1,
-      "startTime": "00:00:00",
-      "finishTime": "00:00:00"
+      "startTime": "00:00:00"
     },
     {
       "weekdayId": 2,
-      "startTime": "00:00:00",
-      "finishTime": "00:00:00"
+      "startTime": "00:00:00"
     }
   ]
 }
 
 ###
-@classroom_id = 62
+@classroom_id = 72
 
 GET {{classrooms_url}}/{{classroom_id}}/schedules
 Accept: application/json

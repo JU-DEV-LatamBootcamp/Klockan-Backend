@@ -44,8 +44,7 @@ public class ClassroomService : IClassroomService
                 var newSchedule = new CreateScheduleDTO(
                     createClassroomSchedule.WeekdayId,
                     id,
-                    createClassroomSchedule.StartTime,
-                    createClassroomSchedule.FinishTime
+                    createClassroomSchedule.StartTime
                 );
                 schedules.Add(newSchedule);
 
