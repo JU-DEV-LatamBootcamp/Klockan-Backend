@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
 
 using KlockanAPI.Presentation;
 using KlockanAPI.Infrastructure.Data;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace KlockanAPI.Integration.Tests;
 
@@ -37,12 +37,14 @@ public class KlockanApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         builder.ConfigureTestServices(services =>
         {
-            var descriptorType = typeof(DbContextOptions<KlockanContext>);
-            var descriptor = services.SingleOrDefault(sd => sd.ServiceType == descriptorType);
 
-            if(descriptor is not null)
+            var descriptorType = typeof(DbContextOptions<KlockanContext>);
+            var descriptorPostgres = services.SingleOrDefault(sd => sd.ServiceType == descriptorType);
+
+
+            if(descriptorPostgres is not null)
             {
-                services.Remove(descriptor);
+                services.Remove(descriptorPostgres);
             }
 
             Console.WriteLine("From testing " + _postgreSqlContainer!.GetConnectionString());
@@ -54,6 +56,12 @@ public class KlockanApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
                     .EnableSensitiveDataLogging();
             });
 
+            // Aplicar migraciones
+            using(var scope = services.BuildServiceProvider().CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<KlockanContext>();
+                dbContext.Database.Migrate();
+            }
 
         });
     }
@@ -62,6 +70,4 @@ public class KlockanApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         await _postgreSqlContainer!.DisposeAsync();
     }
-
-
 }
