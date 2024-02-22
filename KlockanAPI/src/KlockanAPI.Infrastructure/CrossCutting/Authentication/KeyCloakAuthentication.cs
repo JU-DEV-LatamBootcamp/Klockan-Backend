@@ -37,10 +37,8 @@ public static class KeyCloakAuthentication
                         var token = context.SecurityToken as JwtSecurityToken;
                         if(token != null)
                         {
-                            // Obtener el valor del campo 'jit' del token
                             var jit = token.Payload["jit"] as string;
 
-                            // Validar el token con cada certificado
                             foreach(var cert in certs)
                             {
                                 var jwk = new JsonWebKey(cert);
@@ -48,8 +46,8 @@ public static class KeyCloakAuthentication
                                 {
                                     ValidateIssuerSigningKey = true,
                                     IssuerSigningKey = jwk,
-                                    ValidateIssuer = false, // Puedes establecer esto según tus necesidades
-                                    ValidateAudience = false // Puedes establecer esto según tus necesidades
+                                    ValidateIssuer = true,
+                                    ValidateAudience = false
                                 };
 
                                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -57,18 +55,16 @@ public static class KeyCloakAuthentication
                                 try
                                 {
                                     tokenHandler.ValidateToken(jit, validationParameters, out validatedToken);
-                                    // Si el token se valida con éxito, establece el JsonWebKey y termina la búsqueda
+
                                     context.Options.TokenValidationParameters.IssuerSigningKey = jwk;
                                     break;
                                 }
                                 catch(SecurityTokenSignatureKeyNotFoundException)
                                 {
-                                    // El certificado no coincidió, continuar con el siguiente
                                     continue;
                                 }
                                 catch(SecurityTokenInvalidSignatureException)
                                 {
-                                    // El certificado no coincidió, continuar con el siguiente
                                     continue;
                                 }
                             }
