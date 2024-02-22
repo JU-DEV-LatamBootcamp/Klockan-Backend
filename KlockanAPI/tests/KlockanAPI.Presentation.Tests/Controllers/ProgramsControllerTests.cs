@@ -122,6 +122,7 @@ public class ProgramsControllerTests
         programData.Should().BeEquivalentTo(sampleProgram);
     }
 
+
     [Fact]
     public async Task EditProgram_ShouldReturnOk()
     {
@@ -150,4 +151,77 @@ public class ProgramsControllerTests
         var programData = okResult?.Value as ProgramDTO;
         programData.Should().BeEquivalentTo(sampleProgram);
     }
+    [Fact]
+    public async Task EditProgram_WhenValidData_ReturnsOk()
+    {
+        //Arrange
+        ProgramDTO sampleProgram = new ProgramDTO
+        {
+            Id = 1,
+            Name = "Edited Frontend Development",
+            Description = "Program to develop Web Applications focusing on HTML, CSS.",
+        };
+
+        _programService.EditProgramAsync(sampleProgram).Returns(Task.FromResult<ProgramDTO?>(sampleProgram)!);
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.EditProgram(sampleProgram);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ProgramDTO>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var programData = okResult?.Value as ProgramDTO;
+        programData.Should().BeEquivalentTo(sampleProgram);
+    }
+
+    [Fact]
+    public async Task EditProgram_WhenInvalidData_ReturnsBadRequest()
+    {
+        // Arrange
+        ProgramDTO invalidProgram = new ProgramDTO(); // Datos no válidos, debería activar el ModelState.IsValid false
+        var controller = GetControllerInstance();
+        controller.ModelState.AddModelError("Name", "Name is required"); // Agregar un error de modelo simulado
+
+        // Act
+        var result = await controller.EditProgram(invalidProgram);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ProgramDTO>>();
+        result.Result.Should().BeOfType<BadRequestObjectResult>();
+
+        (result?.Result as BadRequestObjectResult)?.StatusCode.Should().Be(400);
+    }
+
+    [Fact]
+    public async Task EditProgram_WhenServiceThrowsException_ReturnsInternalServerError()
+    {
+        // Arrange
+        ProgramDTO sampleProgram = new ProgramDTO
+        {
+            Id = 1,
+            Name = "Edited Frontend Development",
+            Description = "Program to develop Web Applications focusing on HTML, CSS.",
+        };
+
+        _programService
+            .When(x => x.EditProgramAsync(Arg.Any<ProgramDTO>()))
+            .Throw(new Exception("Something went wrong in the service")); // Forzar que el servicio arroje una excepción
+        var controller = GetControllerInstance();
+
+        // Act
+        var result = await controller.EditProgram(sampleProgram);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ProgramDTO>>();
+        result.Result.Should().BeOfType<ObjectResult>();
+
+        (result?.Result as ObjectResult)?.StatusCode.Should().Be(500);
+        (result?.Result as ObjectResult)?.Value.Should().Be("Internal server error: Something went wrong in the service");
+    }
+
 }

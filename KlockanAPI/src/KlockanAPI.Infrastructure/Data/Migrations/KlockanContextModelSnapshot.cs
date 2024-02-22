@@ -54,6 +54,552 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "BA",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7870),
+                            Name = "Buenos Aires"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "COR",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7872),
+                            Name = "Córdoba"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "ROS",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7873),
+                            Name = "Rosario"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "MDZ",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7874),
+                            Name = "Mendoza"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "TUC",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7875),
+                            Name = "San Miguel de Tucumán"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "LP",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7876),
+                            Name = "La Plata"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "MDQ",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7877),
+                            Name = "Mar del Plata"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "SLA",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7878),
+                            Name = "Salta"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "SFN",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7879),
+                            Name = "Santa Fe"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "SJU",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7880),
+                            Name = "San Juan"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "TUC",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7881),
+                            Name = "Tucumán"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "NEU",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7882),
+                            Name = "Neuquén"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "BHI",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7883),
+                            Name = "Bahía Blanca"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "RES",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7884),
+                            Name = "Resistencia"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "FOR",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7885),
+                            Name = "Formosa"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "COR",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7886),
+                            Name = "Corrientes"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "POS",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7886),
+                            Name = "Posadas"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "JUJ",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7887),
+                            Name = "San Salvador de Jujuy"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "PAR",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7888),
+                            Name = "Paraná"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "SRO",
+                            CountryId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7889),
+                            Name = "Santa Rosa"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "LP",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7890),
+                            Name = "La Paz"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            Code = "SCZ",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7891),
+                            Name = "Santa Cruz de la Sierra"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            Code = "CBBA",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7892),
+                            Name = "Cochabamba"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Code = "SUC",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7893),
+                            Name = "Sucre"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            Code = "TJA",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7894),
+                            Name = "Tarija"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            Code = "PTS",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7895),
+                            Name = "Potosí"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            Code = "ORU",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7950),
+                            Name = "Oruro"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            Code = "CBI",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7951),
+                            Name = "Cobija"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            Code = "TRI",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7952),
+                            Name = "Trinidad"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            Code = "RIB",
+                            CountryId = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7953),
+                            Name = "Riberalta"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            Code = "SP",
+                            CountryId = 3,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7953),
+                            Name = "São Paulo"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            Code = "RJ",
+                            CountryId = 3,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7954),
+                            Name = "Rio de Janeiro"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            Code = "SCL",
+                            CountryId = 4,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7955),
+                            Name = "Santiago"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            Code = "VAL",
+                            CountryId = 4,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7957),
+                            Name = "Valparaíso"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            Code = "BOG",
+                            CountryId = 5,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7958),
+                            Name = "Bogotá"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            Code = "MDE",
+                            CountryId = 5,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7959),
+                            Name = "Medellín"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            Code = "SJ",
+                            CountryId = 6,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7960),
+                            Name = "San José"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            Code = "LM",
+                            CountryId = 6,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7961),
+                            Name = "Limon"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            Code = "LH",
+                            CountryId = 7,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7962),
+                            Name = "La Habana"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            Code = "SC",
+                            CountryId = 7,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7963),
+                            Name = "Santiago de Cuba"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            Code = "SD",
+                            CountryId = 8,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7964),
+                            Name = "Santo Domingo"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            Code = "SC",
+                            CountryId = 8,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7965),
+                            Name = "Santiago de los Caballeros"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            Code = "QT",
+                            CountryId = 9,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7966),
+                            Name = "Quito"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            Code = "GQ",
+                            CountryId = 9,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7967),
+                            Name = "Guayaquil"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            Code = "SS",
+                            CountryId = 10,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7968),
+                            Name = "San Salvador"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            Code = "SA",
+                            CountryId = 10,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7969),
+                            Name = "Santa Ana"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            Code = "GC",
+                            CountryId = 11,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7970),
+                            Name = "Guatemala City"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            Code = "QZ",
+                            CountryId = 11,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7971),
+                            Name = "Quetzaltenango"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Code = "PA",
+                            CountryId = 12,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7972),
+                            Name = "Port-au-Prince"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            Code = "CH",
+                            CountryId = 12,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7973),
+                            Name = "Cap-Haïtien"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            Code = "TG",
+                            CountryId = 13,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7974),
+                            Name = "Tegucigalpa"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            Code = "SPS",
+                            CountryId = 13,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7975),
+                            Name = "San Pedro Sula"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            Code = "MXC",
+                            CountryId = 14,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7976),
+                            Name = "Mexico City"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            Code = "GDL",
+                            CountryId = 14,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7977),
+                            Name = "Guadalajara"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            Code = "MN",
+                            CountryId = 15,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7978),
+                            Name = "Managua"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            Code = "LN",
+                            CountryId = 15,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7979),
+                            Name = "León"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            Code = "PC",
+                            CountryId = 16,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7980),
+                            Name = "Panama City"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            Code = "DV",
+                            CountryId = 16,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7981),
+                            Name = "David"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            Code = "ASU",
+                            CountryId = 17,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7982),
+                            Name = "Asunción"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            Code = "CDE",
+                            CountryId = 17,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7983),
+                            Name = "Ciudad del Este"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            Code = "LM",
+                            CountryId = 18,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7984),
+                            Name = "Lima"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            Code = "AR",
+                            CountryId = 18,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7985),
+                            Name = "Arequipa"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            Code = "SJ",
+                            CountryId = 19,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7986),
+                            Name = "San Juan"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            Code = "PC",
+                            CountryId = 19,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7987),
+                            Name = "Ponce"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            Code = "MTV",
+                            CountryId = 20,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7987),
+                            Name = "Montevideo"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            Code = "ST",
+                            CountryId = 20,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7988),
+                            Name = "Salto"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            Code = "CCS",
+                            CountryId = 21,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7989),
+                            Name = "Caracas"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            Code = "MAR",
+                            CountryId = 21,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7990),
+                            Name = "Maracaibo"
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.Classroom", b =>
@@ -181,6 +727,155 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "AR",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7809),
+                            Name = "Argentina"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "BO",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7811),
+                            Name = "Bolivia"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Code = "BR",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7812),
+                            Name = "Brazil"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Code = "CL",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7813),
+                            Name = "Chile"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Code = "CO",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7813),
+                            Name = "Colombia"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Code = "CR",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7814),
+                            Name = "Costa Rica"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Code = "CU",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7815),
+                            Name = "Cuba"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Code = "DO",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7816),
+                            Name = "Dominican Republic"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Code = "EC",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7817),
+                            Name = "Ecuador"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Code = "SV",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7818),
+                            Name = "El Salvador"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Code = "GT",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7818),
+                            Name = "Guatemala"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Code = "HT",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7819),
+                            Name = "Haiti"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Code = "HN",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7820),
+                            Name = "Honduras"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Code = "MX",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7821),
+                            Name = "Mexico"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Code = "NI",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7822),
+                            Name = "Nicaragua"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Code = "PA",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7823),
+                            Name = "Panama"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Code = "PY",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7824),
+                            Name = "Paraguay"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Code = "PE",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7824),
+                            Name = "Peru"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Code = "PR",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7825),
+                            Name = "Puerto Rico"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Code = "UY",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7826),
+                            Name = "Uruguay"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Code = "VE",
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(7827),
+                            Name = "Venezuela"
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.Course", b =>
@@ -504,6 +1199,32 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8108),
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8110),
+                            Name = "Trainer"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8111),
+                            Name = "Student"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8112),
+                            Name = "Guest"
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.Schedule", b =>
@@ -583,6 +1304,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateOnly>("Birthdate")
                         .HasColumnType("date");
 
@@ -620,6 +1345,80 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Avatar = "https://randomuser.me/api/portraits/men/92.jpg",
+                            Birthdate = new DateOnly(1990, 5, 15),
+                            CityId = 1,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8185),
+                            Email = "martin.lopez@jala.university",
+                            FirstName = "Martín",
+                            LastName = "López",
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Avatar = "https://randomuser.me/api/portraits/women/80.jpg",
+                            Birthdate = new DateOnly(1988, 8, 20),
+                            CityId = 3,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8225),
+                            Email = "lucia.martinez@jala.university",
+                            FirstName = "Lucía",
+                            LastName = "Martínez",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Avatar = "https://randomuser.me/api/portraits/men/57.jpg",
+                            Birthdate = new DateOnly(1992, 3, 10),
+                            CityId = 21,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8229),
+                            Email = "carlos.gutierrez@jala.university",
+                            FirstName = "Carlos",
+                            LastName = "Gutiérrez",
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Avatar = "https://randomuser.me/api/portraits/women/30.jpg",
+                            Birthdate = new DateOnly(1991, 11, 25),
+                            CityId = 22,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8232),
+                            Email = "maria.perez@jala.university",
+                            FirstName = "María",
+                            LastName = "Pérez",
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Avatar = "https://randomuser.me/api/portraits/men/12.jpg",
+                            Birthdate = new DateOnly(1985, 7, 3),
+                            CityId = 35,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8236),
+                            Email = "alejandro.rodriguez@jala.university",
+                            FirstName = "Alejandro",
+                            LastName = "Rodríguez",
+                            RoleId = 4
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Avatar = "https://randomuser.me/api/portraits/women/57.jpg",
+                            Birthdate = new DateOnly(1989, 9, 12),
+                            CityId = 36,
+                            CreatedAt = new DateTime(2024, 2, 16, 16, 34, 10, 188, DateTimeKind.Utc).AddTicks(8239),
+                            Email = "camila.gomez@jala.university",
+                            FirstName = "Camila",
+                            LastName = "Gómez",
+                            RoleId = 4
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.Weekday", b =>

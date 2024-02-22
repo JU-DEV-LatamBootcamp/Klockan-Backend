@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Infrastructure.Data.Seeders;
 
 namespace KlockanAPI.Infrastructure.Data;
 
@@ -324,5 +325,11 @@ public class KlockanContext : DbContext
             CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             StartTime = new TimeOnly(15, 30, 0),
         });
+
+        modelBuilder.SeedCountries();
+        modelBuilder.SeedCities();
+        modelBuilder.SeedRoles();
+        modelBuilder.SeedUsers();
     }
 }
+

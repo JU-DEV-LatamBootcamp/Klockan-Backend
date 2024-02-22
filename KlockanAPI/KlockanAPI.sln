@@ -19,13 +19,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infraestructure", "Infraest
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{BBD8E456-006B-418F-BE70-C7CDA8382349}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlockanAPI.Presentation.Tests", "tests\KlockanAPI.Presentation.Tests\KlockanAPI.Presentation.Tests.csproj", "{BC2B6D7D-D9F0-452F-970D-8D4D28E7D3C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Presentation.Tests", "tests\KlockanAPI.Presentation.Tests\KlockanAPI.Presentation.Tests.csproj", "{BC2B6D7D-D9F0-452F-970D-8D4D28E7D3C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9D50CB61-791A-4976-9D1F-FBAFC8B44B09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlockanAPI.Application.Tests", "tests\KlockanAPI.Application.Tests\KlockanAPI.Application.Tests.csproj", "{5FAC0E95-D766-4336-B5AD-9535645404A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Application.Tests", "tests\KlockanAPI.Application.Tests\KlockanAPI.Application.Tests.csproj", "{5FAC0E95-D766-4336-B5AD-9535645404A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlockanAPI.Infraestructure.Tests", "tests\KlockanAPI.Infraestructure.Tests\KlockanAPI.Infraestructure.Tests.csproj", "{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KlockanAPI.Infraestructure.Tests", "tests\KlockanAPI.Infraestructure.Tests\KlockanAPI.Infraestructure.Tests.csproj", "{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlockanAPI.Integration.Tests", "tests\KlockanAPI.Integration.Tests\KlockanAPI.Integration.Tests.csproj", "{3AEEA224-6FDA-402F-8952-61E5979D8CE7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AEEA224-6FDA-402F-8952-61E5979D8CE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AEEA224-6FDA-402F-8952-61E5979D8CE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AEEA224-6FDA-402F-8952-61E5979D8CE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AEEA224-6FDA-402F-8952-61E5979D8CE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +82,7 @@ Global
 		{BC2B6D7D-D9F0-452F-970D-8D4D28E7D3C1} = {9D50CB61-791A-4976-9D1F-FBAFC8B44B09}
 		{5FAC0E95-D766-4336-B5AD-9535645404A9} = {9D50CB61-791A-4976-9D1F-FBAFC8B44B09}
 		{C76EDA6C-8525-40C7-90A3-61FB3DFD0B7B} = {9D50CB61-791A-4976-9D1F-FBAFC8B44B09}
+		{3AEEA224-6FDA-402F-8952-61E5979D8CE7} = {9D50CB61-791A-4976-9D1F-FBAFC8B44B09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3004B085-3136-4885-B608-AC306FEEF44B}

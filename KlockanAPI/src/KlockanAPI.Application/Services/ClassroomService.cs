@@ -3,20 +3,21 @@ using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.CrossCutting;
 using KlockanAPI.Application.DTOs.Schedule;
-
-
 
 namespace KlockanAPI.Application.Services;
 
 public class ClassroomService : IClassroomService
 {
     private readonly IClassroomRepository _classroomRepository;
+    private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
 
-    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper)
+    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository)
     {
         _classroomRepository = classroomRepository;
+        _meetingRepository = meetingRepository;
         _mapper = mapper;
     }
 
@@ -53,6 +54,16 @@ public class ClassroomService : IClassroomService
         );
 
         return schedules;
+    }
+
+    public async Task<ClassroomDTO?> DeleteClassroomAsync(int id)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(id);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with id {id} not found");
+        var meetings = await _meetingRepository.GetMeetingsByClassroomIdAsync(id);
+        FoundException.ThrowIfNotNull(meetings, $"Classroom {id} has meetings assigned ot it.");
+        var deletedClassroom = await _classroomRepository.DeleteClassroomAsync(classroom!);
+        return _mapper.Map<ClassroomDTO>(deletedClassroom);
     }
 }
 

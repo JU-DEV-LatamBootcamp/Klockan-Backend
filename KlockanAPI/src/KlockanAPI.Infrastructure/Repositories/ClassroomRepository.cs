@@ -44,11 +44,15 @@ public class ClassroomRepository : IClassroomRepository
         return classrooms.Count > 0 ? classrooms : null;
     }
 
-    public Task<Classroom?> GetClassroomByIdAsync(int id)
+    public async Task<Classroom?> GetClassroomByIdAsync(int id)
     {
-        var classroom = _context.Classrooms.Find(id);
-
-        return Task.FromResult(classroom);
+        return await _context.Classrooms.FindAsync(id);
     }
 
+    public async Task<Classroom> DeleteClassroomAsync(Classroom classroom)
+    {
+        _context.Classrooms.Remove(classroom);
+        await _context.SaveChangesAsync();
+        return classroom;
+    }
 }

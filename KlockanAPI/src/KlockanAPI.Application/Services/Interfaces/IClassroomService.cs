@@ -10,4 +10,5 @@ public interface IClassroomService
     Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO);
 
     public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules);
+    Task<ClassroomDTO?> DeleteClassroomAsync(int id);
 }

@@ -20,4 +20,10 @@ public class MeetingRepository : IMeetingRepository
         //Include trainer relationship when seeders impleemted 
         return await _context.Meetings.Include(m => m.Classroom).ToListAsync();
     }
+
+    public async Task<IEnumerable<Meeting>?> GetMeetingsByClassroomIdAsync(int classroomId)
+    {
+        var meetings = await _context.Meetings.Where(m => m.ClassroomId == classroomId).ToListAsync();
+        return meetings.Count > 0 ? meetings : null;
+    }
 }

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Mapster;
 using MapsterMapper;
 using FluentValidation;
@@ -24,12 +24,15 @@ public static class ApplicactionServiceRegistration
             .AddScoped<IMeetingService, MeetingService>()
             .AddScoped<IScheduleService, ScheduleService>()
 
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<ICountryService, CountryService>()
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
 
         services
             .AddValidatorsFromAssemblyContaining<CreateCourseDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>()
+            .AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>()
             .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateScheduleDTOValidator>();
 
