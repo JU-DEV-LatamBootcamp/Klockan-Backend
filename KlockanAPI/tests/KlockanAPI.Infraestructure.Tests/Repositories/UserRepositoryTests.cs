@@ -8,7 +8,7 @@ using KlockanAPI.Infrastructure.Repositories;
 
 namespace KlockanAPI.Infraestructure.Tests.Repositories;
 
-public class UserRepositoryTests
+public class UserRepositoryTests : IDisposable
 {
     private readonly KlockanContext _context;
 
@@ -20,6 +20,11 @@ public class UserRepositoryTests
         _context = new KlockanContext(dbContextOptions.Options);
     }
     private UserRepository GetRepositoryInstance() => new UserRepository(_context);
+    public void Dispose()
+    {
+        // Make sure that the in-memory database is deleted at the end of all tests.
+        _context.Database.EnsureDeleted();
+    }
 
     [Fact]
     public async Task GetAllUsersAsync_ShouldReturnUsers()
@@ -244,28 +249,22 @@ public class UserRepositoryTests
     [Fact]
     public async Task CreateUserAsync_ShouldAddUser_WhenCalled()
     {
-        var options = new DbContextOptionsBuilder<KlockanContext>()
-                    .UseInMemoryDatabase(databaseName: "UserRepositoryDB")
-                    .Options;
+        var repository = new UserRepository(_context);
 
-        using (var context = new KlockanContext(options))
+        var newUser = new User
         {
-            var repository = new UserRepository(context);
+            FirstName = "Test",
+            LastName = "User",
+            Email = "test@user.com",
+            CityId = 1,
+            RoleId = 1
+        };
 
-            var newUser = new User
-            {
-                FirstName = "Test",
-                LastName = "User",
-                Email = "test@user.com",
-                CityId = 1,
-                RoleId = 1
-            };
+        var result = await repository.CreateUserAsync(newUser);
 
-            var result = await repository.CreateUserAsync(newUser);
+        Assert.NotNull(result);
+        var userInDb = await _context.Users.FindAsync(result.Id);
+        Assert.NotNull(userInDb);
 
-            Assert.NotNull(result);
-            var userInDb = await context.Users.FindAsync(result.Id);
-            Assert.NotNull(userInDb);
-        }
     }
 }

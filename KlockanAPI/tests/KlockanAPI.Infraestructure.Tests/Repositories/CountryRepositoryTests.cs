@@ -1,12 +1,14 @@
 ﻿using FluentAssertions;
+
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace KlockanAPI.Infraestructure.Tests;
 
-public class CountryRepositoryTests
+public class CountryRepositoryTests : IDisposable
 {
     private readonly KlockanContext _context;
 
@@ -19,6 +21,12 @@ public class CountryRepositoryTests
     }
 
     private CountryRepository GetRepositoryInstance() => new(_context);
+
+    public void Dispose()
+    {
+        // Make sure that the in-memory database is deleted at the end of all tests.
+        _context.Database.EnsureDeleted();
+    }
 
     [Fact]
     public async Task GetCountriesAsync_ShouldReturnCountriesDto()

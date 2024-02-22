@@ -29,7 +29,7 @@ public class ClassroomServiceTests
         _mapper = new Mapper();
     }
 
-    private ClassroomService GetServiceInstance() => new(_classroomRepository, _mapper,_meetingRepository);
+    private ClassroomService GetServiceInstance() => new(_classroomRepository, _mapper, _meetingRepository);
 
     [Fact]
     public async Task GetAllClassroomsAsync_ShouldReturnClassroomDTOs()
@@ -103,6 +103,7 @@ public class ClassroomServiceTests
         };
 
         _classroomRepository.GetClassroomByIdAsync(1).Returns(Task.FromResult<Classroom?>(sampleClassroom));
+        _meetingRepository.GetMeetingsByClassroomIdAsync(1).Returns(Task.FromResult<IEnumerable<Meeting>?>(null));
 
         _classroomRepository.DeleteClassroomAsync(sampleClassroom).Returns(Task.FromResult(sampleClassroom));
         var result = await classroomService.DeleteClassroomAsync(1);
@@ -121,7 +122,7 @@ public class ClassroomServiceTests
 
         //Act
         Func<Task> act = async () => await classroomService.DeleteClassroomAsync(10);
-        
+
         //Assert
         await act.Should().ThrowAsync<NotFoundException>().WithMessage("Classroom with id 10 not found");
     }
@@ -150,10 +151,10 @@ public class ClassroomServiceTests
         _classroomRepository
             .GetClassroomByIdAsync(1)
             .Returns(Task.FromResult<Classroom?>(sampleClassroom));
-        
+
         //Act
         Func<Task> act = async () => await classroomService.DeleteClassroomAsync(1);
-        
+
         //Assert
         await act.Should().ThrowAsync<FoundException>("Classroom 1 has meetings assigned ot it.");
     }

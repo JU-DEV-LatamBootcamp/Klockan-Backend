@@ -1,14 +1,30 @@
 using FluentAssertions;
+
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace KlockanAPI.Infraestructure.Tests.Repositories;
 
 
-public class MeetingRepositoryTests
+public class MeetingRepositoryTests : IDisposable
 {
+    private readonly KlockanContext _context;
+    public MeetingRepositoryTests()
+    {
+        DbContextOptionsBuilder<KlockanContext> dbContextOptions = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString());
+
+        _context = new KlockanContext(dbContextOptions.Options);
+    }
+    public void Dispose()
+    {
+        // Make sure that the in-memory database is deleted at the end of all tests.
+        _context.Database.EnsureDeleted();
+    }
+
     [Fact]
     public async Task GetAllAsync_ReturnsAllMeetingsIncludingClassrooms()
     {
@@ -19,37 +35,94 @@ public class MeetingRepositoryTests
             .Options;
 
         // Seed the database
-        using (var context = new KlockanContext(options))
-        {
-            var classrooms = new List<Classroom>
+
+        var classrooms = new List<Classroom>
             {
                 new Classroom { Id = 1},
                 new Classroom { Id = 2}
             };
 
-            var meetings = new List<Meeting>
+        var meetings = new List<Meeting>
             {
                 new Meeting { Id = 1, Classroom = classrooms[0], Date = new DateOnly(2024, 1, 23), Time = new TimeOnly(15, 30) },
                 new Meeting { Id = 2, Classroom = classrooms[1], Date = new DateOnly(2024, 1, 24), Time = new TimeOnly(16, 30) }
             };
 
-            context.Classrooms.AddRange(classrooms);
-            context.Meetings.AddRange(meetings);
-            await context.SaveChangesAsync();
-        }
+        _context.Classrooms.AddRange(classrooms);
+        _context.Meetings.AddRange(meetings);
+        await _context.SaveChangesAsync();
 
-        using (var context = new KlockanContext(options))
+        var repository = new MeetingRepository(_context);
+
+        // Act
+        var result = await repository.GetAllAsync();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count());
+        Assert.All(result, meeting => Assert.NotNull(meeting.Classroom));
+    }
+
+    [Fact]
+    public async Task GetMeetingsByClassroomIdAsync_ReturnsMeetingsForGivenClassroomId()
+    {
+        // Arrange
+        // Seed the database
+
+        var classrooms = new List<Classroom>
+                {
+                    new Classroom { Id = 1},
+                    new Classroom { Id = 2}
+                };
+
+        var meetings = new List<Meeting>
+                {
+                    new Meeting { Id = 1, ClassroomId = 1, Date = new DateOnly(2024, 1, 23), Time = new TimeOnly(15, 30) },
+                    new Meeting { Id = 2, ClassroomId = 1, Date = new DateOnly(2024, 1, 24), Time = new TimeOnly(16, 30) },
+                    new Meeting { Id = 3, ClassroomId = 2, Date = new DateOnly(2024, 1, 25), Time = new TimeOnly(10, 0) }
+                };
+
+        _context.Classrooms.AddRange(classrooms);
+        _context.Meetings.AddRange(meetings);
+        await _context.SaveChangesAsync();
+
+
+        var repository = new MeetingRepository(_context);
+        var classroomIdToRetrieve = 1;
+
+        // Act
+        var result = await repository.GetMeetingsByClassroomIdAsync(classroomIdToRetrieve);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<List<Meeting>>();
+        result.Should().HaveCount(2);
+        result.Should().OnlyContain(meeting => meeting.ClassroomId == classroomIdToRetrieve);
+    }
+
+    [Fact]
+    public async Task GetMeetingsByClassroomIdAsync_ReturnsNullWhenNoMeetingsFound()
+    {
+        // Arrange
+
+        var classrooms = new List<Classroom>
         {
-            var repository = new MeetingRepository(context);
+            new Classroom { Id = 1},
+            new Classroom { Id = 2}
+        };
 
-            // Act
-            var result = await repository.GetAllAsync();
+        _context.Classrooms.AddRange(classrooms);
+        await _context.SaveChangesAsync();
 
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count());
-            Assert.All(result, meeting => Assert.NotNull(meeting.Classroom));
-        }
+
+        var repository = new MeetingRepository(_context);
+        var nonExistentClassroomId = 3; // Assuming there are no meetings associated with classroomId 3
+
+        // Act
+        var result = await repository.GetMeetingsByClassroomIdAsync(nonExistentClassroomId);
+
+        // Assert
+        result.Should().BeNull();
     }
 
     [Fact]
