@@ -1,13 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using FluentAssertions;
+
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories;
 
 namespace KlockanAPI.Infraestructure.Tests.Repositories;
 
-public class ClassroomRepositoryTests
+public class ClassroomRepositoryTests : IDisposable
 {
     private readonly KlockanContext _context;
 
@@ -20,6 +20,13 @@ public class ClassroomRepositoryTests
     }
 
     private ClassroomRepository GetRepositoryInstance() => new(_context);
+
+    // Implement IDisposable to destroy the context after each test case
+    public void Dispose()
+    {
+        // Make sure that the in-memory database is deleted at the end of all tests.
+        _context.Database.EnsureDeleted();
+    }
 
     [Fact]
     public async Task GetAllClassroomsAsync_ShouldReturnClassroomDTOs()
@@ -163,4 +170,121 @@ public class ClassroomRepositoryTests
         Assert.NotNull(result);
         Assert.Equal(3, result!.Count());
     }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldReturnDeletedClassroom()
+    {
+        var classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _context.Classrooms.Add(classroom);
+        await _context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(_context);
+
+        var result = await repository.DeleteClassroomAsync(classroom);
+
+        Assert.Equal(classroom, result);
+    }
+
+    [Fact]
+    public async Task GetClassroomByIdAsync_ShouldReturnClassroomIfExists()
+    {
+        // Arrange
+        var classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _context.Classrooms.Add(classroom);
+        await _context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(_context);
+
+        // Act
+        var result = await repository.GetClassroomByIdAsync(1);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(classroom.Id, result!.Id);
+    }
+
+    [Fact]
+    public async Task GetClassroomByIdAsync_ShouldReturnNullIfNotExists()
+    {
+        // Arrange
+        var repository = new ClassroomRepository(_context);
+
+        // Act
+        var result = await repository.GetClassroomByIdAsync(999); // Non-existent ID
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task DeleteClassroomAsync_ShouldDeleteClassroomAndReturnIt()
+    {
+        // Arrange
+        var classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _context.Classrooms.Add(classroom);
+        await _context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(_context);
+
+        // Act
+        var result = await repository.DeleteClassroomAsync(classroom);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(classroom, result);
+
+        // Ensure that the classroom has been removed from the context
+        var deletedClassroom = await _context.Classrooms.FindAsync(classroom.Id);
+        Assert.Null(deletedClassroom);
+    }
+
+    [Fact]
+    public async Task GetClassroomsByCourseIdAsync_ReturnsNullWhenNoClassroomsFoundForCourseId()
+    {
+        // Arrange
+        var courseIdWithoutClassrooms = 999; // Assuming there are no classrooms associated with courseId 999
+        var repository = GetRepositoryInstance();
+
+        // Act
+        var result = await repository.GetClassroomsByCourseIdAsync(courseIdWithoutClassrooms);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetClassroomsByProgramIdAsync_ReturnsNullWhenNoClassroomsFoundForProgramId()
+    {
+        // Arrange
+        var programIdWithoutClassrooms = 999; // Assuming there are no classrooms associated with programId 999
+        var repository = GetRepositoryInstance();
+
+        // Act
+        var result = await repository.GetClassroomsByProgramIdAsync(programIdWithoutClassrooms);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
 }

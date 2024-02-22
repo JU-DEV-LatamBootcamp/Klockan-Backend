@@ -36,4 +36,16 @@ public class ClassroomRepository : IClassroomRepository
         var classrooms = await _context.Classrooms.Where(c => c.ProgramId == programId).ToListAsync();
         return classrooms.Count > 0 ? classrooms : null;
     }
+
+    public async Task<Classroom?> GetClassroomByIdAsync(int id)
+    {
+        return await _context.Classrooms.FindAsync(id);
+    }
+
+    public async Task<Classroom> DeleteClassroomAsync(Classroom classroom)
+    {
+        _context.Classrooms.Remove(classroom);
+        await _context.SaveChangesAsync();
+        return classroom;
+    }
 }

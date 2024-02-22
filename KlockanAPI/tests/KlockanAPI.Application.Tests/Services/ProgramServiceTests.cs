@@ -204,4 +204,34 @@ public class ProgramServiceTests
         // Assert
         await act.Should().ThrowAsync<FoundException>().WithMessage("Program with id 1 is used in a classroom");
     }
+
+    [Fact]
+    public async Task EditProgramAsync_ShouldReturnEditedProgramDTO()
+    {
+        //Arrange
+        var programService = GetServiceInstance();
+        var initialProgram = new Program
+        {
+            Id = 1,
+            Name = "Initial Program",
+            Description = "Initial Program Description"
+        };
+
+        _programRepository.GetProgramByIdAsync(1).Returns(Task.FromResult<Program?>(initialProgram));
+        var updatedProgram = new Program
+        {
+            Id = 1,
+            Name = "Updated Program",
+            Description = "Updated Program Description"
+        };
+        _programRepository.EditProgramAsync(Arg.Any<Program>()).Returns(Task.FromResult(updatedProgram));
+
+        //Act   
+        var result = await programService.EditProgramAsync(_mapper.Map<ProgramDTO>(updatedProgram));
+
+        //Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_mapper.Map<ProgramDTO>(updatedProgram));
+
+    }
 }

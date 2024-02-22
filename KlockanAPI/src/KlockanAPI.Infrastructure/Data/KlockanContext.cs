@@ -260,3 +260,4 @@ public class KlockanContext : DbContext
         modelBuilder.SeedUsers();
     }
 }
+
