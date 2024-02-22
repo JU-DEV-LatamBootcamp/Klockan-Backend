@@ -11,6 +11,7 @@ COPY KlockanAPI/src/KlockanAPI.Presentation/*.csproj src/KlockanAPI.Presentation
 COPY KlockanAPI/tests/KlockanAPI.Application.Tests/*.csproj tests/KlockanAPI.Application.Tests/
 COPY KlockanAPI/tests/KlockanAPI.Infraestructure.Tests/*.csproj tests/KlockanAPI.Infraestructure.Tests/
 COPY KlockanAPI/tests/KlockanAPI.Presentation.Tests/*.csproj tests/KlockanAPI.Presentation.Tests/
+COPY KlockanAPI/tests/KlockanAPI.IntegrationTests/*.csproj tests/KlockanAPI.IntegrationTests/
 
 RUN dotnet restore src/KlockanAPI.Presentation/KlockanAPI.Presentation.csproj
 
@@ -23,6 +24,7 @@ COPY KlockanAPI/src/KlockanAPI.Presentation/. ./src/KlockanAPI.Presentation/
 COPY KlockanAPI/tests/KlockanAPI.Application.Tests/. ./tests/KlockanAPI.Application.Tests/
 COPY KlockanAPI/tests/KlockanAPI.Infraestructure.Tests/. ./tests/KlockanAPI.Infraestructure.Tests/
 COPY KlockanAPI/tests/KlockanAPI.Presentation.Tests/. ./tests/KlockanAPI.Presentation.Tests/
+COPY KlockanAPI/tests/KlockanAPI.IntegrationTests/. ./tests/KlockanAPI.IntegrationTests/
 
 RUN dotnet publish -c Release -o out
 
