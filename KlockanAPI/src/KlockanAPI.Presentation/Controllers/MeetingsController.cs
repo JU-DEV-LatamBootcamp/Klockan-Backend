@@ -26,4 +26,33 @@ public class MeetingsController : ControllerBase
         var meetings = await _meetingService.GetAllMeetingsAsync();
         return Ok(meetings);
     }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<MeetingDto>> CreateMeeting([FromBody] CreateMeetingDto createMeetingDto)
+    {
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdMeeting = await _meetingService.CreateSingleMeeting(createMeetingDto);
+            return createdMeeting != null ?
+
+                CreatedAtAction(nameof(CreateMeeting), new { Id = createdMeeting.Id }, createdMeeting) :
+                StatusCode(500);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500,$"Internal server error: {ex.Message}");
+        }
+
+
+
+    }
 }
