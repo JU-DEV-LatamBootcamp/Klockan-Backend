@@ -6,7 +6,7 @@ public static class WebexMeetingUtils
     public static async Task<Meeting> CreateMeetingAsync(
         DateTime date, string time, int classroomId, int trainerId, List<int> userIds)
     {
-        string trainerEmail = "adrian.mendoza@jala.university";
+        string trainerEmail = "rudy.sarabiaveliz@gmail.com";
 
         string courseName = "Frontend Development";
         string programName = "Bootcamp Developers 01";
@@ -17,15 +17,15 @@ public static class WebexMeetingUtils
         {
             new Invitees
             {
-                email = "adriancracker@gmail.com",
+                email = "adrian.mendoza@jala.university",
                 displayName = "Adrian Mendoza",
                 coHost = false,
                 panelist = false
             },
             new Invitees
             {
-                email = "adrian.mendoza.dev@gmail.com",
-                displayName = "Mendoza Adrian",
+                email = "andresnazzari@gmail.com",
+                displayName = "Andres Nazzari",
                 coHost = false,
                 panelist = false
             }

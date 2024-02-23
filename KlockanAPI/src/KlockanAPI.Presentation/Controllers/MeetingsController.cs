@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Meeting;
 using Asp.Versioning;
+using KlockanAPI.Application.Utils.Webex;
+using KlockanAPI.Application.Services.Webex;
+using KlockanAPI.Domain.Models.Webex;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -13,6 +16,8 @@ namespace KlockanAPI.Presentation.Controllers;
 public class MeetingsController : ControllerBase
 {
     private readonly IMeetingService _meetingService;
+    private readonly WebexService _webexService;
+
     public MeetingsController(IMeetingService meetingService)
     {
         _meetingService = meetingService;
@@ -41,6 +46,14 @@ public class MeetingsController : ControllerBase
 
         try
         {
+            DateTime date = DateTime.Now;
+            string time = "15:00:00";
+            int classroomId = 1;
+            int trainerId = 1;
+            List<int> userIds = new List<int> { 2, 3 };
+
+            Meeting meetingDetails = await WebexMeetingUtils.CreateMeetingAsync(date, time, classroomId, trainerId, userIds);
+            await _webexService.CreateMeetingAsync(meetingDetails);
             var createdMeeting = await _meetingService.CreateSingleMeeting(createMeetingDto);
             return createdMeeting != null ?
 
