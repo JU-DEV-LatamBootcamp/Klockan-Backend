@@ -6,6 +6,7 @@ using FluentValidation;
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.Validators;
+using KlockanAPI.Application.Services.Webex;
 
 
 namespace KlockanAPI.Application;
@@ -25,6 +26,7 @@ public static class ApplicactionServiceRegistration
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICountryService, CountryService>()
             .AddSingleton(config)
+            .AddScoped<WebexService>()
             .AddScoped<IMapper, ServiceMapper>();
 
         services
