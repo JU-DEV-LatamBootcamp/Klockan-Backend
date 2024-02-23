@@ -5,7 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.Classroom;
+using KlockanAPI.Application.DTOs.Schedule;
+using KlockanAPI.Application.DTOs.Weekday;
+
 using Moq;
+using KlockanAPI.Application.DTOs.Program;
+using KlockanAPI.Domain.Models;
+using FluentAssertions.Common;
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
@@ -13,6 +19,11 @@ public class ClassroomsControllerTests
 {
     private readonly IClassroomService _classroomService;
     private readonly IScheduleService _scheduleService;
+
+    private readonly Mock<IClassroomService> _mockClassroomService;
+    private readonly Mock<IScheduleService> _mockScheduleService;
+
+    private readonly ClassroomsController _controller;
 
     public ClassroomsControllerTests()
     {
@@ -60,12 +71,8 @@ public class ClassroomsControllerTests
         ((result.Result as OkObjectResult)!.Value as IEnumerable<ClassroomDTO>)?.First().Should().BeEquivalentTo(sampleClassrooms.First());
     }
 
-    [Fact]
-    public async Task CreateClassroom_Returns201Created_WithValidInput()
-    {
-
-    }
-
+   
+ 
 
     [Fact]
     public async Task DeleteClassroom_ShouldReturnOk()
