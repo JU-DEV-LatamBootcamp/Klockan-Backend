@@ -3,6 +3,7 @@
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
+using KlockanAPI.Infrastructure.Extensions;
 
 namespace KlockanAPI.Infrastructure.Repositories;
 
@@ -37,10 +38,13 @@ public class ClassroomRepository : IClassroomRepository
     {
         var classroomToUpdate = _context.Classrooms.Find(classroom.Id);
         var schedules = _context.Schedules.AsNoTracking().Where(s => s.ClassroomId == classroom.Id).ToList();
-        var schedulesToDelete = GetMissingElements(schedules, classroom.Schedule.ToList(), (schedule) => schedule.Id);
+        var classroomSchedules = classroom.Schedule.ToList();
+
+        var schedulesToDelete = classroomSchedules.FilterTarget(schedules, (master, target) => target.Id == master.Id, false);
+        var schedulesToUpdate = classroomSchedules.FilterByTarget(schedules, (master, target) => target.Id == master.Id || master.Id == 0);
 
         _context.Classrooms.Entry(classroomToUpdate!).CurrentValues.SetValues(classroom);
-        _context.Schedules.UpdateRange(classroom.Schedule);
+        _context.Schedules.UpdateRange(schedulesToUpdate);
         _context.Schedules.RemoveRange(schedulesToDelete);
 
         await _context.SaveChangesAsync();
@@ -75,23 +79,5 @@ public class ClassroomRepository : IClassroomRepository
         _context.Classrooms.Remove(classroom);
         await _context.SaveChangesAsync();
         return classroom;
-    }
-
-    public List<T> GetMissingElements<T, K>(List<T> baseList, List<T> updatedList, Func<T, K> getValueFunc)
-        where T : class
-        where K : IEquatable<K>
-    {
-        var deletedSchedules = new List<T>();
-
-        foreach (var baseElement in baseList)
-        {
-            var baseValue = getValueFunc(baseElement);
-            if (!updatedList.Any(otherElement => baseValue.Equals(getValueFunc(otherElement))))
-            {
-                deletedSchedules.Add(baseElement);
-            }
-        }
-
-        return deletedSchedules;
     }
 }

@@ -29,7 +29,7 @@ Authorization: {{token}}
 
 ###
 @classroom_id = {{new_classroom.response.body.id}}
-@classroom_id = 881 
+@classroom_id = 88 
 
 GET {{classrooms_url}}/{{classroom_id}}/schedules HTTP/1.1
 Accept: application/json
@@ -47,7 +47,7 @@ Authorization: {{token}}
   "courseId": "2",
   "schedule": [
     {
-      "id": 92,
+      "id": 93,
       "weekdayId": 2,
       "startTime": "19:00:00"
     },
