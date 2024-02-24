@@ -330,6 +330,7 @@ public class KlockanContext : DbContext
         modelBuilder.SeedCities();
         modelBuilder.SeedRoles();
         modelBuilder.SeedUsers();
+        modelBuilder.SeedMeetingAttendanceStatus();
     }
 }
 
