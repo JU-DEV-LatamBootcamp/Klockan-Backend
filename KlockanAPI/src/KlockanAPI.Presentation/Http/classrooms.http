@@ -29,14 +29,10 @@ Authorization: {{token}}
 
 ###
 @classroom_id = {{new_classroom.response.body.id}}
-@classroom_id = 88 
+@classroom_id = 881 
 
 GET {{classrooms_url}}/{{classroom_id}}/schedules HTTP/1.1
 Accept: application/json
-Authorization: {{token}}
-
-###
-DELETE {{classrooms_url}}/{{classroom_id}} HTTP/1.1
 Authorization: {{token}}
 
 ### 
@@ -61,3 +57,7 @@ Authorization: {{token}}
     }
   ]
 }
+
+###
+DELETE {{classrooms_url}}/{{classroom_id}} HTTP/1.1
+Authorization: {{token}}

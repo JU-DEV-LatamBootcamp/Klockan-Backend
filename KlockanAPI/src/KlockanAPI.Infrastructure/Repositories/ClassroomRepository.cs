@@ -40,7 +40,6 @@ public class ClassroomRepository : IClassroomRepository
         var schedulesToDelete = GetMissingElements(schedules, classroom.Schedule.ToList(), (schedule) => schedule.Id);
 
         _context.Classrooms.Entry(classroomToUpdate!).CurrentValues.SetValues(classroom);
-        // await _context.Schedules.AddRangeAsync(classroom.Schedule);
         _context.Schedules.UpdateRange(classroom.Schedule);
         _context.Schedules.RemoveRange(schedulesToDelete);
 
@@ -63,9 +62,10 @@ public class ClassroomRepository : IClassroomRepository
 
     public async Task<Classroom?> GetClassroomByIdAsync(int id)
     {
-        var classroom = _context.Classrooms.AsNoTracking()
-            .Where((classroom) => classroom.Id == id)
-            .First();
+        var result = _context.Classrooms.AsNoTracking()
+            .Where((classroom) => classroom.Id == id);
+
+        var classroom = result.Count() > 0 ? result.First() : null;
 
         return await Task.FromResult(classroom);
     }
@@ -77,7 +77,6 @@ public class ClassroomRepository : IClassroomRepository
         return classroom;
     }
 
-    // TODO: remove me
     public List<T> GetMissingElements<T, K>(List<T> baseList, List<T> updatedList, Func<T, K> getValueFunc)
         where T : class
         where K : IEquatable<K>

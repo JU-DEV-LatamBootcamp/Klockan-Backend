@@ -1,4 +1,4 @@
-using System.Data.Common;
+using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Application.DTOs.Classroom;
 
@@ -8,5 +8,5 @@ public class UpdateClassroomDTO
   public DateOnly StartDate { get; set; }
   public int ProgramId { get; set; }
   public int CourseId { get; set; }
-  public List<UpdateClassroomScheduleDTO> Schedule { get; set; } = new List<UpdateClassroomScheduleDTO>();
+  public List<UpdateScheduleDTO> Schedule { get; set; } = new List<UpdateScheduleDTO>();
 }

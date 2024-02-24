@@ -12,12 +12,10 @@ namespace KlockanAPI.Presentation.Controllers;
 public class ClassroomsController : ControllerBase
 {
     private readonly IClassroomService _classroomService;
-    private readonly IScheduleService _scheduleService;
 
-    public ClassroomsController(IClassroomService classroomService, IScheduleService scheduleService)
+    public ClassroomsController(IClassroomService classroomService)
     {
         _classroomService = classroomService;
-        _scheduleService = scheduleService;
     }
 
     [HttpGet]
@@ -34,28 +32,9 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateClassroomDTO createClassroomDTO)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
 
-        try
-        {
-            var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
-
-            return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
-    }
-
-    [HttpGet("{classroomId}/schedules")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetClassroomSchedules(int classroomId)
-    {
-        var schedules = await _scheduleService.GetSchedulesByClassroomIdAsync(classroomId);
-
-        return Ok(schedules);
+        return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
     }
 
     [HttpPut("{id}")]

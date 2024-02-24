@@ -4,7 +4,6 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.CrossCutting;
-using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Application.Services;
 
@@ -14,7 +13,7 @@ public class ClassroomService : IClassroomService
     private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
 
-    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository, IScheduleRepository scheduleRepository)
+    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository)
     {
         _classroomRepository = classroomRepository;
         _meetingRepository = meetingRepository;
@@ -33,43 +32,6 @@ public class ClassroomService : IClassroomService
     {
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
-    }
-
-    // IMPROVEMENT: implement this method in a mapper profile
-    public List<UpdateScheduleDTO> MapUpdateClassroomSchedulesDTOsToUpdateScheduleDTOs(int id, List<UpdateClassroomScheduleDTO> classroomSchedules)
-    {
-        var schedules = classroomSchedules.Aggregate(
-            new List<UpdateScheduleDTO>(),
-            (schedules, updateClassroomSchedule) =>
-            {
-                var newSchedule = new UpdateScheduleDTO(
-                    updateClassroomSchedule.Id,
-                    updateClassroomSchedule.WeekdayId,
-                    id,
-                    updateClassroomSchedule.StartTime
-                );
-                schedules.Add(newSchedule);
-
-                return schedules;
-            }
-        );
-
-        return schedules;
-    }
-
-    public List<int> GetIdListOfDeletedSchedules(List<ScheduleDTO> completeList, List<UpdateClassroomScheduleDTO> updatedList)
-    {
-        var deletedSchedules = new List<int>();
-
-        foreach (var schedule in completeList)
-        {
-            if (!updatedList.Any(s => s.Id == schedule.Id))
-            {
-                deletedSchedules.Add(schedule.Id);
-            }
-        }
-
-        return deletedSchedules;
     }
 
     public async Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO)
