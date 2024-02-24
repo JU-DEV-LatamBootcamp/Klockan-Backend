@@ -8,7 +8,8 @@ public interface IClassroomService
 {
     Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync();
     Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO);
-
-    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules);
+    List<UpdateScheduleDTO> MapUpdateClassroomSchedulesDTOsToUpdateScheduleDTOs(int id, List<UpdateClassroomScheduleDTO> classroomSchedules);
     Task<ClassroomDTO?> DeleteClassroomAsync(int id);
+    List<int> GetIdListOfDeletedSchedules(List<ScheduleDTO> completeList, List<UpdateClassroomScheduleDTO> updatedList);
+    Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO);
 }

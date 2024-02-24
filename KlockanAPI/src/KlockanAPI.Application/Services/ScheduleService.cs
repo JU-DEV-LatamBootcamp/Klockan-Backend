@@ -56,11 +56,16 @@ public class ScheduleService : IScheduleService
         return _mapper.Map<IEnumerable<ScheduleDTO>>(Schedules);
     }
 
-    public async Task<bool> CreateManySchedulesAsync(List<CreateScheduleDTO> createScheduleDTOs)
+    public async Task<bool> UpdateOrCreateManySchedulesAsync(List<UpdateScheduleDTO> createScheduleDTOs)
     {
         var schedules = _mapper.Map<List<Schedule>>(createScheduleDTOs);
-        var result = await _scheduleRepository.CreateManySchedulesAsync(schedules);
+        var result = await _scheduleRepository.UpdateOrCreateManySchedulesAsync(schedules);
 
         return result;
+    }
+
+    public async Task<bool> RemoveManySchedulesAsync(List<int> idsToDelete)
+    {
+        return await _scheduleRepository.RemoveManySchedulesAsync(idsToDelete);
     }
 }

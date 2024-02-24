@@ -3,9 +3,9 @@ using KlockanAPI.Application.DTOs.Classroom;
 
 namespace KlockanAPI.Application;
 
-public class CreateClassroomScheduleDTOValidator : AbstractValidator<CreateClassroomScheduleDTO>
+public class UpdateClassroomScheduleDTOValidator : AbstractValidator<UpdateClassroomScheduleDTO>
 {
-    public CreateClassroomScheduleDTOValidator()
+    public UpdateClassroomScheduleDTOValidator()
     {
         RuleFor(t => t.WeekdayId)
             .NotNull()

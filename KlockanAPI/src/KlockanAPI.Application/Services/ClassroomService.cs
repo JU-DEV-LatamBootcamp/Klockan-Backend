@@ -14,7 +14,7 @@ public class ClassroomService : IClassroomService
     private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
 
-    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository)
+    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository, IScheduleRepository scheduleRepository)
     {
         _classroomRepository = classroomRepository;
         _meetingRepository = meetingRepository;
@@ -29,23 +29,24 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<ClassroomDTO>(createdClassroom);
     }
 
-
     public async Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
     {
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
 
-    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules)
+    // IMPROVEMENT: implement this method in a mapper profile
+    public List<UpdateScheduleDTO> MapUpdateClassroomSchedulesDTOsToUpdateScheduleDTOs(int id, List<UpdateClassroomScheduleDTO> classroomSchedules)
     {
         var schedules = classroomSchedules.Aggregate(
-            new List<CreateScheduleDTO>(),
-            (schedules, createClassroomSchedule) =>
+            new List<UpdateScheduleDTO>(),
+            (schedules, updateClassroomSchedule) =>
             {
-                var newSchedule = new CreateScheduleDTO(
-                    createClassroomSchedule.WeekdayId,
+                var newSchedule = new UpdateScheduleDTO(
+                    updateClassroomSchedule.Id,
+                    updateClassroomSchedule.WeekdayId,
                     id,
-                    createClassroomSchedule.StartTime
+                    updateClassroomSchedule.StartTime
                 );
                 schedules.Add(newSchedule);
 
@@ -54,6 +55,37 @@ public class ClassroomService : IClassroomService
         );
 
         return schedules;
+    }
+
+    public List<int> GetIdListOfDeletedSchedules(List<ScheduleDTO> completeList, List<UpdateClassroomScheduleDTO> updatedList)
+    {
+        var deletedSchedules = new List<int>();
+
+        foreach (var schedule in completeList)
+        {
+            if (!updatedList.Any(s => s.Id == schedule.Id))
+            {
+                deletedSchedules.Add(schedule.Id);
+            }
+        }
+
+        return deletedSchedules;
+    }
+
+    public async Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO)
+    {
+        var id = updateClassroomDTO.Id;
+        var dbClassroom = await _classroomRepository.GetClassroomByIdAsync(id);
+        NotFoundException.ThrowIfNull(dbClassroom, $"Classroom with id {id} not found");
+
+        var classroom = _mapper.Map<Classroom>(updateClassroomDTO);
+        var schedules = _mapper.Map<List<Schedule>>(classroom);
+
+        classroom.Schedule = schedules;
+
+        var udpatedClassroom = await _classroomRepository.UpdateClassroomAsync(classroom);
+
+        return _mapper.Map<ClassroomDTO>(udpatedClassroom);
     }
 
     public async Task<ClassroomDTO?> DeleteClassroomAsync(int id)

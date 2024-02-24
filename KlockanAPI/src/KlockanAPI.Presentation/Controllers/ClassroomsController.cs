@@ -34,17 +34,11 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateClassroomDTO createClassroomDTO)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         try
         {
             var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
-            var createSchedulesDTOs = _classroomService.MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(createdClassroomDTO.Id, createClassroomDTO.Schedule);
-
-            await _scheduleService.CreateManySchedulesAsync(createSchedulesDTOs);
 
             return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
         }
@@ -54,14 +48,25 @@ public class ClassroomsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}/schedules")]
+    [HttpGet("{classroomId}/schedules")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetClassroomSchedules(int id)
+    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetClassroomSchedules(int classroomId)
     {
-        var schedules = await _scheduleService.GetSchedulesByClassroomIdAsync(id);
+        var schedules = await _scheduleService.GetSchedulesByClassroomIdAsync(classroomId);
 
-        return schedules;
+        return Ok(schedules);
+    }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateClassroom(int id, [FromBody] UpdateClassroomDTO updateClassroomDTO)
+    {
+        updateClassroomDTO.Id = id;
+        var updatedClassroomDTO = await _classroomService.UpdateClassroomAsync(updateClassroomDTO);
+
+        return Ok(updatedClassroomDTO);
     }
 
     [HttpDelete("{id}")]
