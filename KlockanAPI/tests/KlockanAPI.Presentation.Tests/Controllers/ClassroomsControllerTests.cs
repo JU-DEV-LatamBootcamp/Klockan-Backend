@@ -12,15 +12,13 @@ namespace KlockanAPI.Presentation.Tests.Controllers;
 public class ClassroomsControllerTests
 {
     private readonly IClassroomService _classroomService;
-    private readonly IScheduleService _scheduleService;
 
     public ClassroomsControllerTests()
     {
         _classroomService = Substitute.For<IClassroomService>();
-        _scheduleService = Substitute.For<IScheduleService>();
     }
 
-    private ClassroomsController GetControllerInstance() => new(_classroomService, _scheduleService);
+    private ClassroomsController GetControllerInstance() => new(_classroomService);
 
     [Fact]
     public async Task GetAllClassrooms_ShouldReturnOk()
