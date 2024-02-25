@@ -2,11 +2,11 @@
 
 GET {{programs_url}}
 Accept: application/json
-Authorization: {{token}}
+//Authorization: {{token}}
 
 ###
 POST {{programs_url}}
-Authorization: {{token}}
+//Authorization: {{token}}
 Content-Type: application/json
 
 {
@@ -17,4 +17,4 @@ Content-Type: application/json
 ###
 @program_id = 6
 DELETE {{programs_url}}/{{program_id}}
-Authorization: {{token}}
+//Authorization: {{token}}

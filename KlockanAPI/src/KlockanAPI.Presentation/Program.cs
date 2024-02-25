@@ -1,14 +1,14 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Authentication.Cookies;
+//using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+//using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
+//using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation.AspNetCore;
 using Mapster;
 
@@ -100,7 +100,7 @@ public class Program
                     Name = "MIT License",
                 },
             });
-
+/*
             // Keycloak
             c.AddSecurityDefinition("KeyCloakBearerAuth", new OpenApiSecurityScheme
             {
@@ -123,6 +123,7 @@ public class Program
             };
 
             c.AddSecurityRequirement(securityRequirement);
+*/
         });
 
         // ***********  API VERSIONING ************

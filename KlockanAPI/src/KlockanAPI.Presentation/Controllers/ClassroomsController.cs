@@ -54,16 +54,7 @@ public class ClassroomsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}/schedules")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<ScheduleDTO>>> GetClassroomSchedules(int id)
-    {
-        var schedules = await _scheduleService.GetSchedulesByClassroomIdAsync(id);
-
-        return schedules;
-    }
-
+    
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
