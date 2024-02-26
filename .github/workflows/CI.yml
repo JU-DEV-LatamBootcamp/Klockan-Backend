@@ -1,4 +1,4 @@
-name: .NET
+name: Build and Push to Docker Hub
 
 on:
   push:
@@ -14,21 +14,13 @@ jobs:
         DOCKER_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKER_HUB_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - name: Get Time
-      id: time
-      uses: nanzm/get-time-action@master
-      with:
-        timeZone: GMT-3
-        format: 'YYYY-MM-DD'
-      env:
-        TIME: "${{ steps.time.outputs.time }}"      
     - name: Build the Docker image
       run: docker-compose build
-    - name: Tagin back
-      run: docker tag klockan-backend:v1 klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ steps.time.outputs.time }} 
-    - name: Push to
-      run: docker push klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ steps.time.outputs.time }} 
-    - name: Tagin frontend with latest
+    - name: Tagin backend with tag github sha
+      run: docker tag klockan-backend:v1 klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ github.sha }} 
+    - name: Push to docker hub
+      run: docker push klockan/backend:v${{ secrets.BACKEND_MAJOR }}.${{ secrets.BACKEND_MINOR }}.${{ github.sha }} 
+    - name: Tagin backend with tag latest 
       run: docker tag klockan-backend:v1 klockan/backend:latest
     - name: Push to docker hub
       run: docker push klockan/backend:latest 
