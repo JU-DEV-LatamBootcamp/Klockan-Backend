@@ -1,8 +1,8 @@
-name: Deploy
+name: Deploy to EC2
 
 on:
   workflow_run:
-    workflows: [".NET"]
+    workflows: ["Build and Push to Docker Hub"]
     types:
       - completed
 
