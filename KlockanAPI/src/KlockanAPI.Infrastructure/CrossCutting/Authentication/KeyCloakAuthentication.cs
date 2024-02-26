@@ -93,9 +93,18 @@ public static class KeyCloakAuthentication
     }
     private static async Task<string[]> GetCerts(string certsUrl)
     {
-        using var httpClient = new HttpClient();
-        var response = await httpClient.GetAsync(certsUrl);
-        Console.WriteLine(response);
+        var response = new HttpResponseMessage();
+
+        //bypass the ssl certificate
+        using(var httpClientHandler = new HttpClientHandler())
+        {
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            using(var client = new HttpClient(httpClientHandler))
+            {
+                response = await client.GetAsync(certsUrl);
+            }
+        }
+
         if(response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
