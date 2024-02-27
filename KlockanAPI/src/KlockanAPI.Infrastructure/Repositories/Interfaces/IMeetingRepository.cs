@@ -9,7 +9,7 @@ public interface IMeetingRepository
 
     Task<Meeting> CreateSingleMeeting(Meeting meeting);
 
-    Task AssignStudents(ICollection<MeetingAttendance> meetingAttendance, int classroomId);
-
     Task<int> GetSessionNumber(int classroomId);
+
+    Task<int?> AddUserToClassroomAsync(int userId, int classroomId);
 }

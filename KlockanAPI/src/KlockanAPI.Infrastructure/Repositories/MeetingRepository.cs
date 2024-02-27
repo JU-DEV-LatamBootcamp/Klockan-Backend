@@ -29,102 +29,60 @@ public class MeetingRepository : IMeetingRepository
 
     public async Task<Meeting> CreateSingleMeeting(Meeting meeting)
     {
-        try
-        {
-            var existingTrainer = await _context.ClassroomUsers
-             .FirstOrDefaultAsync(u => u.Id == meeting.TrainerId && u.ClassroomId == meeting.ClassroomId);
+        await _context.Meetings.AddAsync(meeting);
+        await _context.SaveChangesAsync();
 
-            if (existingTrainer == null)
-            {
-                var userTrainer = await _context.Users
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(ut => ut.Id == meeting.TrainerId);
-
-                var newTrainer = new ClassroomUser
-                {
-                    UserId = userTrainer.Id,
-                    ClassroomId = meeting.ClassroomId,
-                    RoleId = userTrainer.RoleId,
-                    Classroom = null,
-                    User = null,
-                    Role = null
-                };
-                await _context.ClassroomUsers.AddAsync(newTrainer);
-                //await _context.SaveChangesAsync();
-            }
-            await _context.Meetings.AddAsync(meeting);
-            await _context.SaveChangesAsync();
-
-            return meeting;
-        }
-        catch (Exception ex)
-        {
-            return null;
-        }
-    }
-
-    public async Task AssignStudents(ICollection<MeetingAttendance> meetingAttendance, int classroomId)
-    {
-        try
-        {
-            foreach (var attendance in meetingAttendance)
-            {
-                var existingUser = await _context.ClassroomUsers
-                .FirstOrDefaultAsync(cu => cu.Id == attendance.ClassroomUserId && cu.ClassroomId == classroomId);
-
-                if (existingUser == null)
-                {
-                    var user = await _context.Users
-                        .AsNoTracking()
-                        .FirstOrDefaultAsync(u => u.Id == attendance.ClassroomUserId);
-
-                    var newClassroomUser = new ClassroomUser
-                    {
-                        UserId = user.Id,
-                        ClassroomId = classroomId,
-                        RoleId = user.RoleId,
-                        Classroom = null,
-                        User = null,
-                        Role = null
-                    };
-                    await _context.ClassroomUsers.AddAsync(newClassroomUser);
-                    attendance.User = newClassroomUser;
-                    await _context.SaveChangesAsync();
-                }
-            }
-
-            await _context.MeetingAttendances.AddRangeAsync(meetingAttendance);
-            await _context.SaveChangesAsync();
-        }
-        catch (Exception ex)
-        {
-           
-        }
+        return meeting;
     }
 
     public async Task<int> GetSessionNumber(int classroomId)
     {
-        var maxSessionNumber = await _context.Meetings
+        var meetings = await _context.Meetings
         .AsNoTracking()
         .Where(m => m.ClassroomId == classroomId)
-        .Select(m => m.SessionNumber)
-        .DefaultIfEmpty()
-        .MaxAsync();
+        .ToListAsync();
 
-        if (maxSessionNumber == 0)
-        {
-            var course = await _context.Meetings
-           .AsNoTracking()
-           .Where(m => m.ClassroomId == classroomId)
-           .Select(m => m.Classroom.Course)
-           .FirstOrDefaultAsync();
+        var maxSessionNumber = meetings.Any() ? meetings.Max(m => m.SessionNumber) : 0;
 
-            if (course != null && course.Sessions.HasValue)
-            {
-                return course.Sessions.Value;
-            }
-        }
+        var course = await _context.Classrooms
+            .Where(c => c.Id == classroomId)
+            .Select(c => c.Course)
+            .FirstOrDefaultAsync();
+
+        if (course != null && course.Sessions.HasValue)
+            return Math.Max(maxSessionNumber, course.Sessions.Value);
 
         return maxSessionNumber;
+    }
+
+    public async Task<int?> AddUserToClassroomAsync(int userId, int classroomId)
+    {
+        var existingClassroomUser = await _context.ClassroomUsers
+            .AsNoTracking()
+            .FirstOrDefaultAsync(cu => cu.UserId == userId && cu.ClassroomId == classroomId);
+
+        if (existingClassroomUser == null)
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var newClassroomUser = new ClassroomUser
+            {
+                UserId = userId,
+                ClassroomId = classroomId,
+                RoleId = user.RoleId,
+                Classroom = null,
+                User = null,
+                Role = null
+            };
+
+            _context.ClassroomUsers.Add(newClassroomUser);
+            await _context.SaveChangesAsync();
+
+            return newClassroomUser.Id;
+        }
+
+        return existingClassroomUser.Id;
     }
 }
