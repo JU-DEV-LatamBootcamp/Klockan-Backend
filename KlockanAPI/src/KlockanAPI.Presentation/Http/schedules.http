@@ -2,4 +2,4 @@
 
 GET {{schedules_url}}
 Accept: application/json
-//Authorization: {{token}}
+Authorization: {{token}}

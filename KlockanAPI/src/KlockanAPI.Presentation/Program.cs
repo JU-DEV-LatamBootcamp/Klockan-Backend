@@ -1,14 +1,14 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-//using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation.AspNetCore;
 using Mapster;
 
@@ -32,7 +32,7 @@ public class Program
         var app = builder.Build();
         app.UseResponseCompression();
         // Configure the HTTP request pipeline.
-        if(app.Environment.IsDevelopment())
+        if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
@@ -41,7 +41,7 @@ public class Program
         app.UseCors(c =>
         {
             var allowedOrigins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>();
-            if(allowedOrigins is not null)
+            if (allowedOrigins is not null)
                 c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
         });
 
@@ -60,17 +60,17 @@ public class Program
         // ***********  API CONTROLLERS AND RESPONSES ************
 
         builder.Services.AddControllers(configure =>
-            {
-                configure.ReturnHttpNotAcceptable = true;
-                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
-                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
-                configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
-            }).AddJsonOptions(o =>
-            {
-                o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-                o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            });
+        {
+            configure.ReturnHttpNotAcceptable = true;
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
+            configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+        }).AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            o.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            o.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+        });
 
         // ***********  FLUENT VALIDATION ************
         builder.Services.AddFluentValidationAutoValidation();
@@ -100,7 +100,7 @@ public class Program
                     Name = "MIT License",
                 },
             });
-/*
+
             // Keycloak
             c.AddSecurityDefinition("KeyCloakBearerAuth", new OpenApiSecurityScheme
             {
@@ -123,7 +123,6 @@ public class Program
             };
 
             c.AddSecurityRequirement(securityRequirement);
-*/
         });
 
         // ***********  API VERSIONING ************
