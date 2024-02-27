@@ -76,19 +76,9 @@ public static class KeyCloakAuthentication
             }
             else
             {
-                throw new Exception("No se pudieron obtener los certificados o no hay certificados disponibles.");
+                throw new Exception("Certificates could not be obtained or there are no certificates available.");
             }
 
-
-
-            o.Events = new JwtBearerEvents()
-            {
-                OnTokenValidated = (TokenValidatedContext context) =>
-                {
-                    return Task.CompletedTask;
-                }
-
-            };
         });
     }
     private static async Task<string[]> GetCerts(string certsUrl)
