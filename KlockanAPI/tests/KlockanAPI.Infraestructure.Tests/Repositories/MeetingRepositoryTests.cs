@@ -130,7 +130,7 @@ public class MeetingRepositoryTests : IDisposable
     {
         // Arrange
         var contextOptions = new DbContextOptionsBuilder<KlockanContext>()
-            .UseInMemoryDatabase(databaseName: "CreateSingleMeeting_ShouldCreateMeeting_WhenTrainerExists")
+            .UseInMemoryDatabase(databaseName: "CreateSingleMeeting_ShouldCreateMeeting")
             .Options;
 
         using (var context = new KlockanContext(contextOptions))
@@ -158,50 +158,81 @@ public class MeetingRepositoryTests : IDisposable
 
             // Assert
             createdMeeting.Should().NotBeNull();
+            createdMeeting.Id.Should().NotBe(0); // Assuming Id is auto-generated and not default to 0
             context.Meetings.Should().Contain(m => m.Id == createdMeeting.Id);
         }
     }
 
     [Fact]
-    public async Task AssignStudents_ShouldAssignStudentsToMeeting()
+    public async Task GetSessionNumber_ShouldReturnMaxSessionNumber()
     {
         // Arrange
-        var contextOptions = new DbContextOptionsBuilder<KlockanContext>()
-            .UseInMemoryDatabase(databaseName: "AssignStudents_ShouldAssignStudentsToMeeting")
+        var classroomId = 1;
+        var meetings = new List<Meeting>
+    {
+        new Meeting { SessionNumber = 1, ClassroomId = classroomId },
+        new Meeting { SessionNumber = 2, ClassroomId = classroomId },
+        new Meeting { SessionNumber = 3, ClassroomId = classroomId }
+    };
+
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "GetSessionNumber_ShouldReturnMaxSessionNumber")
             .Options;
 
-        using (var context = new KlockanContext(contextOptions))
+        using (var context = new KlockanContext(options))
         {
-            var classroomUser1 = new ClassroomUser { Id = 1, UserId = 1, ClassroomId = 1 };
-            var classroomUser2 = new ClassroomUser { Id = 2, UserId = 2, ClassroomId = 1 };
+            context.Meetings.AddRange(meetings);
+            await context.SaveChangesAsync();
+        }
 
-            await context.ClassroomUsers.AddRangeAsync(new[] { classroomUser1, classroomUser2 });
+        int result;
 
-            var meeting = new Meeting { Id = 1, ClassroomId = 1 };
-            await context.Meetings.AddAsync(meeting);
+        // Act
+        using (var context = new KlockanContext(options))
+        {
+            var repository = new MeetingRepository(context);
+            result = await repository.GetSessionNumber(classroomId);
+        }
+
+        // Assert
+        result.Should().Be(3);
+    }
+
+    [Fact]
+    public async Task AddUserToClassroomAsync_ShouldAddUserToClassroom()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "AddUserToClassroomAsync_ShouldAddUserToClassroom")
+            .Options;
+
+        using (var context = new KlockanContext(options))
+        {
+            var user = new User { Id = 1, RoleId = 1 };
+            context.Users.Add(user);
+
+            var classroom = new Classroom { Id = 1 };
+            context.Classrooms.Add(classroom);
 
             await context.SaveChangesAsync();
         }
 
         // Act
-        using (var context = new KlockanContext(contextOptions))
+        int? result;
+        using (var context = new KlockanContext(options))
         {
-            var meetingRepository = new MeetingRepository(context);
-
-            var meetingAttendance = new List<MeetingAttendance>
-        {
-            new MeetingAttendance { MeetingId = 1, ClassroomUserId = 1 },
-            new MeetingAttendance { MeetingId = 1, ClassroomUserId = 2 }
-        };
-
-            await meetingRepository.AssignStudents(meetingAttendance, 1);
+            var repository = new MeetingRepository(context);
+            result = await repository.AddUserToClassroomAsync(userId: 1, classroomId: 1);
         }
 
         // Assert
-        using (var context = new KlockanContext(contextOptions))
+        using (var context = new KlockanContext(options))
         {
-            var meetingAttendances = await context.MeetingAttendances.ToListAsync();
-            meetingAttendances.Should().HaveCount(2);
+            var classroomUser = await context.ClassroomUsers.FirstOrDefaultAsync(cu => cu.UserId == 1 && cu.ClassroomId == 1);
+            Assert.NotNull(classroomUser);
+            Assert.Equal(1, classroomUser.UserId);
+            Assert.Equal(1, classroomUser.RoleId);
+            Assert.Equal(1, result);
         }
     }
 }
