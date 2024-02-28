@@ -8,7 +8,7 @@ using KlockanAPI.Application.Services;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.DTOs.Country;
 
-namespace KlockanAPI.Application.Tests;
+namespace KlockanAPI.Application.Tests.Services;
 
 public class CountryServiceTests
 {

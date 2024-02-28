@@ -7,6 +7,8 @@ using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using MapsterMapper;
 using NSubstitute;
 
+namespace KlockanAPI.Application.Tests.Services;
+
 public class ScheduleServiceTests
 {
     private readonly IScheduleRepository _scheduleRepository;

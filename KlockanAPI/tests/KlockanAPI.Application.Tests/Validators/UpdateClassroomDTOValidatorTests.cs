@@ -3,6 +3,8 @@ using KlockanAPI.Application;
 using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.DTOs.Schedule;
 
+namespace KlockanAPI.Application.Tests.Validators;
+
 public class UpdateClassroomDTOValidatorTests
 {
     public UpdateClassroomDTOValidator GetValidatorInstance() => new();
