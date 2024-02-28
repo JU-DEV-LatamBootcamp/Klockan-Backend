@@ -12,13 +12,13 @@
         - name: Checkout code
           uses: actions/checkout@v4
         - name: Change directory to KlockanAPI
-          run: cd KlockanAPI/src/KlockanAPI.Presentation
+          run: cd KlockanAPI
         - name: Set up .NET Core SDK
           uses: actions/setup-dotnet@v4
           with:
               dotnet-version: '8.0.x'
         - name: Restore dependencies
-          run: dotnet restore
+          run: dotnet restore KlockanAPI.sln
         - name: Build and run tests with coverage
           run: |
               dotnet test --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/
