@@ -40,12 +40,12 @@ public class ClassroomsController : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateClassroom(int id, [FromBody] UpdateClassroomDTO updateClassroomDTO)
+    public async Task<ActionResult<ClassroomDTO>> UpdateClassroom(int id, [FromBody] UpdateClassroomDTO updateClassroomDTO)
     {
         updateClassroomDTO.Id = id;
-        var updatedClassroomDTO = await _classroomService.UpdateClassroomAsync(updateClassroomDTO);
+        var classroomDTO = await _classroomService.UpdateClassroomAsync(updateClassroomDTO);
 
-        return Ok(updatedClassroomDTO);
+        return Ok(classroomDTO);
     }
 
     [HttpDelete("{id}")]
