@@ -41,7 +41,10 @@ public class ClassroomRepository : IClassroomRepository
         var classroomSchedules = classroom.Schedule.ToList();
 
         var schedulesToDelete = classroomSchedules.FilterTarget(schedules, (master, target) => target.Id == master.Id, false);
-        var schedulesToUpdate = classroomSchedules.FilterByTarget(schedules, (master, target) => target.Id == master.Id || master.Id == 0);
+        var schedulesToUpdate =
+            schedules.Count == 0
+                ? classroomSchedules.Where(schedule => schedule.Id == 0).ToList()
+                : classroomSchedules.FilterByTarget(schedules, (master, target) => target.Id == master.Id || master.Id == 0);
 
         _context.Classrooms.Entry(classroomToUpdate!).CurrentValues.SetValues(classroom);
         _context.Schedules.UpdateRange(schedulesToUpdate);
