@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authentication;
 
@@ -19,46 +18,94 @@ public static class KeyCloakAuthentication
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        }).AddJwtBearer(o =>
+        }).AddJwtBearer(async o =>
         {
             o.RequireHttpsMetadata = env.IsProduction();
-            o.Authority = KeyCloakSecrets["Authority"];
-            o.Audience = KeyCloakSecrets["Audience"];
+            o.Authority = KeyCloakSecrets!["Authority"]!;
+            o.Audience = KeyCloakSecrets!["Audience"]!;
 
+            var certs = await GetCerts(KeyCloakSecrets!["CertsUrl"]!);
 
-            var tokenValidationParameters = new TokenValidationParameters()
+            // Obtener los certificados
+            if(certs != null)
             {
-                ValidateIssuer = true,
-                ValidIssuer = KeyCloakSecrets["Authority"],
-                ValidateIssuerSigningKey = true,
-                //IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["CertsUrl"]),
-                IssuerSigningKey = new JsonWebKey(KeyCloakSecrets["Certs"]),
-
-            };
-            o.TokenValidationParameters = tokenValidationParameters;
-
-            o.Events = new JwtBearerEvents()
-            {
-                OnTokenValidated = (TokenValidatedContext context) =>
+                // Obtener el token actual
+                o.Events = new JwtBearerEvents
                 {
-                    return Task.CompletedTask;
-                }
-                //validar token
-
-                /*
-                OnAuthenticationFailed = c =>
-                {
-                    c.NoResult();
-                    c.Response.StatusCode = 500;
-                    c.Response.ContentType = "text/plain";
-                    if(env.IsDevelopment())
+                    OnTokenValidated = context =>
                     {
-                        return c.Response.WriteAsJsonAsync(c.Exception.ToString());
+                        var token = context.SecurityToken as JwtSecurityToken;
+                        if(token != null)
+                        {
+                            var jit = token.Payload["jit"] as string;
+
+                            foreach(var cert in certs)
+                            {
+                                var jwk = new JsonWebKey(cert);
+                                var validationParameters = new TokenValidationParameters
+                                {
+                                    ValidateIssuerSigningKey = true,
+                                    IssuerSigningKey = jwk,
+                                    ValidateIssuer = true,
+                                    ValidateAudience = false
+                                };
+
+                                var tokenHandler = new JwtSecurityTokenHandler();
+                                SecurityToken validatedToken;
+                                try
+                                {
+                                    tokenHandler.ValidateToken(jit, validationParameters, out validatedToken);
+
+                                    context.Options.TokenValidationParameters.IssuerSigningKey = jwk;
+                                    break;
+                                }
+                                catch(SecurityTokenSignatureKeyNotFoundException)
+                                {
+                                    continue;
+                                }
+                                catch(SecurityTokenInvalidSignatureException)
+                                {
+                                    continue;
+                                }
+                            }
+                        }
+
+                        return Task.CompletedTask;
                     }
-                    return c.Response.WriteAsJsonAsync("An error occured processing your authentication.");
-                }
-                */
-            };
+                };
+            }
+            else
+            {
+                throw new Exception("Certificates could not be obtained or there are no certificates available.");
+            }
+
         });
+    }
+    private static async Task<string[]> GetCerts(string certsUrl)
+    {
+        var response = new HttpResponseMessage();
+
+        //bypass the ssl certificate
+        using(var httpClientHandler = new HttpClientHandler())
+        {
+            httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+            using(var client = new HttpClient(httpClientHandler))
+            {
+                response = await client.GetAsync(certsUrl);
+            }
+        }
+
+        if(response.IsSuccessStatusCode)
+        {
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var jsonObj = JsonConvert.DeserializeObject<JObject>(jsonString);
+            var keysArray = jsonObj!["keys"]!.ToString();
+            return new string[] { keysArray };
+        }
+        else
+        {
+            throw new Exception($"Error al obtener los certificados: {response.StatusCode}");
+        }
+
     }
 }

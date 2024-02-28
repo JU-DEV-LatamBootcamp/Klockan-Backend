@@ -8,6 +8,8 @@ using KlockanAPI.Application.Services;
 using Moq;
 using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.DTOs.Schedule;
+using KlockanAPI.Application.DTOs.Program;
+using FluentAssertions.Common;
 
 namespace KlockanAPI.Application.Tests.Services;
 
@@ -16,13 +18,14 @@ public class ClassroomServiceTests
     private readonly IClassroomRepository _classroomRepository;
     private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
-    private readonly Mock<ICourseRepository> _courseRepositoryMock = new();
+    private readonly Mock<IClassroomRepository> _classroomRepositoryMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
 
     public ClassroomServiceTests()
     {
         _classroomRepository = Substitute.For<IClassroomRepository>();
         _meetingRepository = Substitute.For<IMeetingRepository>();
+
         _mapper = new Mapper();
     }
 
@@ -91,6 +94,67 @@ public class ClassroomServiceTests
     public async Task CreateClassroomAsync_ShouldReturnClassroomDTO_WhenCreateIsSuccessful()
     {
 
+        //DTO CREATE/CLASSROOM/SCHEDULE
+        var shedule1 = new UpdateScheduleDTO
+        {
+            WeekdayId = 1,
+            StartTime = new TimeOnly(18, 00, 00)
+
+        };
+
+        var shedule2 = new UpdateScheduleDTO
+        {
+            WeekdayId = 1,
+            StartTime = new TimeOnly(19, 00, 00)
+
+        };
+        List<UpdateScheduleDTO> createClassroomScheduleDTO = [shedule1, shedule2];
+
+        //DTO CREATE/CLASSROOM/
+
+        var createClassroomDTO = new CreateClassroomDTO
+        {
+            StartDate = new DateOnly(2024, 2, 2),
+            ProgramId = 2,
+            CourseId = 1,
+            Schedule = createClassroomScheduleDTO
+        };
+
+
+        var Classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 2, 2),
+            ProgramId = 1,
+            CourseId = 1,
+            CreatedAt = new DateTime(2024, 1, 23, 0, 0, 0, DateTimeKind.Utc)
+
+        };
+
+        var ClassroomDTO = new ClassroomDTO
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 2, 2),
+            ProgramId = 1,
+            CourseId = 1,
+        };
+
+        _mapperMock.Setup(m => m.Map<Classroom>(It.IsAny<CreateClassroomDTO>())).Returns(Classroom);
+        _classroomRepositoryMock.Setup(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>())).ReturnsAsync(Classroom);
+        _mapperMock.Setup(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>())).Returns(ClassroomDTO);
+
+        var service = new ClassroomService(_classroomRepositoryMock.Object, _mapperMock.Object, _meetingRepository);
+
+        // Act
+        var result = await service.CreateClassroomAsync(createClassroomDTO);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(ClassroomDTO, result);
+        Assert.Equal(ClassroomDTO.StartDate, result.StartDate);
+        Assert.Equal(ClassroomDTO.ProgramId, result.ProgramId);
+        _classroomRepositoryMock.Verify(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>()), Times.Once);
+        _mapperMock.Verify(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>()), Times.Once);
     }
 
     [Fact]

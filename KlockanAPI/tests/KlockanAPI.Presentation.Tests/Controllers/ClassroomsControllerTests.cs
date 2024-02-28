@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.Classroom;
-using Moq;
 using KlockanAPI.Application.DTOs.Schedule;
+
+using Moq;
+
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
@@ -59,10 +61,67 @@ public class ClassroomsControllerTests
         ((result.Result as OkObjectResult)!.Value as IEnumerable<ClassroomDTO>)?.First().Should().BeEquivalentTo(sampleClassrooms.First());
     }
 
+
     [Fact]
     public async Task CreateClassroom_Returns201Created_WithValidInput()
     {
+        // Arrange
 
+        //DTO CREATE/CLASSROOM/SCHEDULE
+        var schedule1 = new UpdateScheduleDTO
+        {
+            WeekdayId = 1,
+            StartTime = new TimeOnly(18, 00, 00)
+        };
+
+        var schedule2 = new UpdateScheduleDTO
+        {
+            WeekdayId = 1,
+            StartTime = new TimeOnly(19, 00, 00)
+        };
+
+        List<UpdateScheduleDTO> updateScheduleDTO = new List<UpdateScheduleDTO> { schedule1, schedule2 };
+
+        var createClassroomDTO = new CreateClassroomDTO
+        {
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 2, 23),
+            Schedule = updateScheduleDTO
+        };
+
+        var createdClassrrom = new ClassroomDTO();
+
+        // Mock the _classroomService and _scheduleService
+        var mockClassroomService = new Mock<IClassroomService>();
+        var mockScheduleService = new Mock<IScheduleService>();
+
+        // Set up the expected behavior of the mockClassroomService and mockScheduleService.
+        mockClassroomService
+            .Setup(m => m.CreateClassroomAsync(It.IsAny<CreateClassroomDTO>()))
+            .ReturnsAsync(createdClassrrom);
+
+        // Create an instance of the controller with the mocked services.
+        var controller = new ClassroomsController(mockClassroomService.Object);
+
+        // Act
+        var result = await controller.CreateClassroom(createClassroomDTO);
+
+        var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
+        Assert.Equal(201, actionResult.StatusCode);
+
+        // Check if the value is of the expected type
+        if (actionResult.Value is ClassroomDTO createdClassroomDTO)
+        {
+            // Additional assertions on createdClassroomDTO
+            Assert.NotNull(createdClassroomDTO);
+            // ...
+        }
+        else
+        {
+            // Fail the test if the value is not of the expected type
+            Assert.True(false, "Unexpected type returned from the action.");
+        }
     }
 
 
