@@ -1,3 +1,5 @@
+  name: Test coverage
+
   on:
     push:
       branches:
@@ -9,6 +11,8 @@
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
+        - name: Change directory to KlockanAPI
+          run: cd KlockanAPI
         - name: Set up .NET Core SDK
           uses: actions/setup-dotnet@v4
           with:
