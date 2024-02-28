@@ -334,10 +334,9 @@ public class ClassroomRepositoryTests : IDisposable
 
         var weekday = new Weekday() { Id = 1, Name = "Monday" };
 
-        var classroomId = 5;
         var classroom = new Classroom()
         {
-            Id = classroomId,
+            Id = 1,
             ProgramId = program.Id,
             CourseId = course.Id,
             StartDate = new DateOnly(2024, 1, 1),
@@ -345,14 +344,12 @@ public class ClassroomRepositoryTests : IDisposable
                 new Schedule
                 {
                     Id = 1,
-                    ClassroomId = classroomId,
                     WeekdayId = weekday.Id,
                     StartTime = new TimeOnly(15, 30, 0),
                 },
                 new Schedule
                 {
                     Id = 2,
-                    ClassroomId = classroomId,
                     WeekdayId = weekday.Id,
                     StartTime = new TimeOnly(15, 30, 0),
                 },
@@ -387,6 +384,9 @@ public class ClassroomRepositoryTests : IDisposable
         _context.Courses.Add(course);
         _context.Weekdays.Add(weekday);
         _context.Classrooms.Add(classroom);
+
+        await _context.SaveChangesAsync();
+        _context.ChangeTracker.Clear();
 
         // Act
         var result = await classroomRepository.UpdateClassroomAsync(updatedClassroom);

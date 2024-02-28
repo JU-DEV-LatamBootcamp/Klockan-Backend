@@ -15,10 +15,10 @@ public class ScheduleRepository : IScheduleRepository
 
     public async Task<IEnumerable<Schedule>> GetSchedulesByClassroomIdAsync(int id)
     {
-        var Schedules = await Task.FromResult(_context.Schedules
+        var schedules = await Task.FromResult(_context.Schedules
             .Where(s => s.ClassroomId == id)
             .ToList());
 
-        return Schedules;
+        return schedules;
     }
 }
