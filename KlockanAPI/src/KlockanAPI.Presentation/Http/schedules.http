@@ -1,0 +1,5 @@
+@schedules_url = {{presentation_host}}/api/v1/schedules
+
+GET {{schedules_url}}
+Accept: application/json
+Authorization: {{token}}

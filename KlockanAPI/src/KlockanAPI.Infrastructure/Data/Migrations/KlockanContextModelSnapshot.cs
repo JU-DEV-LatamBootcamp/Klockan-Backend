@@ -1274,6 +1274,40 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasIndex("WeekdayId");
 
                     b.ToTable("Schedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StartTime = new TimeOnly(15, 30, 0),
+                            WeekdayId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StartTime = new TimeOnly(15, 30, 0),
+                            WeekdayId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ClassroomId = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StartTime = new TimeOnly(15, 30, 0),
+                            WeekdayId = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ClassroomId = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            StartTime = new TimeOnly(15, 30, 0),
+                            WeekdayId = 7
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.User", b =>
@@ -1425,6 +1459,50 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Weekdays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Sunday"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Monday"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Tuesday"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Wednesday"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Thursday"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Friday"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Saturday"
+                        });
                 });
 
             modelBuilder.Entity("KlockanAPI.Domain.Models.City", b =>

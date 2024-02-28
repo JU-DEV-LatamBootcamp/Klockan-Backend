@@ -25,6 +25,13 @@ public class ClassroomRepository : IClassroomRepository
         return classrooms;
     }
 
+    public async Task<Classroom> CreateClassroomAsync(Classroom classroom)
+    {
+        await _context.Classrooms.AddAsync(classroom);
+        await _context.SaveChangesAsync();
+        return classroom;
+    }
+
     public async Task<IEnumerable<Classroom>?> GetClassroomsByCourseIdAsync(int courseId)
     {
         var classrooms = await _context.Classrooms.Where(c => c.CourseId == courseId).ToListAsync();
