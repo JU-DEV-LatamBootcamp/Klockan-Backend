@@ -12,7 +12,7 @@
         - name: Checkout code
           uses: actions/checkout@v4
         - name: Change directory to KlockanAPI
-          run: cd KlockanAPI/src
+          run: cd KlockanAPI/src/KlockanAPI.Presentation
         - name: Set up .NET Core SDK
           uses: actions/setup-dotnet@v4
           with:
