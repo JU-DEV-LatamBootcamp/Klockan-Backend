@@ -229,7 +229,6 @@ public class ClassroomRepositoryTests : IDisposable
         result.Should().BeNull();
     }
 
-
     [Fact]
     public async Task CreateClassroomAsync_ShouldAddClassroom_WhenCalled()
     {
@@ -255,5 +254,149 @@ public class ClassroomRepositoryTests : IDisposable
             var classroomInDb = await context.Classrooms.FindAsync(result.Id);
             Assert.NotNull(classroomInDb);
         }
+    }
+
+    [Fact]
+    public async Task UpdateClassroomAsync_ShouldUpdateClassroom_WhenClassroomChange()
+    {
+        // Arrange
+        var classroomRepository = GetRepositoryInstance();
+
+        var program = new Program()
+        {
+            Id = 1,
+            Name = "Program 1",
+            Description = "Program 1",
+        };
+
+        var course = new Course()
+        {
+            Id = 1,
+            Name = "Course 1",
+            Description = "Course 1",
+            Sessions = 10,
+            SessionDuration = 60,
+        };
+
+        var weekday = new Weekday() { Id = 1, Name = "Monday" };
+
+        var classroomId = 5;
+        var classroom = new Classroom()
+        {
+            Id = classroomId,
+            ProgramId = program.Id,
+            CourseId = course.Id,
+            StartDate = new DateOnly(2024, 1, 1),
+        };
+
+        var updatedClassroom = new Classroom()
+        {
+            Id = classroom.Id,
+            ProgramId = program.Id,
+            CourseId = course.Id,
+            StartDate = new DateOnly(2024, 7, 7),
+        };
+
+        _context.Programs.Add(program);
+        _context.Courses.Add(course);
+        _context.Weekdays.Add(weekday);
+        _context.Classrooms.Add(classroom);
+
+        // Act
+        var result = await classroomRepository.UpdateClassroomAsync(updatedClassroom);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.StartDate.Should().Be(updatedClassroom.StartDate);
+    }
+
+    [Fact]
+    public async Task UpdateClassroomAsync_ShouldUpdateNestedSchedules_WhenSchedulesChange()
+    {
+        // Arrange
+        var classroomRepository = GetRepositoryInstance();
+
+        var program = new Program()
+        {
+            Id = 1,
+            Name = "Program 1",
+            Description = "Program 1",
+        };
+
+        var course = new Course()
+        {
+            Id = 1,
+            Name = "Course 1",
+            Description = "Course 1",
+            Sessions = 10,
+            SessionDuration = 60,
+        };
+
+        var weekday = new Weekday() { Id = 1, Name = "Monday" };
+
+        var classroomId = 5;
+        var classroom = new Classroom()
+        {
+            Id = classroomId,
+            ProgramId = program.Id,
+            CourseId = course.Id,
+            StartDate = new DateOnly(2024, 1, 1),
+            Schedule = new List<Schedule>() {
+                new Schedule
+                {
+                    Id = 1,
+                    ClassroomId = classroomId,
+                    WeekdayId = weekday.Id,
+                    StartTime = new TimeOnly(15, 30, 0),
+                },
+                new Schedule
+                {
+                    Id = 2,
+                    ClassroomId = classroomId,
+                    WeekdayId = weekday.Id,
+                    StartTime = new TimeOnly(15, 30, 0),
+                },
+            }
+        };
+
+        var updatedClassroom = new Classroom()
+        {
+            Id = classroom.Id,
+            ProgramId = program.Id,
+            CourseId = course.Id,
+            StartDate = new DateOnly(2024, 7, 7),
+            Schedule = new List<Schedule>() {
+                new Schedule
+                {
+                    Id = 2,
+                    ClassroomId = classroom.Id,
+                    WeekdayId = weekday.Id,
+                    StartTime = new TimeOnly(16, 30, 0),
+                },
+                new Schedule
+                {
+                    Id = 3,
+                    ClassroomId = classroom.Id,
+                    WeekdayId = weekday.Id,
+                    StartTime = new TimeOnly(16, 30, 0),
+                },
+            }
+        };
+
+        _context.Programs.Add(program);
+        _context.Courses.Add(course);
+        _context.Weekdays.Add(weekday);
+        _context.Classrooms.Add(classroom);
+
+        // Act
+        var result = await classroomRepository.UpdateClassroomAsync(updatedClassroom);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Schedule.Where(s => s.Id == 1).Count().Should().Be(0); // schedule with id 1 should be removed
+        result.Schedule.Where(s => s.Id == 2).First().StartTime.Should().Be(
+            updatedClassroom.Schedule.Where(s => s.Id == 2).First().StartTime
+        ); // schedule with id 2 should be modified
+        result.Schedule.Where(s => s.Id == 3).Count().Should().Be(1); // schedule with id 3 should be added
     }
 }
