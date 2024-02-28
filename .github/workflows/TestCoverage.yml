@@ -27,13 +27,25 @@
               reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults
         - name: Calculate coverage percentage
           run: |
-            total_lines=$(grep -o '<line' ./KlockanAPI/TestResults/Coverage/coverage.cobertura.xml | wc -l)
-            covered_lines=$(grep -o '<line coverable="true" hits="[1-9]"' ./KlockanAPI/TestResults/Coverage/coverage.cobertura.xml | wc -l)
+            report_folder=$(find ./KlockanAPI/TestResults -type d -name '*/' -print0 | xargs -0 ls -t | head -n1)
+            coverage_report="./$report_folder/coverage.cobertura.xml"
+            if [ -f "$coverage_report" ]; then
+            total_lines=$(grep -o '<line' "$coverage_report" | wc -l)
+            covered_lines=$(grep -o '<line coverable="true" hits="[1-9]"' "$coverage_report" | wc -l)
+            if [ $total_lines -gt 0 ]; then
             coverage_percentage=$((covered_lines * 100 / total_lines))
-            echo "Coverage Percentage: $coverage_percentage%"
-            if [ $coverage_percentage -lt 50 ]; then
-              echo "Coverage is below 50%, failing the job."
+              echo "Coverage Percentage: $coverage_percentage%"
+                if [ $coverage_percentage -lt 50 ]; then
+                  echo "Coverage is below 50%, failing the job."
               exit 1
+            fi
+            else
+              echo "No lines found in the coverage report."
+            exit 1
+            fi
+            else
+              echo "Coverage report not found."
+            exit 1
             fi
         - name: Upload coverage report
           uses: actions/upload-artifact@v2
