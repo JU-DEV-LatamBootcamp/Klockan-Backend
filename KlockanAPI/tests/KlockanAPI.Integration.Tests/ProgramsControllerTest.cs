@@ -19,6 +19,7 @@ public class ProgramsControllerTest : IClassFixture<KlockanApiFactory>
     }
 
     [Fact]
+    [Trait("Category", "Integration")]
     public async Task GetPrograms_ReturnsOk()
     {
         var response = await _client.GetStringAsync("");
