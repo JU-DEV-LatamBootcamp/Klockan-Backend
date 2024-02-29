@@ -22,6 +22,8 @@ public static class ApplicactionServiceRegistration
             .AddScoped<ICourseService, CourseService>()
             .AddScoped<IClassroomService, ClassroomService>()
             .AddScoped<IMeetingService, MeetingService>()
+            .AddScoped<IScheduleService, ScheduleService>()
+
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICountryService, CountryService>()
             .AddSingleton(config)
@@ -30,7 +32,9 @@ public static class ApplicactionServiceRegistration
         services
             .AddValidatorsFromAssemblyContaining<CreateCourseDTOValidator>()
             .AddValidatorsFromAssemblyContaining<CreateProgramDTOValidator>()
-            .AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>();
+            .AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>()
+            .AddValidatorsFromAssemblyContaining<CreateClassroomDTOValidator>()
+            .AddValidatorsFromAssemblyContaining<CreateScheduleDTOValidator>();
 
         return services;
     }

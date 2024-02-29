@@ -5,3 +5,30 @@ Accept: application/json
 Authorization: {{token}}
 
 ### 
+POST {{classrooms_url}} HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+Authorization: {{token}}
+
+{
+  "startDate": "2024-08-28",
+  "programId": "1",
+  "courseId": "1",
+  "schedule": [
+    {
+      "weekdayId": 1,
+      "startTime": "00:00:00"
+    },
+    {
+      "weekdayId": 2,
+      "startTime": "00:00:00"
+    }
+  ]
+}
+
+###
+@classroom_id = 72
+
+GET {{classrooms_url}}/{{classroom_id}}/schedules
+Accept: application/json
+Authorization: {{token}}

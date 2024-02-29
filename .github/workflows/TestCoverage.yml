@@ -1,0 +1,40 @@
+name: Test coverage
+
+on:
+  push:
+    branches:
+      - develop
+      
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Change directory to KlockanAPI
+        run: cd KlockanAPI
+      - name: Set up .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+            dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: cd KlockanAPI && dotnet restore
+      - name: Install report generator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.2
+      - name: Build and run tests with coverage
+        run: |
+            cd KlockanAPI && dotnet test --filter category="Integration" --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/ ; reportgenerator -reports:"./TestResults/*/*.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults -filefilters:-*\KlockanAPI.Infrastructure\Data\Migrations* ;
+      - name: Check for failing unit tests
+        run: |
+          if grep -q 'result="Fail"' ./KlockanAPI/TestResults/*.xml; then
+            echo "Some unit tests have failed, failing the job."
+          exit 1
+          else
+            echo "All unit tests passed."
+          fi
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: ./KlockanAPI/TestResults
+
