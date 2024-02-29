@@ -1,54 +1,54 @@
-  name: Test coverage
+name: Test coverage
 
-  on:
-    push:
-      branches:
-        - develop
-        
-  jobs:
-    test:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
-        - name: Change directory to KlockanAPI
-          run: cd KlockanAPI
-        - name: Set up .NET Core SDK
-          uses: actions/setup-dotnet@v4
-          with:
-              dotnet-version: '8.0.x'
-        - name: Restore dependencies
-          run: cd KlockanAPI && dotnet restore
-        - name: Install report generator
-          run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.2
-        - name: Build and run tests with coverage
-          run: |
-              cd KlockanAPI && dotnet test --filter Category!=Integration --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/
-              reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults
-        - name: Calculate coverage percentage
-          run: |
-            report_folder=$(find ./KlockanAPI/TestResults -type d -name '*/' -print0 | xargs -0 ls -t | head -n1)
-            coverage_report="./$report_folder/coverage.cobertura.xml"
-            if [ -f "$coverage_report" ]; then
+on:
+  push:
+    branches:
+      - develop
+      
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Change directory to KlockanAPI
+        run: cd KlockanAPI
+      - name: Set up .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+            dotnet-version: '8.0.x'
+      - name: Restore dependencies
+        run: cd KlockanAPI && dotnet restore
+      - name: Install report generator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.2
+      - name: Build and run tests with coverage
+        run: |
+            cd KlockanAPI && dotnet test --filter Category!=Integration --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/
+            reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./KlockanAPI/TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults
+      - name: Calculate coverage percentage
+        run: |
+          coverage_report="./KlockanAPI/TestResults/CoverletReports/coverage.cobertura.xml"
+          if [ -f "$coverage_report" ]; then
             total_lines=$(grep -o '<line' "$coverage_report" | wc -l)
             covered_lines=$(grep -o '<line coverable="true" hits="[1-9]"' "$coverage_report" | wc -l)
             if [ $total_lines -gt 0 ]; then
-            coverage_percentage=$((covered_lines * 100 / total_lines))
+              coverage_percentage=$((covered_lines * 100 / total_lines))
               echo "Coverage Percentage: $coverage_percentage%"
-                if [ $coverage_percentage -lt 50 ]; then
-                  echo "Coverage is below 50%, failing the job."
-              exit 1
-            fi
+              if [ $coverage_percentage -lt 50 ]; then
+                echo "Coverage is below 50%, failing the job."
+                exit 1
+              fi
             else
               echo "No lines found in the coverage report."
-            exit 1
+              exit 1
             fi
-            else
-              echo "Coverage report not found."
+          else
+            echo "Coverage report not found."
             exit 1
-            fi
-        - name: Upload coverage report
-          uses: actions/upload-artifact@v2
-          with:
-            name: coverage-report
-            path: ./KlockanAPI/TestResults/CoverletReports
+          fi
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: ./KlockanAPI/TestResults/CoverletReports
+
