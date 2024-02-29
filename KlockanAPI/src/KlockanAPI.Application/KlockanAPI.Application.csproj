@@ -29,4 +29,8 @@
 		<ProjectReference Include="..\KlockanAPI.Infrastructure\KlockanAPI.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="KeycloakAPI\" />
+	</ItemGroup>
+
 </Project>
