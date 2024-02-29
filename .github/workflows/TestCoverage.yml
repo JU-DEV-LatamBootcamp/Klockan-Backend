@@ -23,10 +23,7 @@ jobs:
         run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.2
       - name: Build and run tests with coverage
         run: |
-            cd KlockanAPI && dotnet test --filter Category!=Integration --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/
-            reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./KlockanAPI/TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults
-      - name: Check reports
-        run: cd KlockanAPI/TestResults && ls
+            cd KlockanAPI && dotnet --category="Integration" test --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/ ; reportgenerator -reports:"./TestResults/*/*.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults -filefilters:-*\KlockanAPI.Infrastructure\Data\Migrations* ;
       - name: Check for failing unit tests
         run: |
           if grep -q 'result="Fail"' ./KlockanAPI/TestResults/*.xml; then
@@ -39,5 +36,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: coverage-report
-          path: ./KlockanAPI/TestResults/CoverletReports
+          path: ./KlockanAPI/TestResults
 
