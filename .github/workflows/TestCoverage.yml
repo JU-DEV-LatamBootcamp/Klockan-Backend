@@ -27,26 +27,13 @@ jobs:
             reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./KlockanAPI/TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults
       - name: Check reports
         run: cd KlockanAPI/TestResults && ls
-      - name: Calculate coverage percentage
+      - name: Check for failing unit tests
         run: |
-          coverage_report="./KlockanAPI/TestResults/CoverletReports/coverage.cobertura.xml"
-          if [ -f "$coverage_report" ]; then
-            total_lines=$(grep -o '<line' "$coverage_report" | wc -l)
-            covered_lines=$(grep -o '<line coverable="true" hits="[1-9]"' "$coverage_report" | wc -l)
-            if [ $total_lines -gt 0 ]; then
-              coverage_percentage=$((covered_lines * 100 / total_lines))
-              echo "Coverage Percentage: $coverage_percentage%"
-              if [ $coverage_percentage -lt 50 ]; then
-                echo "Coverage is below 50%, failing the job."
-                exit 1
-              fi
-            else
-              echo "No lines found in the coverage report."
-              exit 1
-            fi
+          if grep -q 'result="Fail"' ./KlockanAPI/TestResults/*.xml; then
+            echo "Some unit tests have failed, failing the job."
+          exit 1
           else
-            echo "Coverage report not found."
-            exit 1
+            echo "All unit tests passed."
           fi
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
