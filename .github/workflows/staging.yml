@@ -7,6 +7,7 @@ on:
 
 jobs:
   unit-tests:
+    name: Running unit test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,7 +24,7 @@ jobs:
         run: dotnet tool install --global dotnet-reportgenerator-globaltool --version 5.2.2
       - name: Build and run tests with coverage
         run: |
-            cd KlockanAPI && dotnet test --filter category="Integration" --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/ ; reportgenerator -reports:"./TestResults/*/*.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults -filefilters:-*\KlockanAPI.Infrastructure\Data\Migrations* ;
+            cd KlockanAPI && dotnet test --filter category!="Integration" --collect:"XPlat Code Coverage" --results-directory ./TestResults /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/Coverage/ ; reportgenerator -reports:"./TestResults/*/*.xml" -targetdir:"./TestResults/CoverletReports" -reporttypes:"HtmlInline_AzurePipelines_Dark;Cobertura" -historydir:./TestResults -filefilters:-*\KlockanAPI.Infrastructure\Data\Migrations* ;
       - name: Check for failing unit tests
         run: |
           if grep -q 'result="Fail"' ./KlockanAPI/TestResults/*.xml; then
