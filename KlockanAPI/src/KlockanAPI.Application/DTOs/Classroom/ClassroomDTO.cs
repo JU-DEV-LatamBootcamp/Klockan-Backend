@@ -11,5 +11,4 @@ public class ClassroomDTO
     public int CourseId { get; set; }
     public ProgramDTO? Program { get; set; }
     public CourseDTO? Course { get; set; }
-
 }

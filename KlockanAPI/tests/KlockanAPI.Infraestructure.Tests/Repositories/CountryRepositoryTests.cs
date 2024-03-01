@@ -6,7 +6,7 @@ using KlockanAPI.Infrastructure.Data;
 
 using Microsoft.EntityFrameworkCore;
 
-namespace KlockanAPI.Infraestructure.Tests;
+namespace KlockanAPI.Infraestructure.Tests.Repositories;
 
 public class CountryRepositoryTests : IDisposable
 {

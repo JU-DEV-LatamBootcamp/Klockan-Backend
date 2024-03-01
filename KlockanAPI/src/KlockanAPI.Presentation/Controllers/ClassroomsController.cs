@@ -12,12 +12,10 @@ namespace KlockanAPI.Presentation.Controllers;
 public class ClassroomsController : ControllerBase
 {
     private readonly IClassroomService _classroomService;
-    private readonly IScheduleService _scheduleService;
 
-    public ClassroomsController(IClassroomService classroomService, IScheduleService scheduleService)
+    public ClassroomsController(IClassroomService classroomService)
     {
         _classroomService = classroomService;
-        _scheduleService = scheduleService;
     }
 
     [HttpGet]
@@ -34,27 +32,22 @@ public class ClassroomsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<ClassroomDTO>> CreateClassroom([FromBody] CreateClassroomDTO createClassroomDTO)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
+        var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
 
-        try
-        {
-            var createdClassroomDTO = await _classroomService.CreateClassroomAsync(createClassroomDTO);
-            var createSchedulesDTOs = _classroomService.MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(createdClassroomDTO.Id, createClassroomDTO.Schedule);
-
-            await _scheduleService.CreateManySchedulesAsync(createSchedulesDTOs);
-
-            return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Internal server error: {ex.Message}");
-        }
+        return CreatedAtAction(null, new { id = createdClassroomDTO.Id }, createdClassroomDTO);
     }
 
-    
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ClassroomDTO>> UpdateClassroom(int id, [FromBody] UpdateClassroomDTO updateClassroomDTO)
+    {
+        updateClassroomDTO.Id = id;
+        var classroomDTO = await _classroomService.UpdateClassroomAsync(updateClassroomDTO);
+
+        return Ok(classroomDTO);
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
