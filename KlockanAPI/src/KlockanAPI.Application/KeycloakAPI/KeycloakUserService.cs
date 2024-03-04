@@ -5,11 +5,12 @@ using Newtonsoft.Json;
 
 using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.KeycloakAPI.Interfaces;
-
+using KlockanAPI.Domain.Keycloak;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using KlockanAPI.Application.Client;
+using KlockanAPI.Domain.Models;
 
 
 namespace KlockanAPI.Application.KeycloakAPI;
@@ -41,18 +42,23 @@ public class KeycloakUserService : IKeycloakUserService
             var httpClient = _customHttpClient.GetCustomHttpClient();
             var adminToken = await _keycloakAuthService.GetAdminToken();
 
-            var keycloakUser = new
+            string roleGroup = userDTO.RoleId == Role.ADMIN_ID ? Role.ADMIN_NAME : Role.TRAINER_NAME;
+
+
+            KeycloakCreateUser keyCloakUser = new KeycloakCreateUser
             {
-                username = $"{userDTO.FirstName}.{userDTO.LastName}",
+                username = userDTO.Email,
                 email = userDTO.Email,
                 firstName = userDTO.FirstName,
                 lastName = userDTO.LastName,
                 enabled = true,
-                credentials = new[] {
-                    new { type = "password", value = "password", temporary = true }
+                groups = new List<string> { roleGroup },
+                credentials = new List<Credential> {
+                    new() { type = "password", value = "password", temporary = true }
                     }
             };
-            var json = JsonConvert.SerializeObject(keycloakUser);
+
+            var json = JsonConvert.SerializeObject(keyCloakUser);
             var response = new HttpResponseMessage();
 
             string baseUrl = _configuration["KeyCloakAdmin:BaseUrl"]!;
