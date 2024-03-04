@@ -4,6 +4,7 @@ using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Infrastructure.CrossCutting.Authorization;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -22,8 +23,13 @@ public class CoursesController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<CourseDTO>>> GetAll()
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         var courses = await _courseService.GetAllCoursesAsync();
         return Ok(courses);
     }
@@ -31,8 +37,13 @@ public class CoursesController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CourseDTO>> CreateCourse([FromBody] CreateCourseDTO createCourseDTO)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -53,8 +64,13 @@ public class CoursesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<CourseDTO>> Delete(int id)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         var course = await _courseService.DeleteCourseAsync(id);
 
         return Ok(course);
@@ -63,9 +79,14 @@ public class CoursesController : ControllerBase
     [HttpPut("{courseId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CourseDTO>> UpdateCourse([FromBody] Course course)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         var _course = await _courseService.UpdateCourseAsync(course);
         return Ok(_course);
     }

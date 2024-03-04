@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Meeting;
