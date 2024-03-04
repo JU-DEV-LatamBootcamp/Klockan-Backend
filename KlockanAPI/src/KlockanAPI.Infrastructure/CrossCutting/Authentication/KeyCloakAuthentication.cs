@@ -48,7 +48,6 @@ public static class KeyCloakAuthentication
                                     IssuerSigningKey = jwk,
                                     ValidateIssuer = true,
                                     ValidateAudience = false,
-                                    // RoleClaimType = "roles"
                                 };
 
                                 var tokenHandler = new JwtSecurityTokenHandler();
