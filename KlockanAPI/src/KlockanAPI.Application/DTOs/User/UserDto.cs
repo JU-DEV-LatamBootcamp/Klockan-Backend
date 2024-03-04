@@ -14,6 +14,7 @@ public class UserDto
     public DateOnly Birthdate { get; set; }
     public CityDto? City { get; set; }
     public CountryDto? Country { get; set; }
+    public int RoleId { get; set; }
     public RoleDto? Role { get; set; }
 
 }
