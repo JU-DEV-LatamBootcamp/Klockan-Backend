@@ -27,7 +27,7 @@ public static class KeyCloakAuthentication
             var certs = await GetCerts(KeyCloakSecrets!["CertsUrl"]!);
 
             // Obtener los certificados
-            if(certs != null)
+            if (certs != null)
             {
                 // Obtener el token actual
                 o.Events = new JwtBearerEvents
@@ -35,11 +35,11 @@ public static class KeyCloakAuthentication
                     OnTokenValidated = context =>
                     {
                         var token = context.SecurityToken as JwtSecurityToken;
-                        if(token != null)
+                        if (token != null)
                         {
                             var jit = token.Payload["jit"] as string;
 
-                            foreach(var cert in certs)
+                            foreach (var cert in certs)
                             {
                                 var jwk = new JsonWebKey(cert);
                                 var validationParameters = new TokenValidationParameters
@@ -47,7 +47,8 @@ public static class KeyCloakAuthentication
                                     ValidateIssuerSigningKey = true,
                                     IssuerSigningKey = jwk,
                                     ValidateIssuer = true,
-                                    ValidateAudience = false
+                                    ValidateAudience = false,
+                                    // RoleClaimType = "roles"
                                 };
 
                                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -59,11 +60,11 @@ public static class KeyCloakAuthentication
                                     context.Options.TokenValidationParameters.IssuerSigningKey = jwk;
                                     break;
                                 }
-                                catch(SecurityTokenSignatureKeyNotFoundException)
+                                catch (SecurityTokenSignatureKeyNotFoundException)
                                 {
                                     continue;
                                 }
-                                catch(SecurityTokenInvalidSignatureException)
+                                catch (SecurityTokenInvalidSignatureException)
                                 {
                                     continue;
                                 }
@@ -86,16 +87,16 @@ public static class KeyCloakAuthentication
         var response = new HttpResponseMessage();
 
         //bypass the ssl certificate
-        using(var httpClientHandler = new HttpClientHandler())
+        using (var httpClientHandler = new HttpClientHandler())
         {
             httpClientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
-            using(var client = new HttpClient(httpClientHandler))
+            using (var client = new HttpClient(httpClientHandler))
             {
                 response = await client.GetAsync(certsUrl);
             }
         }
 
-        if(response.IsSuccessStatusCode)
+        if (response.IsSuccessStatusCode)
         {
             var jsonString = await response.Content.ReadAsStringAsync();
             var jsonObj = JsonConvert.DeserializeObject<JObject>(jsonString);

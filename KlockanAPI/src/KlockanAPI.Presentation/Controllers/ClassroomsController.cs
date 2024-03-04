@@ -2,7 +2,6 @@
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Classroom;
 using Asp.Versioning;
-using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -54,7 +53,7 @@ public class ClassroomsController : ControllerBase
         }
     }
 
-    
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

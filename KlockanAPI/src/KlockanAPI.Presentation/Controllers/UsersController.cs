@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Infrastructure.CrossCutting.Authorization;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -37,8 +38,13 @@ public class UsersController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDTO createUserDTO)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
