@@ -6,4 +6,8 @@ public interface IUserRepository
 {
     Task<IEnumerable<User>> GetAllUsersAsync(int pageSize, int pageNumber);
     Task <User> CreateUserAsync(User user);
+    Task<User> GetUserByIdAsync(int id);
+
+    Task<User> UpdateUserAsync(User user);
+
 }

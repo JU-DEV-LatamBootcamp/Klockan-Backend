@@ -31,4 +31,13 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
         return user;
     }
+    public async Task<User> GetUserByIdAsync(int userId)
+    {
+        return await _context.Users.FirstAsync(u => u.Id == userId);
+    }
+
+    public Task<User> UpdateUserAsync(User user)
+    {
+        throw new NotImplementedException();
+    }
 }

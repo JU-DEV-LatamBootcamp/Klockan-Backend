@@ -31,4 +31,39 @@ public class UserService : IUserService
         var createdUser = await _userRepository.CreateUserAsync(user);
         return _mapper.Map<UserDto>(createdUser);
     }
+
+    public async Task<UserDto> UpdateUserAsync(int id, UpdateUserDTO updateUserDto)
+    {
+        var user = _mapper.Map<User>(updateUserDto);
+
+        var existingUser = await _userRepository.GetUserByIdAsync(user.Id);
+
+
+        if (existingUser == null)
+        {
+            throw new Exception($"User not found");
+        }
+
+        existingUser.FirstName = updateUserDto.FirstName;
+        existingUser.LastName = updateUserDto.LastName;
+        existingUser.Birthdate = updateUserDto.Birthdate;
+
+        var updatedUser = await _userRepository.UpdateUserAsync(existingUser);
+
+        return _mapper.Map<UserDto>(updatedUser);
+    }
+
+    public async Task<UserDto> GetUserByIdAsync(int id)
+    {
+        var user = await _userRepository.GetUserByIdAsync(id);
+
+        if (user == null)
+        {
+            throw new Exception($"User not found");
+        }
+
+        return _mapper.Map<UserDto>(user);
+    }
+
+
 }

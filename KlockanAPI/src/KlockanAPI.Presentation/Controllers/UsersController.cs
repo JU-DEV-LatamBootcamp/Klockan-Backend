@@ -60,4 +60,34 @@ public class UsersController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+    
+    [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDTO updateUserDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var existingUser = await _userService.GetUserByIdAsync(id);
+
+            if (existingUser == null)
+            {
+                return NotFound($"User with ID {id} not found");
+            }
+
+            var updatedUserDTO = await _userService.UpdateUserAsync(id, updateUserDTO);
+            return Ok(updatedUserDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 }
