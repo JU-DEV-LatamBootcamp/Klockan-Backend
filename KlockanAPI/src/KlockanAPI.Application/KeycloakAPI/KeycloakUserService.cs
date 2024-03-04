@@ -18,29 +18,22 @@ namespace KlockanAPI.Application.KeycloakAPI;
 public class KeycloakUserService : IKeycloakUserService
 {
     private readonly ICustomHttpClientService _customHttpClient;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IConfiguration _configuration;
-    private readonly IKeycloakAuthService _keycloakAuthService;
 
     public KeycloakUserService(
         ICustomHttpClientService customHttpClient,
-        IHttpContextAccessor httpContextAccessor,
-        IConfiguration configuration,
-        IKeycloakAuthService keycloakAuthService)
+        IConfiguration configuration)
     {
         _customHttpClient = customHttpClient;
-        _httpContextAccessor = httpContextAccessor;
         _configuration = configuration;
-        _keycloakAuthService = keycloakAuthService;
     }
 
 
-    public async Task<bool> CreateUserAsync(UserDto userDTO)
+    public async Task<bool> CreateUserAsync(UserDto userDTO, Token adminToken)
     {
         try
         {
             var httpClient = _customHttpClient.GetCustomHttpClient();
-            var adminToken = await _keycloakAuthService.GetAdminToken();
 
             string roleGroup = userDTO.RoleId == Role.ADMIN_ID ? Role.ADMIN_NAME : Role.TRAINER_NAME;
 
