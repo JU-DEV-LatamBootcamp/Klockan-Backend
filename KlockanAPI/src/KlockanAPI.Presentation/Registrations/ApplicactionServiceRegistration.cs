@@ -17,14 +17,15 @@ public static class ApplicactionServiceRegistration
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
         // Mapster configuration, this scans all custom configs
+        var meetingServiceType = configuration.GetValue<string>("MeetingServiceType");
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
 
         // Bind Webex options
         var webexOptionsSection = configuration.GetSection("Webex");
         services.Configure<WebexOptions>(webexOptionsSection);
+        WebexMeetingUtils.HostEmail = configuration["Webex:HostEmail"];
 
-        // Register WebexService with HttpClient configured
         services.AddHttpClient<WebexService>(client =>
         {
             client.BaseAddress = new Uri(configuration["Webex:MeetingsApiUrl"]);
@@ -40,9 +41,11 @@ public static class ApplicactionServiceRegistration
             .AddScoped<IScheduleService, ScheduleService>()
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICountryService, CountryService>()
-            .AddSingleton<WebexMeetingAdapter>()
-            .AddSingleton<IThirdPartyMeeting>(serviceProvider =>
-                MeetingServiceFactory.CreateMeetingService("Webex", serviceProvider))
+            .AddScoped<MeetingDetailsService>()
+            .AddScoped<WebexMeetingAdapter>()
+            .AddScoped<IThirdPartyMeeting>(serviceProvider =>
+                MeetingServiceFactory.CreateMeetingService(configuration.GetValue<string>("MeetingServiceType"), serviceProvider))
+
             .AddSingleton(config)
             .AddScoped<IMapper, ServiceMapper>();
 
