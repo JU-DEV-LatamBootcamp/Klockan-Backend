@@ -4,6 +4,6 @@ public class Guest
 {
     public string email;
     public string displayName;
-    public bool coHost;
-    public bool panelist;
+    public bool coHost { get; set; } = false; 
+    public bool panelist { get; set; } = false;
 }

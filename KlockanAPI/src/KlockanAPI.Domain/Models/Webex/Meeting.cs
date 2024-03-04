@@ -8,6 +8,6 @@ public class Meeting
     public string timezone;
     public string recurrence;
     public List<Guest> invitees;
-    public bool sendEmail;
+    public bool sendEmail = true;
     public string hostEmail;
 }
