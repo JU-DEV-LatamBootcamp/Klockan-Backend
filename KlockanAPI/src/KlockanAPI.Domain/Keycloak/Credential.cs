@@ -1,8 +1,8 @@
 ﻿namespace KlockanAPI.Domain.Keycloak;
 
-public interface Credential
+public class Credential
 {
-    string type { get; set; }
-    string value { get; set; }
-    bool temporary { get; set; }
+    public string type { get; set; }
+    public string value { get; set; }
+    public bool temporary { get; set; }
 }
