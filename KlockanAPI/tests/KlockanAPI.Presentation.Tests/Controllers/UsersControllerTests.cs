@@ -10,23 +10,28 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.KeycloakAPI.Interfaces;
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
 public class UsersControllerTests
 {
     private readonly IUserService _userService;
+    private readonly IKeycloakUserService _keycloakUserService;
+    private readonly Mock<IKeycloakUserService> _mockKeycloakUserService;
     private readonly Mock<IUserService> _mockUserService;
     private readonly UsersController _controller;
 
     public UsersControllerTests()
     {
         _userService = Substitute.For<IUserService>();
+        _keycloakUserService = Substitute.For<IKeycloakUserService>();
         _mockUserService = new Mock<IUserService>();
-        _controller = new UsersController(_mockUserService.Object);
+        _mockKeycloakUserService = new Mock<IKeycloakUserService>();
+        _controller = new UsersController(_mockUserService.Object, _mockKeycloakUserService.Object);
     }
 
-    private UsersController GetControllerInstance() => new(_userService);
+    private UsersController GetControllerInstance() => new(_userService, _keycloakUserService);
 
     [Fact]
     public async Task GetAllUsers_ShouldReturnOk()
