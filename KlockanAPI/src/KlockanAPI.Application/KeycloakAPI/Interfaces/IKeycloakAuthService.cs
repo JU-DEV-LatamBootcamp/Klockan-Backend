@@ -1,4 +1,5 @@
-﻿using KlockanAPI.Domain.Keycloak;
+﻿using KlockanAPI.Application.DTOs.User;
+using KlockanAPI.Domain.Keycloak;
 
 namespace KlockanAPI.Application.KeycloakAPI.Interfaces;
 
