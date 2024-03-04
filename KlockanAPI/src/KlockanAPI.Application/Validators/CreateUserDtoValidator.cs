@@ -3,9 +3,9 @@ using KlockanAPI.Application.DTOs.User;
 
 namespace KlockanAPI.Application;
 
-public class CreateUserDtoValidator : AbstractValidator<CreateUserDTO>
+public class CreateUserDTOValidator : AbstractValidator<CreateUserDTO>
 {
-    public CreateUserDtoValidator()
+    public CreateUserDTOValidator()
     {
         RuleFor(u => u.FirstName).NotEmpty().WithMessage("First Name is required");
         RuleFor(u => u.LastName).NotEmpty().WithMessage("Last Name is required");

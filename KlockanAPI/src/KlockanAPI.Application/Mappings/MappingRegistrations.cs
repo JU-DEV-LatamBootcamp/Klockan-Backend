@@ -10,6 +10,7 @@ public static class MappingRegistrations
     public static IServiceCollection AddMappingRegistrations(this IServiceCollection services)
     {
         MappingConfigUser.ConfigureMappingUserUserDto();
+        ClassroomMappingsConfig.Configure();
 
         return services;
     }

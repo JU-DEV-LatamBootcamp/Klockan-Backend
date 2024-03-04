@@ -4,9 +4,9 @@ using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Application;
 
-public class CreateClassroomDTOValidator : AbstractValidator<CreateClassroomDTO>
+public class UpdateClassroomDTOValidator : AbstractValidator<UpdateClassroomDTO>
 {
-    public CreateClassroomDTOValidator()
+    public UpdateClassroomDTOValidator()
     {
         RuleFor(c => c.StartDate)
             .NotEmpty().WithMessage("Start Date is required.");

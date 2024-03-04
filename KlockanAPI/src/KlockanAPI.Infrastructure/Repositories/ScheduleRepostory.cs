@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using KlockanAPI.Domain.Models;
+﻿using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 
@@ -15,34 +13,12 @@ public class ScheduleRepository : IScheduleRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Schedule>> GetAllSchedulesAsync()
+    public async Task<IEnumerable<Schedule>> GetSchedulesByClassroomIdAsync(int id)
     {
-        var Schedules = await Task.FromResult(_context.Schedules.ToList());
-
-        return Schedules;
-    }
-
-    public async Task<Schedule> CreateScheduleAsync(Schedule Schedule)
-    {
-        await _context.Schedules.AddAsync(Schedule);
-        await _context.SaveChangesAsync();
-        return Schedule;
-    }
-
-    public async Task<IEnumerable<Schedule>> GetAllSchedulesByClassroomIdAsync(int id)
-    {
-        var Schedules = await Task.FromResult(_context.Schedules
+        var schedules = await Task.FromResult(_context.Schedules
             .Where(s => s.ClassroomId == id)
             .ToList());
 
-        return Schedules;
+        return schedules;
     }
-
-    public async Task<bool> CreateManySchedulesAsync(IEnumerable<Schedule> schedules)
-    {
-        _context.Schedules.AddRange(schedules);
-
-        return await Task.FromResult(true);
-    }
-
 }

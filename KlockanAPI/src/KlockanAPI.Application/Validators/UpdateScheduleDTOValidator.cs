@@ -1,11 +1,11 @@
 using FluentValidation;
-using KlockanAPI.Application.DTOs.Classroom;
+using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Application;
 
-public class CreateClassroomScheduleDTOValidator : AbstractValidator<CreateClassroomScheduleDTO>
+public class UpdateScheduleDTOValidator : AbstractValidator<UpdateScheduleDTO>
 {
-    public CreateClassroomScheduleDTOValidator()
+    public UpdateScheduleDTOValidator()
     {
         RuleFor(t => t.WeekdayId)
             .NotNull()
