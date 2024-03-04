@@ -3,6 +3,7 @@
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Infrastructure.Data;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
+using KlockanAPI.Infrastructure.Extensions;
 
 namespace KlockanAPI.Infrastructure.Repositories;
 
@@ -29,6 +30,28 @@ public class ClassroomRepository : IClassroomRepository
     {
         await _context.Classrooms.AddAsync(classroom);
         await _context.SaveChangesAsync();
+
+        return classroom;
+    }
+
+    public async Task<Classroom> UpdateClassroomAsync(Classroom classroom)
+    {
+        var classroomToUpdate = _context.Classrooms.Find(classroom.Id);
+        var schedules = _context.Schedules.AsNoTracking().Where(s => s.ClassroomId == classroom.Id).ToList();
+        var classroomSchedules = classroom.Schedule.ToList();
+
+        var schedulesToDelete = classroomSchedules.FilterTarget(schedules, (master, target) => target.Id == master.Id, false);
+        var schedulesToUpdate =
+            schedules.Count == 0
+                ? classroomSchedules.Where(schedule => schedule.Id == 0).ToList()
+                : classroomSchedules.FilterByTarget(schedules, (master, target) => target.Id == master.Id || master.Id == 0);
+
+        _context.Classrooms.Entry(classroomToUpdate!).CurrentValues.SetValues(classroom);
+        _context.Schedules.UpdateRange(schedulesToUpdate);
+        _context.Schedules.RemoveRange(schedulesToDelete);
+
+        await _context.SaveChangesAsync();
+
         return classroom;
     }
 
@@ -46,7 +69,12 @@ public class ClassroomRepository : IClassroomRepository
 
     public async Task<Classroom?> GetClassroomByIdAsync(int id)
     {
-        return await _context.Classrooms.FindAsync(id);
+        var result = _context.Classrooms.AsNoTracking()
+            .Where((classroom) => classroom.Id == id);
+
+        var classroom = result.Count() > 0 ? result.First() : null;
+
+        return await Task.FromResult(classroom);
     }
 
     public async Task<Classroom> DeleteClassroomAsync(Classroom classroom)

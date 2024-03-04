@@ -4,7 +4,6 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.CrossCutting;
-using KlockanAPI.Application.DTOs.Schedule;
 
 namespace KlockanAPI.Application.Services;
 
@@ -29,31 +28,26 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<ClassroomDTO>(createdClassroom);
     }
 
-
     public async Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
     {
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
 
-    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules)
+    public async Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO)
     {
-        var schedules = classroomSchedules.Aggregate(
-            new List<CreateScheduleDTO>(),
-            (schedules, createClassroomSchedule) =>
-            {
-                var newSchedule = new CreateScheduleDTO(
-                    createClassroomSchedule.WeekdayId,
-                    id,
-                    createClassroomSchedule.StartTime
-                );
-                schedules.Add(newSchedule);
+        var id = updateClassroomDTO.Id;
+        var dbClassroom = await _classroomRepository.GetClassroomByIdAsync(id);
+        NotFoundException.ThrowIfNull(dbClassroom, $"Classroom with id {id} not found");
 
-                return schedules;
-            }
-        );
+        var classroom = _mapper.Map<Classroom>(updateClassroomDTO);
+        var schedules = _mapper.Map<List<Schedule>>(classroom);
 
-        return schedules;
+        classroom.Schedule = schedules;
+
+        var udpatedClassroom = await _classroomRepository.UpdateClassroomAsync(classroom);
+
+        return _mapper.Map<ClassroomDTO>(udpatedClassroom);
     }
 
     public async Task<ClassroomDTO?> DeleteClassroomAsync(int id)

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Program;
 using Asp.Versioning;
+using KlockanAPI.Infrastructure.CrossCutting.Authorization;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -21,8 +21,13 @@ public class ProgramsController : ControllerBase
     [HttpGet]
     [HttpHead]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<ProgramDTO>>> GetAllPrograms()
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         var programs = await _programService.GetAllProgramsAsync();
         return Ok(programs);
     }
@@ -30,8 +35,13 @@ public class ProgramsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ProgramDTO>> CreateProgram([FromBody] CreateProgramDTO createProgramDTO)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -52,8 +62,13 @@ public class ProgramsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ProgramDTO>> DeleteProgram(int id)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         var course = await _programService.DeleteProgramAsync(id);
 
         return Ok(course);
@@ -62,8 +77,13 @@ public class ProgramsController : ControllerBase
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<ProgramDTO>> EditProgram([FromBody] ProgramDTO editProgramDTO)
     {
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        {
+            return Forbid(); // Return 403 Forbidden if the user does not have the required role
+        }
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

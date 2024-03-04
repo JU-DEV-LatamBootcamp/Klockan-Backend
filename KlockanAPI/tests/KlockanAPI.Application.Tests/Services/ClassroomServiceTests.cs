@@ -7,6 +7,7 @@ using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Application.Services;
 using Moq;
 using KlockanAPI.Application.DTOs.Classroom;
+using KlockanAPI.Application.DTOs.Schedule;
 using KlockanAPI.Application.DTOs.Program;
 using FluentAssertions.Common;
 
@@ -92,22 +93,22 @@ public class ClassroomServiceTests
     [Fact]
     public async Task CreateClassroomAsync_ShouldReturnClassroomDTO_WhenCreateIsSuccessful()
     {
-     
+
         //DTO CREATE/CLASSROOM/SCHEDULE
-        CreateClassroomScheduleDTO shedule1 = new CreateClassroomScheduleDTO 
-        { 
-        WeekdayId = 1,
-        StartTime = new TimeOnly(18,00,00)
-            
+        var shedule1 = new UpdateScheduleDTO
+        {
+            WeekdayId = 1,
+            StartTime = new TimeOnly(18, 00, 00)
+
         };
 
-        CreateClassroomScheduleDTO shedule2= new CreateClassroomScheduleDTO
+        var shedule2 = new UpdateScheduleDTO
         {
             WeekdayId = 1,
             StartTime = new TimeOnly(19, 00, 00)
 
         };
-        List<CreateClassroomScheduleDTO> createClassroomScheduleDTO = [shedule1, shedule2];
+        List<UpdateScheduleDTO> createClassroomScheduleDTO = [shedule1, shedule2];
 
         //DTO CREATE/CLASSROOM/
 
@@ -142,7 +143,7 @@ public class ClassroomServiceTests
         _classroomRepositoryMock.Setup(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>())).ReturnsAsync(Classroom);
         _mapperMock.Setup(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>())).Returns(ClassroomDTO);
 
-        var service = new ClassroomService(_classroomRepositoryMock.Object,  _mapperMock.Object, _meetingRepository);
+        var service = new ClassroomService(_classroomRepositoryMock.Object, _mapperMock.Object, _meetingRepository);
 
         // Act
         var result = await service.CreateClassroomAsync(createClassroomDTO);
@@ -223,6 +224,67 @@ public class ClassroomServiceTests
 
         //Assert
         await act.Should().ThrowAsync<FoundException>("Classroom 1 has meetings assigned ot it.");
+    }
+
+    [Fact]
+    public async Task UpdateClassroomAsync_ShouldThrowNotFoundException_WhenClassroomIdIsInvalid()
+    {
+        // Arrange
+        var classroomService = GetServiceInstance();
+        var updateClassroomDTO = new UpdateClassroomDTO()
+        {
+            Id = 1,
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 2, 23),
+        };
+
+        // Act
+        var act = async () => await classroomService.UpdateClassroomAsync(updateClassroomDTO);
+
+        // Assert
+        await act.Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage($"Classroom with id {updateClassroomDTO.Id} not found");
+    }
+
+    [Fact]
+    public async Task UpdateClassroomAsync_ShouldUpdateClassroom_WhenClassroomIdIsValid()
+    {
+        // Arrange
+        var classroomService = GetServiceInstance();
+
+        var classroom = new Classroom
+        {
+            Id = 1,
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 1, 1)
+        };
+
+        var updateClassroomDTO = new UpdateClassroomDTO()
+        {
+            Id = 1,
+            CourseId = 1,
+            ProgramId = 1,
+            StartDate = new DateOnly(2024, 7, 7)
+        };
+
+        _classroomRepository.GetClassroomByIdAsync(classroom.Id).Returns(
+            Task.FromResult<Classroom?>(classroom)
+        );
+        _classroomRepository.UpdateClassroomAsync(Arg.Any<Classroom>()).Returns(
+            Task.FromResult(_mapper.Map<Classroom>(updateClassroomDTO))
+        );
+
+        // Act
+        var result = await classroomService.UpdateClassroomAsync(updateClassroomDTO);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(
+            _mapper.Map<ClassroomDTO>(_mapper.Map<ClassroomDTO>(updateClassroomDTO))
+        );
     }
 }
 
