@@ -83,4 +83,15 @@ public class ClassroomRepository : IClassroomRepository
         await _context.SaveChangesAsync();
         return classroom;
     }
+
+    public async Task<Classroom?> GetClassroomDetailsAsync(int classroomId)
+    {
+        return await _context.Classrooms
+            .Include(c => c.Course)
+            .Include(c => c.Program)
+            .Include(c => c.ClassroomUsers)
+                .ThenInclude(cu => cu.User)
+                    .ThenInclude(u => u.Role)
+            .FirstOrDefaultAsync(c => c.Id == classroomId);
+    }
 }
