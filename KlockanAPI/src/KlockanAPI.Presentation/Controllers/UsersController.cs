@@ -16,11 +16,13 @@ public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
     private readonly IKeycloakUserService _keycloakUserService;
+    private readonly IKeycloakAuthService _keycloakAuthService;
 
-    public UsersController(IUserService userService, IKeycloakUserService keycloakUserService)
+    public UsersController(IUserService userService, IKeycloakUserService keycloakUserService, IKeycloakAuthService keycloakAuthService)
     {
         _userService = userService;
         _keycloakUserService = keycloakUserService;
+        _keycloakAuthService = keycloakAuthService;
     }
 
     [HttpGet]
@@ -45,11 +47,11 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDTO createUserDTO)
     {
-        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        if(!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
         {
             return Forbid(); // Return 403 Forbidden if the user does not have the required role
         }
-        if (!ModelState.IsValid)
+        if(!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -62,7 +64,8 @@ public class UsersController : ControllerBase
 
             if(roles.Contains(createdUserDTO.RoleId))
             {
-                bool kycloakUserCreated = await _keycloakUserService.CreateUserAsync(createdUserDTO);
+                var token = await _keycloakAuthService.GetAdminToken();
+                bool kycloakUserCreated = await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
             }
 
             return CreatedAtAction(null, new { id = createdUserDTO.Id }, createdUserDTO);
