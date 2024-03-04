@@ -1,5 +1,4 @@
-﻿
-namespace KlockanAPI.Domain.Keycloak;
+﻿namespace KlockanAPI.Domain.Keycloak;
 
 public class Token
 {
