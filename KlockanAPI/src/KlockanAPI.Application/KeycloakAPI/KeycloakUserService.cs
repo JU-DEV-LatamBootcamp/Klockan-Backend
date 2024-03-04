@@ -1,0 +1,73 @@
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using Newtonsoft.Json;
+
+using KlockanAPI.Application.DTOs.User;
+using KlockanAPI.Application.KeycloakAPI.Interfaces;
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using KlockanAPI.Application.Client;
+
+
+namespace KlockanAPI.Application.KeycloakAPI;
+
+public class KeycloakUserService : IKeycloakUserService
+{
+    private readonly ICustomHttpClientService _customHttpClient;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IConfiguration _configuration;
+    private readonly IKeycloakAuthService _keycloakAuthService;
+
+    public KeycloakUserService(
+        ICustomHttpClientService customHttpClient,
+        IHttpContextAccessor httpContextAccessor,
+        IConfiguration configuration,
+        IKeycloakAuthService keycloakAuthService)
+    {
+        _customHttpClient = customHttpClient;
+        _httpContextAccessor = httpContextAccessor;
+        _configuration = configuration;
+        _keycloakAuthService = keycloakAuthService;
+    }
+
+
+    public async Task<bool> CreateUserAsync(UserDto userDTO)
+    {
+        try
+        {
+            var httpClient = _customHttpClient.GetCustomHttpClient();
+            var adminToken = await _keycloakAuthService.GetAdminToken();
+
+            var keycloakUser = new
+            {
+                username = $"{userDTO.FirstName}.{userDTO.LastName}",
+                email = userDTO.Email,
+                firstName = userDTO.FirstName,
+                lastName = userDTO.LastName,
+                enabled = true,
+                credentials = new[] {
+                    new { type = "password", value = "password", temporary = true }
+                    }
+            };
+            var json = JsonConvert.SerializeObject(keycloakUser);
+            var response = new HttpResponseMessage();
+
+            string baseUrl = _configuration["KeyCloakAdmin:BaseUrl"]!;
+            string realm = _configuration["KeyCloakAdmin:Realm"]!;
+            string requestUri = $"{baseUrl}/admin/realms/{realm}/users";
+            httpClient.DefaultRequestHeaders.Add("Authorization", $"{adminToken.token_type} {adminToken.access_token}");
+
+            response = await httpClient.PostAsync(requestUri, new StringContent(json, Encoding.UTF8, "application/json"));
+
+            return response.IsSuccessStatusCode;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error al crear usuario en Keycloak: {ex.Message}");
+            return false;
+        }
+    }
+}
