@@ -267,4 +267,47 @@ public class UserRepositoryTests : IDisposable
         Assert.NotNull(userInDb);
 
     }
+
+    [Fact]
+    public async Task UpdateUserAsync_ShouldReturnUpdatedUser()
+    {
+        // Arrange
+
+        var initialUser = new User
+        {
+            Id = -1,
+            FirstName = "Initial",
+            LastName = "User",
+            Email = "initial@user.com",
+            Birthdate = new DateOnly(1990, 5, 15),
+            RoleId = 1,
+            CityId = 1,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _context.Users.Add(initialUser);
+        await _context.SaveChangesAsync();
+
+        var updatedUser = new User
+        {
+            Id = -1,
+            FirstName = "Updated",
+            LastName = "User",
+            Email = "initial@user.com",
+            Birthdate = new DateOnly(1990, 5, 15),
+            RoleId = 1,
+            CityId = 1,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var repository = new UserRepository(_context);
+
+        // Act
+        var result = await repository.UpdateUserAsync(updatedUser);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(updatedUser.Email, result.Email);
+        Assert.Equal(updatedUser.FirstName, result.FirstName);
+    }
 }
