@@ -61,11 +61,11 @@ public class UsersController : ControllerBase
         }
     }
     
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<UserDto>> UpdateUser(int id, [FromBody] UpdateUserDTO updateUserDTO)
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserDto updateUserDTO)
     {
         if (!ModelState.IsValid)
         {
@@ -74,14 +74,7 @@ public class UsersController : ControllerBase
 
         try
         {
-            var existingUser = await _userService.GetUserByIdAsync(id);
-
-            if (existingUser == null)
-            {
-                return NotFound($"User with ID {id} not found");
-            }
-
-            var updatedUserDTO = await _userService.UpdateUserAsync(id, updateUserDTO);
+            var updatedUserDTO = await _userService.UpdateUserAsync(updateUserDTO);
             return Ok(updatedUserDTO);
         }
         catch (Exception ex)

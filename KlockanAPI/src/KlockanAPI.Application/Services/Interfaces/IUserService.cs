@@ -7,6 +7,6 @@ public interface IUserService
 {
     Task<IEnumerable<UserDto>> GetAllUsersAsync(int pageSize, int pageNumber);
     Task<UserDto> CreateUserAsync(CreateUserDTO createUserDTO);
-    Task<UserDto> UpdateUserAsync(int id, UpdateUserDTO updateUserDTO);
-    Task<UserDto> GetUserByIdAsync(int id);
+    Task<UserDto> UpdateUserAsync(UserDto updateUserDTO);
+    // Task<UserDto> GetUserByIdAsync(int userId);
 }

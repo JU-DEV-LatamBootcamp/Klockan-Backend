@@ -71,7 +71,7 @@ public class MeetingRepository : IMeetingRepository
             {
                 UserId = userId,
                 ClassroomId = classroomId,
-                RoleId = user.RoleId,
+                RoleId = (int)user.RoleId,
                 Classroom = null,
                 User = null,
                 Role = null
