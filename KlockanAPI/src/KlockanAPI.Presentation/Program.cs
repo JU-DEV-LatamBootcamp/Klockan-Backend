@@ -151,7 +151,7 @@ public class Program
         builder.Services.AddProblemDetails();
 
         // ***********  DEPENDENCY INJECTION ************
-        builder.Services.AddApplicationServices();
+        builder.Services.AddApplicationServices(builder.Configuration);
         builder.Services.AddInfraestructureRepositories();
 
         // ***********  HEALTHCHECK ************

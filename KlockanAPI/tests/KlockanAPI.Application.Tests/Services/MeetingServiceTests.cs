@@ -7,6 +7,7 @@ using KlockanAPI.Application.DTOs.Course;
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.DTOs.Meeting;
 using KlockanAPI.Infrastructure.Repositories;
+using KlockanAPI.Application.Services.Interfaces;
 
 namespace KlockanAPI.Application.Tests.Services;
 
@@ -14,15 +15,17 @@ namespace KlockanAPI.Application.Tests.Services;
 public class MeetingServiceTest
 {
     private readonly IMeetingRepository _meetingRespository;
+    private readonly IThirdPartyMeeting _thirdPartyMeeting;
     private readonly IMapper _mapper;
 
     public MeetingServiceTest()
     {
         _meetingRespository = Substitute.For<IMeetingRepository>();
+        _thirdPartyMeeting = Substitute.For<IThirdPartyMeeting>();
         _mapper = new Mapper();
     }
 
-    private MeetingService GetServiceInstance() => new(_meetingRespository, _mapper);
+    private MeetingService GetServiceInstance() => new(_meetingRespository, _mapper, _thirdPartyMeeting);
 
 
     [Fact]
