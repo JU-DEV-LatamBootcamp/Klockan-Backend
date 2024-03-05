@@ -65,7 +65,7 @@ public class UsersController : ControllerBase
             if(roles.Contains(createdUserDTO.RoleId))
             {
                 var token = await _keycloakAuthService.GetAdminToken();
-                bool kycloakUserCreated = await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
+                await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
             }
 
             return CreatedAtAction(null, new { id = createdUserDTO.Id }, createdUserDTO);
