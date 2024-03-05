@@ -65,6 +65,7 @@ public class Program
             configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status400BadRequest));
             configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status406NotAcceptable));
             configure.Filters.Add(new ProducesResponseTypeAttribute(StatusCodes.Status500InternalServerError));
+            configure.Filters.Add(new ProducesAttribute("application/json"));
         }).AddJsonOptions(o =>
         {
             o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
