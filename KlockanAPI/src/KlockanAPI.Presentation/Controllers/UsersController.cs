@@ -1,8 +1,10 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 
+using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Application.KeycloakAPI.Interfaces;
 using KlockanAPI.Infrastructure.CrossCutting.Authorization;
 
 namespace KlockanAPI.Presentation.Controllers;
@@ -13,10 +15,14 @@ namespace KlockanAPI.Presentation.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IKeycloakUserService _keycloakUserService;
+    private readonly IKeycloakAuthService _keycloakAuthService;
 
-    public UsersController(IUserService userService)
+    public UsersController(IUserService userService, IKeycloakUserService keycloakUserService, IKeycloakAuthService keycloakAuthService)
     {
         _userService = userService;
+        _keycloakUserService = keycloakUserService;
+        _keycloakAuthService = keycloakAuthService;
     }
 
     [HttpGet]
@@ -29,7 +35,7 @@ public class UsersController : ControllerBase
             var users = await _userService.GetAllUsersAsync(pageSize, pageNumber);
             return Ok(users);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
@@ -41,11 +47,11 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDTO createUserDTO)
     {
-        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        if(!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
         {
             return Forbid(); // Return 403 Forbidden if the user does not have the required role
         }
-        if (!ModelState.IsValid)
+        if(!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -53,9 +59,18 @@ public class UsersController : ControllerBase
         try
         {
             var createdUserDTO = await _userService.CreateUserAsync(createUserDTO);
+
+            int[] roles = [Role.ADMIN_ID, Role.TRAINER_ID];
+
+            if(roles.Contains(createdUserDTO.RoleId))
+            {
+                var token = await _keycloakAuthService.GetAdminToken();
+                await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
+            }
+
             return CreatedAtAction(null, new { id = createdUserDTO.Id }, createdUserDTO);
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }

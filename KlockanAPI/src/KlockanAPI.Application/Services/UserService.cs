@@ -29,6 +29,11 @@ public class UserService : IUserService
     public async Task<UserDto> CreateUserAsync(CreateUserDTO createUserDTO)
     {
         var user = _mapper.Map<User>(createUserDTO);
+        var userExists = await _userRepository.UserExistsByEmailAsync(user.Email);
+        if(userExists != null)
+        {
+            throw new Exception("User already exists with this email");
+        }
         var createdUser = await _userRepository.CreateUserAsync(user);
         return _mapper.Map<UserDto>(createdUser);
     }

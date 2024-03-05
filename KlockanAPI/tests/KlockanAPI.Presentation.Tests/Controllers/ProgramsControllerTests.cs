@@ -31,6 +31,10 @@ public class ProgramsControllerTests
         _programService.GetAllProgramsAsync().Returns(new List<ProgramDTO>());
         var controller = GetControllerInstance();
 
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
         // Act
         var result = await controller.GetAllPrograms();
 
@@ -45,6 +49,24 @@ public class ProgramsControllerTests
     }
 
     [Fact]
+    public async Task GetAllPrograms_ShouldReturnError403()
+    {
+        // Arrange
+        var controller = GetControllerInstance();
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer asdasd";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+        // Act
+        var result = await controller.GetAllPrograms();
+
+        // Verify the status code
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(403);
+    }
+
+
+    [Fact]
     public async Task CreateProgram_Returns201Created_WithValidInput()
     {
         // Arrange
@@ -53,8 +75,16 @@ public class ProgramsControllerTests
         _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
                            .ReturnsAsync(createdProgramDTO);
 
+        var controller = _controller;
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+
+
         // Act
-        var result = await _controller.CreateProgram(createProgramDTO);
+        var result = await controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<CreatedAtActionResult>(result.Result);
@@ -65,11 +95,18 @@ public class ProgramsControllerTests
     [Fact]
     public async Task CreateProgram_Returns400BadRequest_WithInvalidModel()
     {
+        var controller = _controller;
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+
         // Arrange
-        _controller.ModelState.AddModelError("Error", "Sample error");
+        controller.ModelState.AddModelError("Error", "Sample error");
 
         // Act
-        var result = await _controller.CreateProgram(new CreateProgramDTO());
+        var result = await controller.CreateProgram(new CreateProgramDTO());
 
         // Assert
         var actionResult = Assert.IsType<BadRequestObjectResult>(result.Result);
@@ -84,8 +121,15 @@ public class ProgramsControllerTests
         _mockProgramService.Setup(service => service.CreateProgramAsync(createProgramDTO))
                            .ThrowsAsync(new System.Exception("Test exception"));
 
+        var controller = _controller;
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+
+
         // Act
-        var result = await _controller.CreateProgram(createProgramDTO);
+        var result = await controller.CreateProgram(createProgramDTO);
 
         // Assert
         var actionResult = Assert.IsType<ObjectResult>(result.Result);
@@ -106,6 +150,11 @@ public class ProgramsControllerTests
 
         _programService.DeleteProgramAsync(1).Returns(Task.FromResult<ProgramDTO?>(sampleProgram));
         var controller = GetControllerInstance();
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
 
         // Act
         var result = await controller.DeleteProgram(1);
@@ -137,6 +186,11 @@ public class ProgramsControllerTests
         _programService.EditProgramAsync(sampleProgram).Returns(Task.FromResult<ProgramDTO?>(sampleProgram));
         var controller = GetControllerInstance();
 
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+
         // Act
         var result = await controller.EditProgram(sampleProgram);
 
@@ -151,6 +205,7 @@ public class ProgramsControllerTests
         var programData = okResult?.Value as ProgramDTO;
         programData.Should().BeEquivalentTo(sampleProgram);
     }
+
     [Fact]
     public async Task EditProgram_WhenValidData_ReturnsOk()
     {
@@ -164,6 +219,11 @@ public class ProgramsControllerTests
 
         _programService.EditProgramAsync(sampleProgram).Returns(Task.FromResult<ProgramDTO?>(sampleProgram)!);
         var controller = GetControllerInstance();
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
 
         // Act
         var result = await controller.EditProgram(sampleProgram);
@@ -183,12 +243,16 @@ public class ProgramsControllerTests
     public async Task EditProgram_WhenInvalidData_ReturnsBadRequest()
     {
         // Arrange
-        ProgramDTO invalidProgram = new ProgramDTO(); // Datos no válidos, debería activar el ModelState.IsValid false
         var controller = GetControllerInstance();
-        controller.ModelState.AddModelError("Name", "Name is required"); // Agregar un error de modelo simulado
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+        controller.ModelState.AddModelError("error", "Name is required"); // Add error yo model
 
         // Act
-        var result = await controller.EditProgram(invalidProgram);
+        var result = await controller.EditProgram(new ProgramDTO());
 
         // Assert
         result.Should().BeOfType<ActionResult<ProgramDTO>>();
@@ -212,6 +276,11 @@ public class ProgramsControllerTests
             .When(x => x.EditProgramAsync(Arg.Any<ProgramDTO>()))
             .Throw(new Exception("Something went wrong in the service")); // Forzar que el servicio arroje una excepción
         var controller = GetControllerInstance();
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
 
         // Act
         var result = await controller.EditProgram(sampleProgram);

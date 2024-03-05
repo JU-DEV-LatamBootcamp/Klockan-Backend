@@ -17,5 +17,4 @@ public class UserDto
     public CountryDto? Country { get; set; }
     public int? RoleId { get; set; }
     public RoleDto? Role { get; set; }
-
 }
