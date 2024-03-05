@@ -29,7 +29,7 @@ public class KeycloakUserService : IKeycloakUserService
     }
 
 
-    public async Task<bool> CreateUserAsync(UserDto userDTO, Token adminToken)
+    public async void CreateUserAsync(UserDto userDTO, Token adminToken)
     {
         try
         {
@@ -61,12 +61,10 @@ public class KeycloakUserService : IKeycloakUserService
 
             response = await httpClient.PostAsync(requestUri, new StringContent(json, Encoding.UTF8, "application/json"));
 
-            return response.IsSuccessStatusCode;
         }
         catch(Exception ex)
         {
-            Console.WriteLine($"Error al crear usuario en Keycloak: {ex.Message}");
-            return false;
+            throw new Exception($"Error creating user in Keycloak: {ex.Message}");
         }
     }
 }
