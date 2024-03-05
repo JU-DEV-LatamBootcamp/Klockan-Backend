@@ -7,6 +7,9 @@ using Microsoft.Extensions.Options;
 using KlockanAPI.Application.Services;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.Validators;
+using KlockanAPI.Application.KeycloakAPI.Interfaces;
+using KlockanAPI.Application.KeycloakAPI;
+using KlockanAPI.Application.Client;
 using KlockanAPI.Application.Services.Webex;
 using KlockanAPI.Domain.Models.Webex;
 
@@ -34,6 +37,8 @@ public static class ApplicactionServiceRegistration
         });
 
         services
+            .AddHttpClient()
+            .AddScoped<ICustomHttpClientService, CustomHttpClient>()
             .AddScoped<IProgramService, ProgramService>()
             .AddScoped<ICourseService, CourseService>()
             .AddScoped<IClassroomService, ClassroomService>()
@@ -47,7 +52,9 @@ public static class ApplicactionServiceRegistration
                 MeetingServiceFactory.CreateMeetingService(configuration.GetValue<string>("MeetingServiceType"), serviceProvider))
 
             .AddSingleton(config)
-            .AddScoped<IMapper, ServiceMapper>();
+            .AddScoped<IMapper, ServiceMapper>()
+            .AddScoped<IKeycloakUserService, KeycloakUserService>()
+            .AddScoped<IKeycloakAuthService, KycloakAuthService>();
 
         // Register validators
         services
