@@ -2,7 +2,8 @@
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Classroom;
 using Asp.Versioning;
-using KlockanAPI.Application.DTOs.Schedule;
+using KlockanAPI.Application.CrossCutting;
+using KlockanAPI.Domain.Models;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -27,6 +28,23 @@ public class ClassroomsController : ControllerBase
     {
         var classrooms = await _classroomService.GetAllClassroomsAsync();
         return Ok(classrooms);
+    }
+
+    [HttpGet("attendees")]
+    [HttpHead("attendees")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<ClassroomUser>>> GetClassroomUsers(int classroomId)
+    {
+        try
+        {
+            IEnumerable<ClassroomUser> users = await _classroomService.GetClassroomUsersAsync(classroomId);
+            return Ok(users);
+        }
+        catch (NotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpPost]
@@ -54,7 +72,6 @@ public class ClassroomsController : ControllerBase
         }
     }
 
-    
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -10,6 +10,6 @@ public class Meeting : BaseModel
     public int ClassroomId { get; set; }
     public Classroom Classroom { get; set; }
     public int? TrainerId { get; set; }
-    public ClassroomUser? Trainer { get; set; }
+    public ClassroomUser Trainer { get; set; }
     public ICollection<MeetingAttendance> MeetingAttendances { get; set; } = new List<MeetingAttendance>();
 }

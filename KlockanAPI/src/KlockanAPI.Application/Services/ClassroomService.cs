@@ -36,6 +36,13 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
 
+    public async Task<IEnumerable<ClassroomUser>> GetClassroomUsersAsync(int classroomId)
+    {
+        var classroom = (await _classroomRepository.GetClassroomByIdAsync(classroomId))
+            ?? throw new NotFoundException($"Classroom with Id {classroomId} not found");
+        return _mapper.Map<IEnumerable<ClassroomUser>>(classroom.ClassroomUsers);
+    }
+
     public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules)
     {
         var schedules = classroomSchedules.Aggregate(
