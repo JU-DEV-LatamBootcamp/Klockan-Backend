@@ -60,9 +60,9 @@ public class UsersController : ControllerBase
         {
             var createdUserDTO = await _userService.CreateUserAsync(createUserDTO);
 
-            int[] roles = [Role.ADMIN_ID, Role.TRAINER_ID];
+            List<int> roles = [Role.ADMIN_ID, Role.TRAINER_ID];
 
-            if(roles.Contains(createdUserDTO.RoleId))
+            if(roles.Contains((int)createdUserDTO.RoleId!))
             {
                 var token = await _keycloakAuthService.GetAdminToken();
                 await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
