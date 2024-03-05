@@ -29,9 +29,10 @@ public class KeycloakUserServiceTests
         );
 
         // Act
-        var result = await keycloakUserService.CreateUserAsync(userDTO, adminToken);
+        bool result = await keycloakUserService.CreateUserAsync(userDTO, adminToken);
 
         // Assert
+        // we can assety tahat the metod do no throw an exception
         Assert.False(result);
     }
 

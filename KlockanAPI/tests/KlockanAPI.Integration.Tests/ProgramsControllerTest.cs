@@ -36,11 +36,6 @@ public class ProgramsControllerTest : IClassFixture<KlockanApiFactory>
         var programs = JsonSerializer.Deserialize<IEnumerable<Program>>(response);
         Console.WriteLine(response);
 
-        foreach(var program in programs)
-        {
-            Console.WriteLine(program.Name);
-        }
-
         Assert.NotNull(programs);
         Assert.NotEmpty(programs);
     }
