@@ -4,7 +4,7 @@ using KlockanAPI.Infrastructure.Extensions;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace KlockanAPI.Infrastructure;
+namespace KlockanAPI.Infrastructure.Repositories;
 
 public class ClassroomUserRepository : IClassroomUserRepository
 {
@@ -30,6 +30,7 @@ public class ClassroomUserRepository : IClassroomUserRepository
         var validRoleNames = new List<string>() { "Trainer", "Student", "Guest" };
         var validRoleIds = _context.Roles
             .AsNoTracking()
+            .AsEnumerable()
             .Where(role => validRoleNames.Any(validRole => validRole.Contains(role.Name)))
             .Select(role => role.Id)
             .ToList();
