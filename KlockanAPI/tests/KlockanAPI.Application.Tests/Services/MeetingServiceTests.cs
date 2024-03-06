@@ -91,7 +91,7 @@ public class MeetingServiceTest
         // Arrange
         var meetingService = GetServiceInstance();
 
-        var createMeetingDto = new CreateMeetingDto
+        var createMeetingDto = new CreateMultipleMeetingsDto
         {
             Date = new DateOnly(2024, 2, 22),
             Time = new TimeOnly(14, 0, 0),

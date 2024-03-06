@@ -7,7 +7,7 @@ public static class WebexMeetingUtils
 {
     public static string HostEmail { get; set; }
 
-    public static Meeting ConvertToWebexMeeting(CreateMeetingDto createMeetingDto, MeetingDetailsDTO meetingDetails)
+    public static Meeting ConvertToWebexMeeting(CreateMultipleMeetingsDto createMeetingDto, MeetingDetailsDTO meetingDetails)
     {
         List<Guest> invitees = meetingDetails.Users.Select(user => new Guest
         {

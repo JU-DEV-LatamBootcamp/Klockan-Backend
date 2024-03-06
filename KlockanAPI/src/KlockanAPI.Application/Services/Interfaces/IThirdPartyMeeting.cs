@@ -4,5 +4,5 @@ namespace KlockanAPI.Application.Services.Interfaces;
 
 public interface IThirdPartyMeeting
 {
-    Task<string> CreateMeetingAsync(CreateMeetingDto meeting);
+    Task<string> CreateMeetingAsync(CreateMultipleMeetingsDto meeting);
 }
