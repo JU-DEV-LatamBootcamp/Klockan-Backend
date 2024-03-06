@@ -52,6 +52,16 @@ public class MeetingsController : ControllerBase
         }
     }
 
+    [HttpPut("{meetingId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<MeetingDto>> UpdateMeeting([FromBody] UpdateMeetingDto meeting, int meetingId)
+    {
+        var _meeting = await _meetingService.UpdateMeeting(meeting, meetingId);
+        return _meeting != null ? Ok(_meeting) : NotFound();
+    }
+
     [HttpPost("/Shedule")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
