@@ -8,6 +8,7 @@ using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.DTOs.Schedule;
 
 using Moq;
+using KlockanAPI.Application.DTOs.ClassroomUser;
 
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
@@ -183,6 +184,32 @@ public class ClassroomsControllerTests
 
         // Assert
         result.Should().BeOfType<ActionResult<ClassroomDTO>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+    }
+
+    [Fact]
+    public async Task UpdateClassroomUsers_ShouldReturnOk()
+    {
+        // Arrange
+        var classroomController = GetControllerInstance();
+
+        UpdateClassroomUsersDTO updateClassroomUsersDTO = new UpdateClassroomUsersDTO()
+        {
+            Id = 1,
+            Users = new List<UpdateClassroomUserDTO>() {
+                new UpdateClassroomUserDTO() { UserId = 1, RoleId = 2 },
+            }
+
+        };
+
+        _classroomService.UpdateClassroomUsersAsync(updateClassroomUsersDTO).Returns(new List<ClassroomUserDTO>());
+
+        // Act
+        var result = await classroomController.UpdateClassroomUsers(1, updateClassroomUsersDTO);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<List<ClassroomUserDTO>>>();
         result.Result.Should().BeOfType<OkObjectResult>();
         (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
     }
