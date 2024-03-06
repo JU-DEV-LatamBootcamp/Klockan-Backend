@@ -46,6 +46,7 @@ public static class ApplicactionServiceRegistration
             .AddScoped<IScheduleService, ScheduleService>()
             .AddScoped<IUserService, UserService>()
             .AddScoped<ICountryService, CountryService>()
+            .AddScoped<IClassroomUserService, ClassroomUserService>()
             .AddScoped<MeetingDetailsService>()
             .AddScoped<WebexMeetingAdapter>()
             .AddScoped<IThirdPartyMeeting>(serviceProvider =>
