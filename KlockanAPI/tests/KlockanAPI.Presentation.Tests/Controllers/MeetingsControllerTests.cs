@@ -82,7 +82,7 @@ public class MeetingsControllerTest
     public async Task CreateMeeting_Return201Created_WithValidInput()
     {
         //Arrange
-        var createMeetingDto = new CreateMeetingDto
+        var createMeetingDto = new CreateMultipleMeetingsDto
         {
             Date = new DateOnly(2024, 2, 22),
             Time = new TimeOnly(14, 0, 0),
@@ -115,7 +115,7 @@ public class MeetingsControllerTest
     {
         // Arrange
         var controller = GetControllerInstance();
-        var createMeetingDto = new CreateMeetingDto
+        var createMeetingDto = new CreateMultipleMeetingsDto
         {
             Date = new DateOnly(2024, 2, 22),
             Time = new TimeOnly(14, 0, 0),

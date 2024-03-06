@@ -30,7 +30,7 @@ public class MeetingsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<MeetingDto>> CreateMeeting([FromBody] CreateMeetingDto createMeetingDto)
+    public async Task<ActionResult<MeetingDto>> CreateMeeting([FromBody] CreateMultipleMeetingsDto createMeetingDto)
     {
 
         if (!ModelState.IsValid)
@@ -49,6 +49,28 @@ public class MeetingsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500,$"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpPost("/Shedule")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<List<MeetingDto>>> CreateMultipleMeetingSchedule([FromBody] CreateMultipleMeetingsScheduleDTO createMultipleMeetingDto)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var createdMeetingsDTO = await _meetingService.CreateMultipleMeetingAsync(createMultipleMeetingDto);
+            return createdMeetingsDTO;
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
 }
