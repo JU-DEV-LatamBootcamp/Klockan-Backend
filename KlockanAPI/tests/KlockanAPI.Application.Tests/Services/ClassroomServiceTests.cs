@@ -17,6 +17,7 @@ public class ClassroomServiceTests
 {
     private readonly IClassroomRepository _classroomRepository;
     private readonly IMeetingRepository _meetingRepository;
+    private readonly IClassroomUserRepository _classroomUserRepository;
     private readonly IMapper _mapper;
     private readonly Mock<IClassroomRepository> _classroomRepositoryMock = new();
     private readonly Mock<IMapper> _mapperMock = new();
@@ -25,11 +26,12 @@ public class ClassroomServiceTests
     {
         _classroomRepository = Substitute.For<IClassroomRepository>();
         _meetingRepository = Substitute.For<IMeetingRepository>();
+        _classroomUserRepository = Substitute.For<IClassroomUserRepository>();
 
         _mapper = new Mapper();
     }
 
-    public ClassroomService GetServiceInstance() => new(_classroomRepository, _mapper, _meetingRepository);
+    public ClassroomService GetServiceInstance() => new(_classroomRepository, _meetingRepository, _classroomUserRepository, _mapper);
 
     [Fact]
     public async Task GetAllClassroomsAsync_ShouldReturnClassroomDTOs()
@@ -143,7 +145,7 @@ public class ClassroomServiceTests
         _classroomRepositoryMock.Setup(repo => repo.CreateClassroomAsync(It.IsAny<Classroom>())).ReturnsAsync(Classroom);
         _mapperMock.Setup(m => m.Map<ClassroomDTO>(It.IsAny<Classroom>())).Returns(ClassroomDTO);
 
-        var service = new ClassroomService(_classroomRepositoryMock.Object, _mapperMock.Object, _meetingRepository);
+        var service = new ClassroomService(_classroomRepositoryMock.Object, _meetingRepository, _classroomUserRepository, _mapperMock.Object);
 
         // Act
         var result = await service.CreateClassroomAsync(createClassroomDTO);

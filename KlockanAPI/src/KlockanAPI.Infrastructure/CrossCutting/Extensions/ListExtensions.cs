@@ -3,7 +3,7 @@ namespace KlockanAPI.Infrastructure.Extensions;
 
 public static class ListExtensions
 {
-    public static List<T> FilterTarget<T>(this List<T> master, List<T> target, MatchDelegate<T> matchFunc, bool match = true)
+    public static IEnumerable<T> FilterTarget<T>(this IEnumerable<T> master, IEnumerable<T> target, MatchDelegate<T> matchFunc, bool match = true)
     {
         return target
             .Where(masterElement => match ?
@@ -13,7 +13,7 @@ public static class ListExtensions
             .ToList();
     }
 
-    public static List<T> FilterByTarget<T>(this List<T> master, List<T> target, MatchDelegate<T> matchFunc, bool match = true)
+    public static IEnumerable<T> FilterByTarget<T>(this IEnumerable<T> master, IEnumerable<T> target, MatchDelegate<T> matchFunc, bool match = true)
     {
         return master
             .Where(targetElement => match ?

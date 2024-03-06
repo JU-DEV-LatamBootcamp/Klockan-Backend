@@ -61,3 +61,24 @@ Authorization: {{token}}
 ###
 DELETE {{classrooms_url}}/{{classroom_id}} HTTP/1.1
 Authorization: {{token}}
+
+###
+# update users
+
+PUT {{classrooms_url}}/{{classroom_id}}/users HTTP/1.1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "users": [
+    {
+      "id": 5,
+      "userId": 2,
+      "roleId": 3
+    },
+    {
+      "userId": 3,
+      "roleId": 4
+    }
+  ]
+}
