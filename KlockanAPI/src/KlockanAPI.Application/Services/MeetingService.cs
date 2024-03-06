@@ -3,6 +3,7 @@ using KlockanAPI.Application.DTOs.Meeting;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.CrossCutting;
 
 namespace KlockanAPI.Application.Services;
 public class MeetingService : IMeetingService
@@ -44,6 +45,18 @@ public class MeetingService : IMeetingService
         return _mapper.Map<MeetingDto>(createdMeeting);
     }
 
+    public async Task<MeetingDto> UpdateMeeting(UpdateMeetingDto meetingDto, int meetingId)
+    {
+        var _meeting = await _meetingRepository.GetMeetingById(meetingId);
+        NotFoundException.ThrowIfNull(_meeting, $"Meeting wit id {meetingId} was not found");
+
+        // TODO: Update on thirdParty
+        var meeting = _mapper.Map<Meeting>(meetingDto);
+        var updatedMeeting = await _meetingRepository.UpdateMeeting(meeting, meetingId);
+
+        return _mapper.Map<MeetingDto>(updatedMeeting);
+    }
+
     public async Task<List<MeetingDto>> CreateMultipleMeetingAsync(CreateMultipleMeetingsScheduleDTO createMultipleMeetingDTO)
 
     {
@@ -64,7 +77,6 @@ public class MeetingService : IMeetingService
 
                 var createMeeting = new CreateMultipleMeetingsDto
                 {
-
                     ClassroomId = createMultipleMeetingDTO.ClassroomId,
                     Date = dateofweek,
                     Time = schedule.StartTime,
@@ -83,5 +95,4 @@ public class MeetingService : IMeetingService
 
         return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
-
 }
