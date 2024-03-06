@@ -5,5 +5,5 @@ namespace KlockanAPI.Infrastructure.Repositories.Interfaces;
 public interface IClassroomUserRepository
 {
     Task<IEnumerable<ClassroomUser>> UpdateClassroomUsersAsync(int classroomId, IEnumerable<ClassroomUser> classroomUsers);
-    Task<IEnumerable<ClassroomUser>> GetUsersByClassroomId(int classroomId);
+    Task<IEnumerable<ClassroomUser>> GetUsersByClassroomIdAsync(int classroomId);
 }

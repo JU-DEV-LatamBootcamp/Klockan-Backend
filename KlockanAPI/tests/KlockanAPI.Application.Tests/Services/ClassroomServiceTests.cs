@@ -10,6 +10,7 @@ using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.DTOs.Schedule;
 using KlockanAPI.Application.DTOs.Program;
 using FluentAssertions.Common;
+using KlockanAPI.Application.DTOs.ClassroomUser;
 
 namespace KlockanAPI.Application.Tests.Services;
 
@@ -286,6 +287,56 @@ public class ClassroomServiceTests
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(
             _mapper.Map<ClassroomDTO>(_mapper.Map<ClassroomDTO>(updateClassroomDTO))
+        );
+    }
+
+    [Fact]
+    public async Task UpdateClassroomUsersAsync_ShouldThrowNotFoundException_WhenClassroomIdIsInvalid()
+    {
+        // Arrange
+        var classroomService = GetServiceInstance();
+        var updateClassroomUsersDTO = new UpdateClassroomUsersDTO();
+
+        // Act
+        var act = async () => await classroomService.UpdateClassroomUsersAsync(updateClassroomUsersDTO);
+
+        // Assert
+        await act.Should()
+            .ThrowAsync<NotFoundException>()
+            .WithMessage($"Classroom with id {updateClassroomUsersDTO.Id} not found");
+    }
+
+    [Fact]
+    public async Task UpdateClassroomUsersAsync_ShouldUpdateUserClassroom_WhenClassroomIdIsValid()
+    {
+        // Arrange
+        var classroomService = GetServiceInstance();
+
+        var classroom = new Classroom() { Id = 1 };
+
+        var updateClassroomUsersDTO = new UpdateClassroomUsersDTO()
+        {
+            Id = classroom.Id,
+            Users = new List<UpdateClassroomUserDTO>() {
+                new UpdateClassroomUserDTO()
+            }
+        };
+
+        var classroomUsers = _mapper.Map<List<ClassroomUser>>(updateClassroomUsersDTO);
+
+        _classroomRepository.GetClassroomByIdAsync(classroom.Id).Returns(
+            Task.FromResult<Classroom?>(classroom)
+        );
+        _classroomUserRepository.UpdateClassroomUsersAsync(classroom.Id, classroomUsers).Returns(classroomUsers);
+
+        // Act
+        var result = await classroomService.UpdateClassroomUsersAsync(updateClassroomUsersDTO);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Count().Should().Be(classroomUsers.Count);
+        result.Should().BeEquivalentTo(
+            _mapper.Map<List<ClassroomUserDTO>>(classroomUsers)
         );
     }
 }

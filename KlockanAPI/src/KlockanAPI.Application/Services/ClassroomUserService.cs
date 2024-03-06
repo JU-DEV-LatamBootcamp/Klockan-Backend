@@ -24,7 +24,7 @@ public class ClassroomUserService : IClassroomUserService
         var classroom = await _classroomRepository.GetClassroomByIdAsync(classroomId);
         NotFoundException.ThrowIfNull(classroom, $"Classroom with id {classroomId} not found");
 
-        var schedules = await _classroomUserRepository.GetUsersByClassroomId(classroomId);
+        var schedules = await _classroomUserRepository.GetUsersByClassroomIdAsync(classroomId);
         var schedulesDTOs = _mapper.Map<List<ClassroomUserDTO>>(schedules);
 
         return schedulesDTOs;

@@ -15,7 +15,7 @@ public class ClassroomUserRepository : IClassroomUserRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<ClassroomUser>> GetUsersByClassroomId(int classroomId)
+    public async Task<IEnumerable<ClassroomUser>> GetUsersByClassroomIdAsync(int classroomId)
     {
         var users = _context.ClassroomUsers
             .AsNoTracking()
@@ -46,7 +46,7 @@ public class ClassroomUserRepository : IClassroomUserRepository
             .ToList();
 
         // List of database users
-        var databaseUsers = await GetUsersByClassroomId(classroomId);
+        var databaseUsers = await GetUsersByClassroomIdAsync(classroomId);
 
         var usersToDelete = incomingUsers.FilterTarget(
             databaseUsers,
@@ -71,6 +71,6 @@ public class ClassroomUserRepository : IClassroomUserRepository
         await _context.SaveChangesAsync();
 
         // Get updated list of users  
-        return await GetUsersByClassroomId(classroomId);
+        return await GetUsersByClassroomIdAsync(classroomId);
     }
 }
