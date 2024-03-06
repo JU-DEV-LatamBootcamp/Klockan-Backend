@@ -36,7 +36,8 @@ public class MeetingService : IMeetingService
         meeting.SessionNumber = await _meetingRepository.GetSessionNumber(meeting.ClassroomId) + 1;
         meeting.CreatedAt = DateTime.UtcNow;
 
-        await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto); // TODO: Save Meeting ID in Table
+        string thirdPartyId = await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto);
+        meeting.ThirdPartyId = thirdPartyId;
 
         var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
 

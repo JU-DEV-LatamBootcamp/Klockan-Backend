@@ -12,4 +12,5 @@ public class Meeting : BaseModel
     public int? TrainerId { get; set; }
     public ClassroomUser? Trainer { get; set; }
     public ICollection<MeetingAttendance> MeetingAttendances { get; set; } = new List<MeetingAttendance>();
+    public string? ThirdPartyId { get; set; }
 }
