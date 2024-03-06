@@ -205,4 +205,68 @@ public class UserServiceTests
         _userRepositoryMock.Verify(repo => repo.CreateUserAsync(It.IsAny<User>()), Times.Once);
         _mapperMock.Verify(m => m.Map<UserDto>(It.IsAny<User>()), Times.Once);
     }
+
+    [Fact]
+    public async Task UpdateUserAsync_ShouldReturnUpdatedUserDTO()
+    {
+        // Arrange
+        var userService = GetServiceInstance();
+
+        var initialUser = new User
+        {
+            Id = -1,
+            FirstName = "Initial",
+            LastName = "User",
+            Email = "initial@user.com",
+            Birthdate = new DateOnly(1990, 5, 15),
+            RoleId = 1,
+            CityId = 1,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        _userRepository.GetUserByIdAsync(-1).Returns(Task.FromResult<User?>(initialUser));
+
+
+        var updatedUser = new User
+        {
+            Id = -1,
+            FirstName = "Updated",
+            LastName = "User",
+            Email = "initial@user.com",
+            Birthdate = new DateOnly(1990, 5, 15),
+            RoleId = 1,
+            CityId = 1,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var updatedUserDto = new UserDto
+        {
+            Id = -1,
+            FirstName = "Updated",
+            LastName = "User",
+            Email = "initial@user.com",
+            Birthdate = new DateOnly(1990, 5, 15),
+            RoleId = 1,
+            CityId = 1
+        };
+
+        _userRepository
+            .UpdateUserAsync(Arg.Any<User>())
+            .Returns(callInfo =>
+            {
+                var userToUpdate = callInfo.ArgAt<User>(0);
+
+                initialUser.FirstName = userToUpdate.FirstName;
+                initialUser.UpdatedAt = DateTime.UtcNow;
+
+                return Task.FromResult(initialUser);
+            });
+
+        // Act
+        var result = await userService.UpdateUserAsync(updatedUserDto);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeEquivalentTo(_mapper.Map<UserDto>(updatedUser));
+    }
 }

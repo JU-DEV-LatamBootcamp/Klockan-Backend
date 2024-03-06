@@ -192,4 +192,45 @@ public class UsersControllerTests
         Assert.Equal(500, actionResult.StatusCode);
         Assert.Contains("Internal server error", actionResult?.Value?.ToString());
     }
+
+    [Fact]
+    public async Task UpdateUser_ReturnsOk_WithValidInput()
+    {
+        // Arrange
+        var updatedUser = new UserDto
+        {
+            FirstName = "Updated User",
+            Email = "martin.lopez@jala.university"
+        };
+
+        var updatedUserDTO = new UserDto
+        {
+            FirstName = "Updated User",
+            Email = "martin.lopez@jala.university"
+        };
+
+        _userService.UpdateUserAsync(updatedUser).Returns(Task.FromResult(updatedUserDTO));
+
+        var controller = GetControllerInstance();
+
+        // Simulate user with admin role
+        var httpContext = new DefaultHttpContext();
+        httpContext.Request.Headers["Authorization"] = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJHd3NYaVcxYWprMFhhVkV4aVU0eXlkUzNta0YtckNJSEZGTnk2cVlRX2V3In0.eyJleHAiOjE3MDk1NzM0NTEsImlhdCI6MTcwOTU3MzE1MSwianRpIjoiNzQ5OGZmYWItOTE5ZC00NjhkLTg3OGQtOWNmODE5N2U1NTUzIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODQ0My9yZWFsbXMvS2xvY2thbiIsInN1YiI6IjhjZWNjNzAyLWJiNjQtNDg2YS04ODExLTRmODNkNmM1MmIxYiIsInR5cCI6IkJlYXJlciIsImF6cCI6ImFkbWluLWNsaSIsInNlc3Npb25fc3RhdGUiOiI4OGI3ZWMzYy1jN2E3LTQ0M2UtODQ1Zi1mYjYwNWIzZGFlNTYiLCJhY3IiOiIxIiwic2NvcGUiOiJlbWFpbCBwcm9maWxlIiwic2lkIjoiODhiN2VjM2MtYzdhNy00NDNlLTg0NWYtZmI2MDViM2RhZTU2IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJyb2xlcyI6WyJhZG1pbiJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJhZG1pbiJ9.pVX5V5dFBUnTyJHk_Oar60FOI-toiIChVgsmWVhJcV8cXPPSNb625XOFI72tDLaiuLlQtalXaWbVvZId_n2cx9kSMfTspYCosgtwvDGfqFjAyTcVqKbe3_UWOsPq1wOImI9ExRmzddtVehZ9TBBOfkB6_UmSb2qKCavayLYOHGTGSaV1CvAzlREP1TKSi9r45Ql1MrUhZyKbUD1X4rTZD-uvshLGCY93dvFhgZPnaMW_jsagi97GivqPsb-bWwDLxZd9dv2owXlNyFBun-xSJsGwrK_XeINS79lZIu_rNbonPknkIU4DZr4asPBmBX0WLO1zvy6dah4OzTDDWS2hdQ";
+        controller.ControllerContext = new ControllerContext { HttpContext = httpContext };
+
+
+        // Act
+        var result = await controller.UpdateUser(updatedUser);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<UserDto>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var courseData = okResult?.Value as UserDto;
+        courseData.Should().BeEquivalentTo(updatedUserDTO);
+    }
 }
