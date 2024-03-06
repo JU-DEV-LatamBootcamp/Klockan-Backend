@@ -26,7 +26,7 @@ public class MeetingsController : ControllerBase
         return Ok(meetings);
     }
 
-    [HttpPost("/Shedule")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -52,11 +52,11 @@ public class MeetingsController : ControllerBase
         }
     }
 
-    [HttpPost]
+    [HttpPost("/Shedule")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<List<MeetingDto>>> CreateMultipleMeeting([FromBody] CreateMultipleMeetingsScheduleDTO createMultipleMeetingDto)
+    public async Task<ActionResult<List<MeetingDto>>> CreateMultipleMeetingSchedule([FromBody] CreateMultipleMeetingsScheduleDTO createMultipleMeetingDto)
     {
         if (!ModelState.IsValid)
         {
