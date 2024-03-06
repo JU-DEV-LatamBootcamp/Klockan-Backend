@@ -94,6 +94,6 @@ jobs:
             docker compose up -d
           EOF
         env:
-          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          PRIVATE_KEY: ${{ secrets.SSH_PUBLIC_KEY }}
           HOSTNAME: ${{ secrets.HOST_NAME }}
           USER_NAME: ${{ secrets.USER_NAME }}
