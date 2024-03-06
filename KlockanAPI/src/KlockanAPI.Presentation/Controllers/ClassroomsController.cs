@@ -2,6 +2,7 @@
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Classroom;
 using Asp.Versioning;
+using KlockanAPI.Application.DTOs.ClassroomUser;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -55,5 +56,16 @@ public class ClassroomsController : ControllerBase
     {
         var classroom = await _classroomService.DeleteClassroomAsync(id);
         return Ok(classroom);
+    }
+
+    [HttpPut("{id}/users")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<List<ClassroomUserDTO>>> UpdateClassroomUsers(int id, [FromBody] UpdateClassroomUsersDTO updateClassroomUsersDTO)
+    {
+        updateClassroomUsersDTO.Id = id;
+        var classroomUsersDTOs = await _classroomService.UpdateClassroomUsersAsync(updateClassroomUsersDTO);
+
+        return Ok(classroomUsersDTOs);
     }
 }
