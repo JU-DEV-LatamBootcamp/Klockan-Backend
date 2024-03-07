@@ -19,6 +19,6 @@ namespace KlockanAPI.Domain.Models.Webex
         public DateTime joinedTime { get; set; }
         public DateTime leftTime { get; set; }        
         public DateTime meetingStartTime { get; set; }             
-        public string DurationInSeconds { get; set; }
+        public int DurationInMinutes { get; set; }
     }
 }

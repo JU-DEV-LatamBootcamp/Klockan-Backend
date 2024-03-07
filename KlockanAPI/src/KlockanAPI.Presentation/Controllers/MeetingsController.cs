@@ -75,17 +75,12 @@ public class MeetingsController : ControllerBase
         }
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [HttpGet("report/{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]    
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<MeetingReport>> GetMeetingReport(string id)
-    {
-        Console.WriteLine($"Report from meetID: {id}");
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<ActionResult<MeetingReportDTO>> GetMeetingReport(int id)
+    {                
         try
         {
             var meetReport = await _meetingService.GetMeetingReportAsync(id);

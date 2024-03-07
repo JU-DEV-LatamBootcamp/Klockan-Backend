@@ -85,4 +85,9 @@ public class MeetingRepository : IMeetingRepository
 
         return existingClassroomUser.Id;
     }
+
+    public async Task<Meeting?> GetMeetingByIdAsync(int id)
+    {        
+        return await _context.Meetings.FindAsync(id);
+    }
 }

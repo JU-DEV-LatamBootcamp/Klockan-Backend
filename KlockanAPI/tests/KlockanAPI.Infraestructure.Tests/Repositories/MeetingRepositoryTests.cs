@@ -235,4 +235,31 @@ public class MeetingRepositoryTests : IDisposable
             Assert.Equal(1, result);
         }
     }
+
+    [Fact]
+    public async Task GetMeetingByIdAsync_ShouldReturnMeeting()
+    {
+        // Arrange
+        Meeting meeting = new Meeting
+        {
+            Id = 1,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            Time = new TimeOnly(15, 30),
+            ThirdPartyId = "123asbnonnullvalue"
+        };        
+        
+        _context.Meetings.Add(meeting);
+        await _context.SaveChangesAsync();
+
+        var repository = new MeetingRepository(_context);
+        var meetingIdToRetrieve = 1;
+
+        // Act
+        var result = await repository.GetMeetingByIdAsync(meetingIdToRetrieve);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<Meeting>();                
+    }
 }

@@ -1,5 +1,7 @@
 ﻿using KlockanAPI.Domain.Models.Webex;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace KlockanAPI.Application.Services.Webex;
@@ -42,8 +44,17 @@ public class WebexService
     }
 
     public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)
-    {                
-        var response = await _httpClient.GetAsync("https://webexapis.com/v1/meetingParticipants?meetingId=6aaf4dad853543049f9f47e9ba36d4df");
+    {
+        ArgumentNullException.ThrowIfNull(meetingId);
+      
+        const string reportRequestURI = "https://webexapis.com/v1/meetingParticipants";
+        var param = new Dictionary<string, string>() { 
+            { "max", "100" },
+            { "meetingId", meetingId}
+        };
+
+        var requestUrl = new Uri(QueryHelpers.AddQueryString(reportRequestURI, param));        
+        var response = await _httpClient.GetAsync(requestUrl);
 
         if (response.IsSuccessStatusCode)
         {
@@ -55,7 +66,7 @@ public class WebexService
             {
                 foreach (ParticipantReport participant in meetingReport.items)
                 {
-                    participant.DurationInSeconds = participant.leftTime.Subtract(participant.joinedTime).TotalSeconds.ToString();
+                    participant.DurationInMinutes = (int)participant.leftTime.Subtract(participant.joinedTime).TotalMinutes;
                 }
                 return meetingReport;
             }
