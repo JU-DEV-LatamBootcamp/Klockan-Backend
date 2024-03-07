@@ -145,11 +145,11 @@ public class MeetingsControllerTest
             Date = new DateOnly(2024, 1, 23),
             Time = new TimeOnly(15, 30, 0),
         };
-        MeetingReport meetingReport = new MeetingReport
+        MeetingReportDTO meetingReport = new MeetingReportDTO
         {
-            items = new List<ParticipantReport>
+            items = new List<MeetingParticipantReportDTO>
             {
-                new ParticipantReport
+                new MeetingParticipantReportDTO
                 {
                     id = "6aaf4dad853543049f9f47e9ba36d4df_I_285871559454799338_a7f3083c-63f2-31e0-8f25-76a634ce1228",
                     host = false,
