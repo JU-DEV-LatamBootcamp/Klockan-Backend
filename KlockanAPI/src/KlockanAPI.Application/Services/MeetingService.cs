@@ -55,8 +55,8 @@ public class MeetingService : IMeetingService
         var listMeetings = new List<MeetingDto>();
         var startdate = createMultipleMeetingDTO.StartDate;
         var quantity = createMultipleMeetingDTO.Quantity;
-
-        for (int i = 0; i < quantity; i++)
+        var weeks = quantity / createMultipleMeetingDTO.Schedules.Count;
+        for (int i = 0; i < weeks; i++)
         {
             int weekday = 0;
             var dateofweek = startdate;
@@ -89,6 +89,7 @@ public class MeetingService : IMeetingService
         return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
 
+<<<<<<< HEAD
     public async Task<MeetingReportDTO> GetMeetingReportAsync(int meetingId)
     {
         var meeting = await _meetingRepository.GetMeetingByIdAsync(meetingId);        
@@ -98,3 +99,6 @@ public class MeetingService : IMeetingService
         return _mapper.Map<MeetingReportDTO>(meetingReport);
     }
 }
+=======
+}
+>>>>>>> 5cf7f68d81496c24d032b6e028799a387d5d3bbe
