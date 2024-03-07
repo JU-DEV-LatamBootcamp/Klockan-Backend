@@ -26,6 +26,12 @@ public class UserService : IUserService
         return _mapper.Map<IEnumerable<UserDto>>(users);
     }
 
+    public async Task<UserDto> GetUserByEmailAsync(string email)
+    {
+        var user = await _userRepository.UserExistsByEmailAsync(email);
+        return _mapper.Map<UserDto>(user!);
+    }
+
     public async Task<UserDto> CreateUserAsync(CreateUserDTO createUserDTO)
     {
         var user = _mapper.Map<User>(createUserDTO);

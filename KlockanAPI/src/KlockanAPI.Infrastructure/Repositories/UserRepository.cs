@@ -39,11 +39,12 @@ public class UserRepository : IUserRepository
 
     public async Task<User> UpdateUserAsync(User user)
     {
+
         var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
         userToUpdate!.FirstName = user.FirstName != "" ? user.FirstName : userToUpdate.FirstName;
         userToUpdate!.LastName = user.LastName != "" ? user.LastName : userToUpdate.LastName;
         userToUpdate!.Avatar = user.Avatar != "" ? user.Avatar : userToUpdate.Avatar;
-        userToUpdate!.Birthdate = user.Birthdate != default ? user.Birthdate : userToUpdate.Birthdate;
+        userToUpdate!.Birthdate = user.Birthdate != default ? user.Birthdate : userToUpdate!.Birthdate;
         userToUpdate!.RoleId = user.RoleId != 0 ? user.RoleId : userToUpdate.RoleId;
         userToUpdate!.CityId = user.CityId != 0 ? user.CityId : userToUpdate.CityId;
         userToUpdate!.UpdatedAt = DateTime.UtcNow;
@@ -56,6 +57,9 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
             .Where(u => u.Email == email)
+                .Include(u => u.City)
+                    .ThenInclude(c => c!.Country)
+                .Include(u => u.Role)
             .FirstOrDefaultAsync();
     }
 }
