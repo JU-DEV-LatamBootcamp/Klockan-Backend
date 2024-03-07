@@ -3,6 +3,9 @@ using KlockanAPI.Application.DTOs.Meeting;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.DTOs.MeetingAttendance;
+using KlockanAPI.Application.CrossCutting;
+using KlockanAPI.Infrastructure.Repositories;
 
 namespace KlockanAPI.Application.Services;
 public class MeetingService : IMeetingService
@@ -10,12 +13,14 @@ public class MeetingService : IMeetingService
     private readonly IMeetingRepository _meetingRepository;
     private readonly IMapper _mapper;
     private readonly IThirdPartyMeeting _thirdPartyMeeting;
+    private readonly IMeetingAttendancesRepository _meetingAttendanceRepository;
 
-    public MeetingService(IMeetingRepository meetingRepository, IMapper mapper, IThirdPartyMeeting thirdPartyMeeting)
+    public MeetingService(IMeetingRepository meetingRepository, IMapper mapper, IThirdPartyMeeting thirdPartyMeeting, IMeetingAttendancesRepository meetingAttendanceRepository)
     {
         _meetingRepository = meetingRepository;
         _mapper = mapper;
         _thirdPartyMeeting = thirdPartyMeeting;
+        _meetingAttendanceRepository = meetingAttendanceRepository;
     }
 
     public async Task<IEnumerable<MeetingDto>> GetAllMeetingsAsync()
@@ -31,7 +36,7 @@ public class MeetingService : IMeetingService
         foreach (int userId in createMeetingDto.Users)
             await _meetingRepository.AddUserToClassroomAsync(userId, createMeetingDto.ClassroomId);
 
-        var meeting = _mapper.Map<Meeting>(createMeetingDto);
+        var meeting = _mapper.Map<Domain.Models.Meeting>(createMeetingDto);
         meeting.TrainerId = classroomTrainerId;
         meeting.SessionNumber = await _meetingRepository.GetSessionNumber(meeting.ClassroomId) + 1;
         meeting.CreatedAt = DateTime.UtcNow;
@@ -84,4 +89,12 @@ public class MeetingService : IMeetingService
         return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
 
+    public async Task<MeetingReportDTO> GetMeetingReportAsync(int meetingId)
+    {
+        var meeting = await _meetingRepository.GetMeetingByIdAsync(meetingId);        
+        NotFoundException.ThrowIfNull(meeting, $"Meetings with id {meetingId} not found");
+        var meetingReport = await _thirdPartyMeeting.GetMeetingReportAsync(meeting.ThirdPartyId);
+        await _meetingAttendanceRepository.CreateMeetingAttendance(meetingReport, meetingId);
+        return _mapper.Map<MeetingReportDTO>(meetingReport);
+    }
 }

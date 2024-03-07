@@ -17,15 +17,17 @@ public class MeetingServiceTest
     private readonly IMeetingRepository _meetingRespository;
     private readonly IThirdPartyMeeting _thirdPartyMeeting;
     private readonly IMapper _mapper;
+    private readonly IMeetingAttendancesRepository _meetingAttendancesRepository;
 
     public MeetingServiceTest()
     {
         _meetingRespository = Substitute.For<IMeetingRepository>();
         _thirdPartyMeeting = Substitute.For<IThirdPartyMeeting>();
         _mapper = new Mapper();
+        _meetingAttendancesRepository = Substitute.For<IMeetingAttendancesRepository>();
     }
 
-    private MeetingService GetServiceInstance() => new(_meetingRespository, _mapper, _thirdPartyMeeting);
+    private MeetingService GetServiceInstance() => new(_meetingRespository, _mapper, _thirdPartyMeeting, _meetingAttendancesRepository);
 
 
     [Fact]
@@ -126,5 +128,50 @@ public class MeetingServiceTest
         // Assert
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(expectedMeeting);
+    }
+
+    [Fact]
+    public async Task GetMeetingReportAsync_ShouldReturnMeetingReport()
+    {
+        // Arrange
+        var meetingService = GetServiceInstance();        
+        int meetingId = 1;
+        Meeting meeting = new Meeting
+        {
+            Id = 1,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            Time = new TimeOnly(15, 30),
+            ThirdPartyId = "123nonnullvalue"
+        };
+        Domain.Models.Webex.MeetingReport meetingReport = new Domain.Models.Webex.MeetingReport
+        {
+            items = new List<Domain.Models.Webex.ParticipantReport>
+            {
+                new Domain.Models.Webex.ParticipantReport
+                {
+                    id = "6aaf4dad853543049f9f47e9ba36d4df_I_285871559454799338_a7f3083c-63f2-31e0-8f25-76a634ce1228",
+                    host = false,
+                    coHost = false,
+                    email = "correo@gmail.com",
+                    displayName = "correo@gmail.com",
+                    invitee = true,
+                    muted = false,
+                    state = "end",
+                    joinedTime = new DateTime(2024, 02, 19, 10,07,25),
+                    leftTime = new DateTime(2024, 02, 19, 10, 40, 00),
+                    meetingStartTime = new DateTime(2024, 02, 19, 10 ,06, 20),
+                    DurationInMinutes = 32
+                }
+            }
+        };
+
+        _meetingRespository.GetMeetingByIdAsync(meetingId).Returns(meeting);
+        _thirdPartyMeeting.GetMeetingReportAsync(meeting.ThirdPartyId).Returns(meetingReport);
+        //Act
+        var meetReportResult = await meetingService.GetMeetingReportAsync(meeting.Id);
+        //Assert
+        meetReportResult.Should().NotBeNull();
+        meetReportResult.Should().BeAssignableTo<MeetingReportDTO>();        
     }
 }

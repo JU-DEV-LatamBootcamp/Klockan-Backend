@@ -1,5 +1,6 @@
 ﻿using KlockanAPI.Application.DTOs.Meeting;
 using KlockanAPI.Application.Services.Interfaces;
+using KlockanAPI.Domain.Models.Webex;
 
 namespace KlockanAPI.Application.Services.Webex;
 public class WebexMeetingAdapter : IThirdPartyMeeting
@@ -22,5 +23,10 @@ public class WebexMeetingAdapter : IThirdPartyMeeting
         var meetingId = await _webexService.CreateMeetingAsync(webexMeeting);
 
         return meetingId;
+    }
+
+    public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)
+    {
+        return await _webexService.GetMeetingReportAsync(meetingId);
     }
 }

@@ -12,4 +12,6 @@ public interface IMeetingRepository
     Task<int> GetSessionNumber(int classroomId);
 
     Task<int?> AddUserToClassroomAsync(int userId, int classroomId);
+
+    Task<Meeting?> GetMeetingByIdAsync(int id);
 }

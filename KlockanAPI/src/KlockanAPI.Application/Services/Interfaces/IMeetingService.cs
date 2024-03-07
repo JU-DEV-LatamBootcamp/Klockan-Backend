@@ -8,4 +8,5 @@ public interface IMeetingService
     Task<MeetingDto> CreateSingleMeeting(CreateMultipleMeetingsDto meeting);
 
     Task<List<MeetingDto>> CreateMultipleMeetingAsync(CreateMultipleMeetingsScheduleDTO meetings);
+    Task<MeetingReportDTO> GetMeetingReportAsync(int meetingId);    
 }
