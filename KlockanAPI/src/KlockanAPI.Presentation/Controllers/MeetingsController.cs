@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Meeting;
 using Asp.Versioning;
+using KlockanAPI.Domain.Models.Webex;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -50,5 +51,30 @@ public class MeetingsController : ControllerBase
         {
             return StatusCode(500,$"Internal server error: {ex.Message}");
         }
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<MeetingReport>> GetMeetingReport(string id)
+    {
+        Console.WriteLine($"Report from meetID: {id}");
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var meetReport = await _meetingService.GetMeetingReportAsync(id);
+            return meetReport != null ?
+
+                Ok(meetReport) :
+                StatusCode(500);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }        
     }
 }

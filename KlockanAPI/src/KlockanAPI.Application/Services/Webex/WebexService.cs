@@ -40,4 +40,34 @@ public class WebexService
             throw new HttpRequestException($"Error creating the meeting in Webex. Status code: {response.StatusCode}, Response: {errorContent}");
         }
     }
+
+    public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)
+    {                
+        var response = await _httpClient.GetAsync("https://webexapis.com/v1/meetingParticipants?meetingId=6aaf4dad853543049f9f47e9ba36d4df");
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            var meetingReport = JsonConvert.DeserializeObject<MeetingReport>(responseContent);                                   
+
+            if (meetingReport != null)
+            {
+                foreach (ParticipantReport participant in meetingReport.items)
+                {
+                    participant.DurationInSeconds = participant.leftTime.Subtract(participant.joinedTime).TotalSeconds.ToString();
+                }
+                return meetingReport;
+            }
+            else
+            {
+                throw new InvalidOperationException("The report was created but it turned empty.");
+            }            
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Error creating the meeting in Webex. Status code: {response.StatusCode}, Response: {errorContent}");
+        }        
+    }
 }

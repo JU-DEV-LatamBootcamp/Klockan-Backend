@@ -3,6 +3,7 @@ using KlockanAPI.Application.DTOs.Meeting;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Domain.Models.Webex;
 
 namespace KlockanAPI.Application.Services;
 public class MeetingService : IMeetingService
@@ -31,7 +32,7 @@ public class MeetingService : IMeetingService
         foreach (int userId in createMeetingDto.Users)
             await _meetingRepository.AddUserToClassroomAsync(userId, createMeetingDto.ClassroomId);
 
-        var meeting = _mapper.Map<Meeting>(createMeetingDto);
+        var meeting = _mapper.Map<Domain.Models.Meeting>(createMeetingDto);
         meeting.TrainerId = classroomTrainerId;
         meeting.SessionNumber = await _meetingRepository.GetSessionNumber(meeting.ClassroomId) + 1;
         meeting.CreatedAt = DateTime.UtcNow;
@@ -41,5 +42,11 @@ public class MeetingService : IMeetingService
         var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
 
         return _mapper.Map<MeetingDto>(createdMeeting);
+    }
+
+    public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)
+    {
+        var meetingReport = await _thirdPartyMeeting.GetMeetingReportAsync(meetingId);
+        return _mapper.Map<MeetingReport>(meetingReport);
     }
 }
