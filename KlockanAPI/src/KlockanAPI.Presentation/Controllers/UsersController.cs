@@ -35,7 +35,23 @@ public class UsersController : ControllerBase
             var users = await _userService.GetAllUsersAsync(pageSize, pageNumber);
             return Ok(users);
         }
-        catch(Exception ex)
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [HttpGet("{email}")]
+    [HttpHead]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
+    {
+        try
+        {
+            var user = await _userService.GetUserByEmailAsync(email);
+            return Ok(user);
+        }
+        catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
@@ -47,11 +63,11 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<UserDto>> CreateUser([FromBody] CreateUserDTO createUserDTO)
     {
-        if(!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
+        if (!JwtTokenHelper.HasRequiredRole(HttpContext, "admin"))
         {
             return Forbid(); // Return 403 Forbidden if the user does not have the required role
         }
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
@@ -60,9 +76,9 @@ public class UsersController : ControllerBase
         {
             var createdUserDTO = await _userService.CreateUserAsync(createUserDTO);
 
-            int[] roles = [Role.ADMIN_ID, Role.TRAINER_ID];
+            List<int> roles = [Role.ADMIN_ID, Role.TRAINER_ID];
 
-            if(roles.Contains(createdUserDTO.RoleId))
+            if (roles.Contains((int)createdUserDTO.RoleId!))
             {
                 var token = await _keycloakAuthService.GetAdminToken();
                 await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
@@ -70,9 +86,32 @@ public class UsersController : ControllerBase
 
             return CreatedAtAction(null, new { id = createdUserDTO.Id }, createdUserDTO);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserDto updateUserDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var updatedUserDTO = await _userService.UpdateUserAsync(updateUserDTO);
+            return Ok(updatedUserDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 }

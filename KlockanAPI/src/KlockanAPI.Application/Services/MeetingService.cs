@@ -36,7 +36,8 @@ public class MeetingService : IMeetingService
         meeting.SessionNumber = await _meetingRepository.GetSessionNumber(meeting.ClassroomId) + 1;
         meeting.CreatedAt = DateTime.UtcNow;
 
-        await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto); // TODO: Save Meeting ID in Table
+        string thirdPartyId = await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto);
+        meeting.ThirdPartyId = thirdPartyId;
 
         var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
 
@@ -49,8 +50,8 @@ public class MeetingService : IMeetingService
         var listMeetings = new List<MeetingDto>();
         var startdate = createMultipleMeetingDTO.StartDate;
         var quantity = createMultipleMeetingDTO.Quantity;
-
-        for (int i = 0; i < quantity; i++)
+        var weeks = quantity / createMultipleMeetingDTO.Schedules.Count;
+        for (int i = 0; i < weeks; i++)
         {
             int weekday = 0;
             var dateofweek = startdate;

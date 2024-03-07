@@ -32,5 +32,18 @@ public class ClassroomMappingsConfig
                 })
                 .ToList()
             );
+
+        TypeAdapterConfig<UpdateClassroomUsersDTO, List<ClassroomUser>>
+            .NewConfig()
+            .MapWith(src => src.Users
+                .Select(updateClassroomUserDTO => new ClassroomUser()
+                {
+                    ClassroomId = src.Id,
+                    Id = updateClassroomUserDTO.Id,
+                    UserId = updateClassroomUserDTO.UserId,
+                    RoleId = updateClassroomUserDTO.RoleId,
+                })
+                .ToList()
+            );
     }
 }
