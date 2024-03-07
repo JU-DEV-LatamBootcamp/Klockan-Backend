@@ -25,7 +25,7 @@ public class MeetingService : IMeetingService
         return _mapper.Map<IEnumerable<MeetingDto>>(meetings);
     }
 
-    public async Task<MeetingDto> CreateSingleMeeting(CreateMeetingDto createMeetingDto)
+    public async Task<MeetingDto> CreateSingleMeeting(CreateMultipleMeetingsDto createMeetingDto)
     {
         var classroomTrainerId = await _meetingRepository.AddUserToClassroomAsync(createMeetingDto.TrainerId, createMeetingDto.ClassroomId);
 
@@ -37,11 +37,52 @@ public class MeetingService : IMeetingService
         meeting.SessionNumber = await _meetingRepository.GetSessionNumber(meeting.ClassroomId) + 1;
         meeting.CreatedAt = DateTime.UtcNow;
 
-        await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto); // TODO: Save Meeting ID in Table
+        string thirdPartyId = await _thirdPartyMeeting.CreateMeetingAsync(createMeetingDto);
+        meeting.ThirdPartyId = thirdPartyId;
 
         var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
 
         return _mapper.Map<MeetingDto>(createdMeeting);
+    }
+
+    public async Task<List<MeetingDto>> CreateMultipleMeetingAsync(CreateMultipleMeetingsScheduleDTO createMultipleMeetingDTO)
+
+    {
+        var listMeetings = new List<MeetingDto>();
+        var startdate = createMultipleMeetingDTO.StartDate;
+        var quantity = createMultipleMeetingDTO.Quantity;
+
+        for (int i = 0; i < quantity; i++)
+        {
+            int weekday = 0;
+            var dateofweek = startdate;
+
+            foreach (MeetingScheduleDTO schedule in createMultipleMeetingDTO.Schedules)
+            {
+
+                var difbetwetweenDays = schedule.WeekdayId - weekday;
+                dateofweek = dateofweek.AddDays(difbetwetweenDays);
+
+                var createMeeting = new CreateMultipleMeetingsDto
+                {
+
+                    ClassroomId = createMultipleMeetingDTO.ClassroomId,
+                    Date = dateofweek,
+                    Time = schedule.StartTime,
+                };
+
+                var meeting = _mapper.Map<Meeting>(createMeeting);
+                var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
+                weekday = schedule.WeekdayId;
+
+
+
+            }
+            startdate = startdate.AddDays(7);
+        }
+
+
+        return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
 
     public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)

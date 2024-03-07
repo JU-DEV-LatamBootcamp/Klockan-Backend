@@ -4,6 +4,7 @@ using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.CrossCutting;
 
 
 namespace KlockanAPI.Application.Services;
@@ -35,5 +36,12 @@ public class UserService : IUserService
         }
         var createdUser = await _userRepository.CreateUserAsync(user);
         return _mapper.Map<UserDto>(createdUser);
+    }
+
+    public async Task<UserDto> UpdateUserAsync(UserDto updateUserDTO)
+    {
+        var user = _mapper.Map<User>(updateUserDTO);
+        var updatedUser = await _userRepository.UpdateUserAsync(user);
+        return _mapper.Map<UserDto>(updatedUser);
     }
 }

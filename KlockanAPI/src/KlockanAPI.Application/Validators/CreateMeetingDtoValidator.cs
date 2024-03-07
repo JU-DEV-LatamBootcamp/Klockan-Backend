@@ -3,7 +3,7 @@ using KlockanAPI.Application.DTOs.Meeting;
 
 namespace KlockanAPI.Application.Validators;
 
-public class CreateMeetingDtoValidator : AbstractValidator<CreateMeetingDto>
+public class CreateMeetingDtoValidator : AbstractValidator<CreateMultipleMeetingsDto>
 {
     public CreateMeetingDtoValidator()
     {

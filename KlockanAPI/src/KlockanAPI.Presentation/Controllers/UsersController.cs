@@ -60,9 +60,9 @@ public class UsersController : ControllerBase
         {
             var createdUserDTO = await _userService.CreateUserAsync(createUserDTO);
 
-            int[] roles = [Role.ADMIN_ID, Role.TRAINER_ID];
+            List<int> roles = [Role.ADMIN_ID, Role.TRAINER_ID];
 
-            if(roles.Contains(createdUserDTO.RoleId))
+            if(roles.Contains((int)createdUserDTO.RoleId!))
             {
                 var token = await _keycloakAuthService.GetAdminToken();
                 await _keycloakUserService.CreateUserAsync(createdUserDTO, token);
@@ -75,4 +75,27 @@ public class UsersController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+    
+    [HttpPut]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDto>> UpdateUser([FromBody] UserDto updateUserDTO)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var updatedUserDTO = await _userService.UpdateUserAsync(updateUserDTO);
+            return Ok(updatedUserDTO);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
 }

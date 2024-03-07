@@ -32,6 +32,26 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        return await _context.Users.FindAsync(userId);
+    }
+
+    public async Task<User> UpdateUserAsync(User user)
+    {
+        var userToUpdate = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        userToUpdate!.FirstName = user.FirstName != "" ? user.FirstName : userToUpdate.FirstName;
+        userToUpdate!.LastName = user.LastName != "" ? user.LastName : userToUpdate.LastName;
+        userToUpdate!.Avatar = user.Avatar != "" ? user.Avatar : userToUpdate.Avatar;
+        userToUpdate!.Birthdate = user.Birthdate != default ? user.Birthdate : userToUpdate.Birthdate;
+        userToUpdate!.RoleId = user.RoleId != 0 ? user.RoleId : userToUpdate.RoleId;
+        userToUpdate!.CityId = user.CityId != 0 ? user.CityId : userToUpdate.CityId;
+        userToUpdate!.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+        return userToUpdate;
+    }
+
     public async Task<User?> UserExistsByEmailAsync(string email)
     {
         return await _context.Users

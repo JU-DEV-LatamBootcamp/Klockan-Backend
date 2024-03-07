@@ -14,7 +14,7 @@ public class WebexMeetingAdapter : IThirdPartyMeeting
         _meetingDetailsService = meetingDetailsService;
     }
 
-    public async Task<string> CreateMeetingAsync(CreateMeetingDto createMeetingDto)
+    public async Task<string> CreateMeetingAsync(CreateMultipleMeetingsDto createMeetingDto)
     {
         var meetingDetails = await _meetingDetailsService.GetMeetingDetailsAsync(createMeetingDto.ClassroomId);
 
