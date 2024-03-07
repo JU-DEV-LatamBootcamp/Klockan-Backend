@@ -79,6 +79,7 @@ public class MeetingService : IMeetingService
 
                 var createMeeting = new CreateMultipleMeetingsDto
                 {
+
                     ClassroomId = createMultipleMeetingDTO.ClassroomId,
                     Date = dateofweek,
                     Time = schedule.StartTime,
@@ -97,4 +98,5 @@ public class MeetingService : IMeetingService
 
         return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
+
 }
