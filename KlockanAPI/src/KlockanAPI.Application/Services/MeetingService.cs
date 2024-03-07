@@ -48,11 +48,12 @@ public class MeetingService : IMeetingService
     public async Task<MeetingDto> UpdateMeeting(UpdateMeetingDto meetingDto, int meetingId)
     {
         var meeting = await _meetingRepository.GetMeetingById(meetingId);
-        NotFoundException.ThrowIfNull(meeting, $"Meeting wit id {meetingId} was not found");
+        NotFoundException.ThrowIfNull(meeting, $"Meeting with id {meetingId} was not found");
 
         // TODO: Update on thirdParty
         meeting.Date = meetingDto.Date;
         meeting.Time = meetingDto.Time;
+        meeting.UpdatedAt = DateTime.UtcNow;
         
         var updatedMeeting = await _meetingRepository.UpdateMeeting(meeting, meetingId);
 
@@ -98,5 +99,4 @@ public class MeetingService : IMeetingService
 
         return _mapper.Map<List<MeetingDto>>(listMeetings);
     }
-
 }
