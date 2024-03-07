@@ -3,6 +3,7 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Meeting;
 using Asp.Versioning;
 using KlockanAPI.Domain.Models.Webex;
+using KlockanAPI.Domain.Models;
 
 namespace KlockanAPI.Presentation.Controllers;
 
@@ -53,7 +54,7 @@ public class MeetingsController : ControllerBase
         }
     }
 
-    [HttpPost()]
+    [HttpPost("/Shedule")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

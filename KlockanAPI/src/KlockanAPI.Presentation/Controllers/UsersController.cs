@@ -41,8 +41,7 @@ public class UsersController : ControllerBase
         }
     }
 
-    [HttpGet("{email}")]
-    [HttpHead]
+    [HttpGet("{email}")]    
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
     {

@@ -173,12 +173,12 @@ public class MeetingsControllerTest
         //Act
         var result = await controller.GetMeetingReport(meetingDto.Id);
         //Assert
-        result.Should().BeOfType<ActionResult<MeetingReport>>();                               
+        result.Should().BeOfType<ActionResult<MeetingReportDTO>>();
         var okResult = result.Result as OkObjectResult;
         okResult.Should().NotBeNull();
         okResult.StatusCode.Should().Be(200);
 
-        var meetReport = okResult.Value as MeetingReport;
+        var meetReport = okResult.Value as MeetingReportDTO;
         meetReport.Should().BeEquivalentTo(meetingReport);
     }    
 }
