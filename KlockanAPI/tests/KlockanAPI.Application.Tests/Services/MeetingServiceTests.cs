@@ -127,4 +127,43 @@ public class MeetingServiceTest
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(expectedMeeting);
     }
+
+    [Fact]
+    public async Task UpdateMeeting_ShouldReturnUpdatedMeetingDto()
+    {
+        // Arrange
+        var meetingService = GetServiceInstance();
+
+        var initialMeeting = new Meeting
+        {
+            Id = 1,
+            Date = new DateOnly(2024, 2, 22),
+            Time = new TimeOnly(14, 0, 0)
+        };
+
+        _meetingRespository.GetMeetingById(1).Returns(Task.FromResult(initialMeeting));
+
+        var updatedMeetingDto = new UpdateMeetingDto
+        {
+            Date = new DateOnly(2024, 2, 23),
+            Time = new TimeOnly(15, 0, 0)
+        };
+
+        var updatedMeeting = new Meeting
+        {
+            Id = 1,
+            Date = updatedMeetingDto.Date,
+            Time = updatedMeetingDto.Time
+        };
+
+        _meetingRespository.UpdateMeeting(Arg.Any<Meeting>(), 1).Returns(Task.FromResult(updatedMeeting));
+
+        // Act
+        var result = await meetingService.UpdateMeeting(updatedMeetingDto, 1);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Date.Should().Be(updatedMeetingDto.Date);
+        result.Time.Should().Be(updatedMeetingDto.Time);
+    }
 }
