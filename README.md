@@ -1,6 +1,6 @@
 ﻿# Klockan-Backend
  
-Demo example of CI/CD
+Demo example for the CI/CD
 
 ## Folder Structure
 
