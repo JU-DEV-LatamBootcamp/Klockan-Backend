@@ -235,4 +235,91 @@ public class MeetingRepositoryTests : IDisposable
             Assert.Equal(1, result);
         }
     }
+
+    [Fact]
+    public async Task GetMeetingById_ShouldReturnMeeting()
+    {
+        // Arrange
+        var meetingId = 1;
+        var expectedMeeting = new Meeting { Id = meetingId };
+        var dbContextOptions = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "GetMeetingById_ShouldReturnMeeting")
+            .Options;
+
+        using (var context = new KlockanContext(dbContextOptions))
+        {
+            context.Meetings.Add(expectedMeeting);
+            await context.SaveChangesAsync();
+        }
+
+        using (var context = new KlockanContext(dbContextOptions))
+        {
+            var repository = new MeetingRepository(context);
+
+            // Act
+            var result = await repository.GetMeetingById(meetingId);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(meetingId);
+        }
+    }
+
+    [Fact]
+    public async Task UpdateMeeting_ShouldReturnUpdatedMeeting()
+    {
+        // Arrange
+        var meetingId = 1;
+        var updatedMeeting = new Meeting { Id = meetingId, Date = new DateOnly(2024, 2, 23), Time = new TimeOnly(15, 0, 0) };
+        var dbContextOptions = new DbContextOptionsBuilder<KlockanContext>()
+            .UseInMemoryDatabase(databaseName: "UpdateMeeting_ShouldReturnUpdatedMeeting")
+            .Options;
+
+        using (var context = new KlockanContext(dbContextOptions))
+        {
+            context.Meetings.Add(new Meeting { Id = meetingId });
+            await context.SaveChangesAsync();
+        }
+
+        using (var context = new KlockanContext(dbContextOptions))
+        {
+            var repository = new MeetingRepository(context);
+
+            // Act
+            var result = await repository.UpdateMeeting(updatedMeeting, meetingId);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.Id.Should().Be(meetingId);
+            result.Date.Should().Be(updatedMeeting.Date);
+            result.Time.Should().Be(updatedMeeting.Time);
+        }
+    }
+
+    [Fact]
+    public async Task GetMeetingByIdAsync_ShouldReturnMeeting()
+    {
+        // Arrange
+        Meeting meeting = new Meeting
+        {
+            Id = 1,
+            ClassroomId = 1,
+            Date = new DateOnly(2024, 1, 23),
+            Time = new TimeOnly(15, 30),
+            ThirdPartyId = "123asbnonnullvalue"
+        };        
+        
+        _context.Meetings.Add(meeting);
+        await _context.SaveChangesAsync();
+
+        var repository = new MeetingRepository(_context);
+        var meetingIdToRetrieve = 1;
+
+        // Act
+        var result = await repository.GetMeetingByIdAsync(meetingIdToRetrieve);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().BeOfType<Meeting>();                
+    }
 }

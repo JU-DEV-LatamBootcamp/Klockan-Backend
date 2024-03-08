@@ -16,4 +16,6 @@ public interface IMeetingRepository
     Task<Meeting> UpdateMeeting(Meeting meeting, int meetingId);
 
     Task<Meeting> GetMeetingById(int meetingId);
+
+    Task<Meeting?> GetMeetingByIdAsync(int id);
 }
