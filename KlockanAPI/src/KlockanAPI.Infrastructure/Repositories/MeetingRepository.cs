@@ -100,4 +100,9 @@ public class MeetingRepository : IMeetingRepository
         await _context.SaveChangesAsync();
         return meeting;
     }
+
+    public async Task<Meeting?> GetMeetingByIdAsync(int id)
+    {        
+        return await _context.Meetings.FindAsync(id);
+    }
 }
