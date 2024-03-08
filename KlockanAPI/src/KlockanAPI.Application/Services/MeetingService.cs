@@ -70,8 +70,10 @@ public class MeetingService : IMeetingService
         var listMeetings = new List<MeetingDto>();
         var startdate = createMultipleMeetingDTO.StartDate;
         var quantity = createMultipleMeetingDTO.Quantity;
-        var weeks = quantity / createMultipleMeetingDTO.Schedules.Count;
-        for (int i = 0; i < weeks; i++)
+        var classroomTrainerId= await _meetingRepository.AddUserToClassroomAsync(1, createMultipleMeetingDTO.ClassroomId);
+        var weeks = (int)Math.Ceiling((double)quantity / createMultipleMeetingDTO.Schedules.Count);
+        Console.WriteLine(weeks);
+        for (int i = 0; i < weeks  ; i++)
         {
             int weekday = 0;
             var dateofweek = startdate;
@@ -90,13 +92,12 @@ public class MeetingService : IMeetingService
                     Time = schedule.StartTime,
                     TrainerId = 9 //Trainer agregar
                 };
-
+                string thirdPartyId = await _thirdPartyMeeting.CreateMeetingAsync(createMeeting);
                 var meeting = _mapper.Map<Meeting>(createMeeting);
+                meeting.ThirdPartyId = thirdPartyId;
+                meeting.TrainerId = classroomTrainerId;
                 var createdMeeting = await _meetingRepository.CreateSingleMeeting(meeting);
                 weekday = schedule.WeekdayId;
-
-
-
             }
             startdate = startdate.AddDays(7);
         }
