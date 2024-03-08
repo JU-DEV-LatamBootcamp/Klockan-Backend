@@ -1,5 +1,7 @@
 ﻿using KlockanAPI.Domain.Models.Webex;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
+using System.Collections.Specialized;
 using System.Text;
 
 namespace KlockanAPI.Application.Services.Webex;
@@ -39,5 +41,44 @@ public class WebexService
             var errorContent = await response.Content.ReadAsStringAsync();
             throw new HttpRequestException($"Error creating the meeting in Webex. Status code: {response.StatusCode}, Response: {errorContent}");
         }
+    }
+
+    public async Task<MeetingReport> GetMeetingReportAsync(string meetingId)
+    {
+        ArgumentNullException.ThrowIfNull(meetingId);
+      
+        const string reportRequestURI = "https://webexapis.com/v1/meetingParticipants";
+        var param = new Dictionary<string, string>() { 
+            { "max", "100" },
+            { "meetingId", meetingId}
+        };
+
+        var requestUrl = new Uri(QueryHelpers.AddQueryString(reportRequestURI, param));        
+        var response = await _httpClient.GetAsync(requestUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            var meetingReport = JsonConvert.DeserializeObject<MeetingReport>(responseContent);                                   
+
+            if (meetingReport != null)
+            {
+                foreach (ParticipantReport participant in meetingReport.items)
+                {
+                    participant.DurationInMinutes = (int)participant.leftTime.Subtract(participant.joinedTime).TotalMinutes;
+                }
+                return meetingReport;
+            }
+            else
+            {
+                throw new InvalidOperationException("The report was created but it turned empty.");
+            }            
+        }
+        else
+        {
+            var errorContent = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"Error creating the meeting in Webex. Status code: {response.StatusCode}, Response: {errorContent}");
+        }        
     }
 }
