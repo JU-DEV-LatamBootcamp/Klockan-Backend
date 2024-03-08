@@ -69,14 +69,43 @@ public class ClassroomRepository : IClassroomRepository
 
     public async Task<Classroom?> GetClassroomByIdAsync(int id, bool populate = false)
     {
-        IQueryable<Classroom> result = _context.Classrooms;
-        if (populate)
-            result = result.Include(c => c.Course).Include(p => p.Program);
-        result = result.AsNoTracking().Where((classroom) => classroom.Id == id);
+        try
+        {
+            IQueryable<Classroom> result = _context.Classrooms;
+            if (populate)
+            {
+                result = result
+                    .Include(c => c.Course)
+                    .Include(c => c.Program)
+                    .Include(c => c.Schedule)
+                        .ThenInclude(s => s.Weekday)
+                    .Include(c => c.ClassroomUsers)
+                        .ThenInclude(cu => cu.User);
+            }
+            return await result
+                .FirstAsync(c => c.Id == id);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new ArgumentOutOfRangeException(nameof(id));
+        }
+    }
 
-        var classroom = result.Count() > 0 ? result.First() : null;
-
-        return await Task.FromResult(classroom);
+    public async Task<IEnumerable<User>> GetClassroomUsersAsync(int id)
+    {
+        return await Task.FromResult(_context.ClassroomUsers
+            .Where(cu => cu.ClassroomId == id)
+            .Select(cu => new User
+            {
+                Id = cu.UserId,
+                Avatar = cu.User.Avatar,
+                Email = cu.User.Email,
+                FirstName = cu.User.FirstName,
+                LastName = cu.User.LastName,
+                Role = cu.Role,
+                City = cu.User.City,
+            })
+            .ToList());
     }
 
     public async Task<Classroom> DeleteClassroomAsync(Classroom classroom)
@@ -84,6 +113,14 @@ public class ClassroomRepository : IClassroomRepository
         _context.Classrooms.Remove(classroom);
         await _context.SaveChangesAsync();
         return classroom;
+    }
+
+    public async Task<User> RemoveUserFromClassroomAsync(Classroom classroom, User user)
+    {
+        var classroomUserToDelete = classroom.ClassroomUsers.Where(cu => cu.UserId == user.Id).First();
+        classroom.ClassroomUsers.Remove(classroomUserToDelete);
+        await _context.SaveChangesAsync();
+        return user;
     }
 
     public async Task<Classroom?> GetClassroomDetailsAsync(int classroomId)

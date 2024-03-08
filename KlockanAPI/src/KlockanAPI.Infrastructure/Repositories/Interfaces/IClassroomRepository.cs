@@ -8,8 +8,10 @@ public interface IClassroomRepository
     Task<IEnumerable<Classroom>?> GetClassroomsByCourseIdAsync(int courseId);
     Task<IEnumerable<Classroom>?> GetClassroomsByProgramIdAsync(int programId);
     Task<Classroom> CreateClassroomAsync(Classroom classroom);
+    Task<IEnumerable<User>> GetClassroomUsersAsync(int id);
     Task<Classroom> UpdateClassroomAsync(Classroom classroom);
     Task<Classroom?> GetClassroomByIdAsync(int id, bool populate = false);
     Task<Classroom> DeleteClassroomAsync(Classroom classroom);
+    Task<User> RemoveUserFromClassroomAsync(Classroom classroom, User user);
     Task<Classroom?> GetClassroomDetailsAsync(int classroomId);
 }

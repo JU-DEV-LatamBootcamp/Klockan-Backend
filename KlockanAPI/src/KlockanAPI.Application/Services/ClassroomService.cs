@@ -5,6 +5,7 @@ using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.CrossCutting;
 using KlockanAPI.Application.DTOs.ClassroomUser;
+using KlockanAPI.Application.DTOs.User;
 
 namespace KlockanAPI.Application.Services;
 
@@ -41,6 +42,12 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<IEnumerable<ClassroomDTO>>(classrooms);
     }
 
+    public async Task<IEnumerable<User>> GetClassroomUsersAsync(int classroomId)
+    {
+        var classroomUsers = await _classroomRepository.GetClassroomUsersAsync(classroomId);
+        return _mapper.Map<IEnumerable<User>>(classroomUsers);
+    }
+
     public async Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO)
     {
         var id = updateClassroomDTO.Id;
@@ -65,6 +72,23 @@ public class ClassroomService : IClassroomService
         FoundException.ThrowIfNotNull(meetings, $"Classroom {id} has meetings assigned ot it.");
         var deletedClassroom = await _classroomRepository.DeleteClassroomAsync(classroom!);
         return _mapper.Map<ClassroomDTO>(deletedClassroom);
+    }
+
+    public async Task<UserDto?> RemoveUserFromClassroom(int classroomId, int userId)
+    {
+        try
+        {
+            var classroom = await _classroomRepository.GetClassroomByIdAsync(classroomId, populate: true)
+                ?? throw new ArgumentOutOfRangeException(nameof(classroomId));
+            var user = classroom.ClassroomUsers.First(cu => cu.UserId == userId).User
+                ?? throw new ArgumentOutOfRangeException(nameof(userId));
+            var deletedUser = await _classroomRepository.RemoveUserFromClassroomAsync(classroom, user);
+            return _mapper.Map<UserDto>(deletedUser);
+        }
+        catch (Exception e)
+        {
+            throw new NotFoundException(e.Message);
+        }
     }
 
     public async Task<List<ClassroomUserDTO>> UpdateClassroomUsersAsync(UpdateClassroomUsersDTO updateClassroomUsersDTO)

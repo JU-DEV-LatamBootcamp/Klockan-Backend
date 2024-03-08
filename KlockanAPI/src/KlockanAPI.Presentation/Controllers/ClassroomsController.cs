@@ -2,6 +2,9 @@
 using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Application.DTOs.Classroom;
 using Asp.Versioning;
+using KlockanAPI.Application.CrossCutting;
+using KlockanAPI.Domain.Models;
+using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.DTOs.ClassroomUser;
 
 namespace KlockanAPI.Presentation.Controllers;
@@ -28,12 +31,37 @@ public class ClassroomsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [HttpHead("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ClassroomDTO>> GetClassroomById(int id, bool populate)
+    public async Task<ActionResult<ClassroomDTO>> GetClassroom(int id, bool populate)
     {
-        var classroom = await _classroomService.GetClassroomByIdAsync(id, populate);
-        return Ok(classroom);
+        try
+        {
+            var classroom = await _classroomService.GetClassroomByIdAsync(id, populate);
+            return Ok(classroom);
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
+    }
+
+    [HttpGet("{id}/attendees")]
+    [HttpHead("{id}/attendees")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<IEnumerable<User>>> GetClassroomUsers(int id)
+    {
+        try
+        {
+            IEnumerable<User> users = await _classroomService.GetClassroomUsersAsync(id);
+            return Ok(users);
+        }
+        catch (NotFoundException e)
+        {
+            return NotFound(e.Message);
+        }
     }
 
     [HttpPost]
@@ -65,6 +93,15 @@ public class ClassroomsController : ControllerBase
     {
         var classroom = await _classroomService.DeleteClassroomAsync(id);
         return Ok(classroom);
+    }
+
+    [HttpDelete("{classroomId}/{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<UserDto>> RemoveUserFromClassroom(int classroomId, int userId)
+    {
+        var user = await _classroomService.RemoveUserFromClassroom(classroomId, userId);
+        return Ok(user);
     }
 
     [HttpPut("{id}/users")]

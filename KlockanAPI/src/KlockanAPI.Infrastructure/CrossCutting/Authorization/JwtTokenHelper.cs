@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
+using System.Text.Json.Nodes;
 
 namespace KlockanAPI.Infrastructure.CrossCutting.Authorization;
 
@@ -23,18 +21,20 @@ public class JwtTokenHelper
             var token = tokenHandler.ReadJwtToken(jwtToken);
 
             // Check if the token contains the required role claim
-            var rolesClaim = token.Claims.FirstOrDefault(c => c.Type == "roles");
-            if (rolesClaim == null)
-            {
-                // No roles claim found
+            var realmAccessClaim = token.Claims.FirstOrDefault(c => c.Type == "realm_access");
+            if (realmAccessClaim == null)
                 return false;
-            }
 
-            // Deserialize the roles claim value
-            var roles = rolesClaim.Value.Split(',');
+            var realmAccessNode = JsonNode.Parse(realmAccessClaim.Value);
+            if (realmAccessNode is null)
+                return false;
 
-            // Check if the required role is present in the roles claim
-            return roles.Contains(requiredRole);
+            var rolesNode = realmAccessNode["roles"];
+            if (rolesNode is null)
+                return false;
+
+            JsonArray roles = rolesNode.AsArray();
+            return roles.Any(r => r!.GetValue<string>() == requiredRole);
         }
         catch (Exception)
         {
