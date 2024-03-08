@@ -64,7 +64,7 @@ public class MeetingsController : ControllerBase
         return _meeting != null ? Ok(_meeting) : NotFound();
     }
 
-    [HttpPost("Shedule")]
+    [HttpPost("schedule")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
