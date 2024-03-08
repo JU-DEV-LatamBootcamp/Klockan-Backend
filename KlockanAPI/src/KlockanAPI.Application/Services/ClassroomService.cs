@@ -36,19 +36,6 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<ClassroomDTO>(createdClassroom);
     }
 
-    public async Task<ClassroomDTO> GetClassroomByIdAsync(int id)
-    {
-        try
-        {
-            var classroom = await _classroomRepository.GetClassroomByIdAsync(id);
-            return _mapper.Map<ClassroomDTO>(classroom);
-        }
-        catch (ArgumentOutOfRangeException)
-        {
-            throw new NotFoundException($"Classroom with Id {id} not found.");
-        }
-    }
-
     public async Task<IEnumerable<ClassroomDTO>> GetAllClassroomsAsync()
     {
         var classrooms = await _classroomRepository.GetAllClassroomsAsync();
@@ -91,12 +78,14 @@ public class ClassroomService : IClassroomService
     {
         try
         {
-            var classroom = await _classroomRepository.GetClassroomByIdAsync(classroomId);
-            var user = classroom.ClassroomUsers.Where(cu => cu.UserId == userId).First().User;
+            var classroom = await _classroomRepository.GetClassroomByIdAsync(classroomId, populate: true)
+                ?? throw new ArgumentOutOfRangeException(nameof(classroomId));
+            var user = classroom.ClassroomUsers.First(cu => cu.UserId == userId).User
+                ?? throw new ArgumentOutOfRangeException(nameof(userId));
             var deletedUser = await _classroomRepository.RemoveUserFromClassroomAsync(classroom, user);
             return _mapper.Map<UserDto>(deletedUser);
         }
-        catch (ArgumentOutOfRangeException e)
+        catch (Exception e)
         {
             throw new NotFoundException(e.Message);
         }
@@ -112,5 +101,12 @@ public class ClassroomService : IClassroomService
         var udpatedClassroomUsers = await _classroomUserRepository.UpdateClassroomUsersAsync(updateClassroomUsersDTO.Id, classroomUsers);
 
         return _mapper.Map<List<ClassroomUserDTO>>(udpatedClassroomUsers);
+    }
+
+    public async Task<ClassroomDTO> GetClassroomByIdAsync(int id, bool populate)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(id, populate);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with id {id} not found");
+        return _mapper.Map<ClassroomDTO>(classroom!);
     }
 }

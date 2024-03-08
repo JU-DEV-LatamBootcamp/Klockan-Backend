@@ -67,17 +67,22 @@ public class ClassroomRepository : IClassroomRepository
         return classrooms.Count > 0 ? classrooms : null;
     }
 
-    public async Task<Classroom> GetClassroomByIdAsync(int id)
+    public async Task<Classroom?> GetClassroomByIdAsync(int id, bool populate = false)
     {
         try
         {
-            return await _context.Classrooms
-                .Include(c => c.Course)
-                .Include(c => c.Program)
-                .Include(c => c.Schedule)
-                    .ThenInclude(s => s.Weekday)
-                .Include(c => c.ClassroomUsers)
-                    .ThenInclude(cu => cu.User)
+            IQueryable<Classroom> result = _context.Classrooms;
+            if (populate)
+            {
+                result = result
+                    .Include(c => c.Course)
+                    .Include(c => c.Program)
+                    .Include(c => c.Schedule)
+                        .ThenInclude(s => s.Weekday)
+                    .Include(c => c.ClassroomUsers)
+                        .ThenInclude(cu => cu.User);
+            }
+            return await result
                 .FirstAsync(c => c.Id == id);
         }
         catch (InvalidOperationException)

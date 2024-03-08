@@ -34,11 +34,11 @@ public class ClassroomsController : ControllerBase
     [HttpHead("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<ClassroomDTO>> GetClassroom(int id)
+    public async Task<ActionResult<ClassroomDTO>> GetClassroom(int id, bool populate)
     {
         try
         {
-            var classroom = await _classroomService.GetClassroomByIdAsync(id);
+            var classroom = await _classroomService.GetClassroomByIdAsync(id, populate);
             return Ok(classroom);
         }
         catch (NotFoundException e)
