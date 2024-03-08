@@ -70,7 +70,7 @@ public class MeetingService : IMeetingService
         var listMeetings = new List<MeetingDto>();
         var startdate = createMultipleMeetingDTO.StartDate;
         var quantity = createMultipleMeetingDTO.Quantity;
-        var classroomTrainerId= await _meetingRepository.AddUserToClassroomAsync(1, createMultipleMeetingDTO.ClassroomId);
+        var classroomTrainerId= await _meetingRepository.AddUserToClassroomAsync(11, createMultipleMeetingDTO.ClassroomId);
         var weeks = (int)Math.Ceiling((double)quantity / createMultipleMeetingDTO.Schedules.Count);
         Console.WriteLine(weeks);
         for (int i = 0; i < weeks  ; i++)
