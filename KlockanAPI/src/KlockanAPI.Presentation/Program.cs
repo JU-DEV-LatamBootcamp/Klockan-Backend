@@ -1,16 +1,11 @@
 using Asp.Versioning;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation.AspNetCore;
-using Mapster;
 
 using KlockanAPI.Infrastructure;
 using KlockanAPI.Infrastructure.Data;
@@ -27,8 +22,6 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
         // Add services to the container.
         builder = ConfigureServicesAndMiddlewares(builder);
-
-
         var app = builder.Build();
         app.UseResponseCompression();
         // Configure the HTTP request pipeline.
@@ -44,12 +37,9 @@ public class Program
             if (allowedOrigins is not null)
                 c.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
         });
-
         // app.UseHttpsRedirection();
-
         app.UseAuthentication();
         app.UseAuthorization();
-
         app.MapControllers();
         app.MapHealthChecks("/health");
         app.Run();
@@ -58,7 +48,6 @@ public class Program
     public static WebApplicationBuilder ConfigureServicesAndMiddlewares(WebApplicationBuilder builder)
     {
         // ***********  API CONTROLLERS AND RESPONSES ************
-
         builder.Services.AddControllers(configure =>
         {
             configure.ReturnHttpNotAcceptable = true;
@@ -163,7 +152,7 @@ public class Program
         builder.Services.AddProblemDetails();
 
         // ***********  DEPENDENCY INJECTION ************
-        builder.Services.AddApplicationServices();
+        builder.Services.AddApplicationServices(builder.Configuration);
         builder.Services.AddInfraestructureRepositories();
 
         // ***********  HEALTHCHECK ************

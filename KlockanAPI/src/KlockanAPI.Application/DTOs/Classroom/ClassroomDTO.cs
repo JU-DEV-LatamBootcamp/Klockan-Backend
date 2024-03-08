@@ -13,5 +13,4 @@ public class ClassroomDTO
     public ProgramDTO? Program { get; set; }
     public CourseDTO? Course { get; set; }
     public ICollection<ScheduleDTO> Schedule { get; set; } = [];
-
 }

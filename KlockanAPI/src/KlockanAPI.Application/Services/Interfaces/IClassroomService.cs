@@ -1,6 +1,7 @@
 
 using KlockanAPI.Application.DTOs.Classroom;
-using KlockanAPI.Application.DTOs.Schedule;
+using KlockanAPI.Application.DTOs.ClassroomUser;
+using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Application.DTOs.User;
 using KlockanAPI.Domain.Models;
 
@@ -12,8 +13,8 @@ public interface IClassroomService
     Task<ClassroomDTO> GetClassroomByIdAsync(int id);
     Task<IEnumerable<User>> GetClassroomUsersAsync(int classroomId);
     Task<ClassroomDTO> CreateClassroomAsync(CreateClassroomDTO createClassroomDTO);
-
-    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules);
     Task<ClassroomDTO?> DeleteClassroomAsync(int id);
     public Task<UserDto?> RemoveUserFromClassroom(int classroomId, int userId);
+    Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO);
+    Task<List<ClassroomUserDTO>> UpdateClassroomUsersAsync(UpdateClassroomUsersDTO updateClassroomUsersDTO);
 }

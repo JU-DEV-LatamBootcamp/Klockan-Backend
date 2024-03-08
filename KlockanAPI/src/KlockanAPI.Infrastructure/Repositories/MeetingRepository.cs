@@ -71,7 +71,7 @@ public class MeetingRepository : IMeetingRepository
             {
                 UserId = userId,
                 ClassroomId = classroomId,
-                RoleId = user.RoleId,
+                RoleId = (int)user.RoleId,
                 Classroom = null,
                 User = null,
                 Role = null
@@ -84,5 +84,25 @@ public class MeetingRepository : IMeetingRepository
         }
 
         return existingClassroomUser.Id;
+    }
+
+    public async Task<Meeting> GetMeetingById(int meetingId)
+    {
+        var _meeting = await _context.Meetings.AsNoTracking()
+            .FirstOrDefaultAsync(m => m.Id == meetingId);
+        return _meeting;
+    }
+
+    public async Task<Meeting> UpdateMeeting(Meeting meeting, int meetingId)
+    {
+        var _meeting = await _context.Meetings.FirstOrDefaultAsync(m => m.Id == meetingId);
+        _context.Meetings.Entry(_meeting!).CurrentValues.SetValues(meeting);
+        await _context.SaveChangesAsync();
+        return meeting;
+    }
+
+    public async Task<Meeting?> GetMeetingByIdAsync(int id)
+    {        
+        return await _context.Meetings.FindAsync(id);
     }
 }

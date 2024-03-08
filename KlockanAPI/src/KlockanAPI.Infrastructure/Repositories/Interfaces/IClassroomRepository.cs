@@ -11,6 +11,8 @@ public interface IClassroomRepository
 
     Task<Classroom> GetClassroomByIdAsync(int id);
     Task<IEnumerable<User>> GetClassroomUsersAsync(int id);
+    Task<Classroom> UpdateClassroomAsync(Classroom classroom);
     Task<Classroom> DeleteClassroomAsync(Classroom classroom);
     Task<User> RemoveUserFromClassroomAsync(Classroom classroom, User user);
+    Task<Classroom?> GetClassroomDetailsAsync(int classroomId);
 }

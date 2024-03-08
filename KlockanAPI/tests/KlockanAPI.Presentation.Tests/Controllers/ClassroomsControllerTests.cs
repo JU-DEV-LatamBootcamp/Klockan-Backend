@@ -6,35 +6,23 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Presentation.Controllers;
 using KlockanAPI.Application.DTOs.Classroom;
 using KlockanAPI.Application.DTOs.Schedule;
-using KlockanAPI.Application.DTOs.Weekday;
 
 using Moq;
-using KlockanAPI.Application.DTOs.Classroom;
-using KlockanAPI.Domain.Models;
-using FluentAssertions.Common;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using KlockanAPI.Application.DTOs.Program;
+using KlockanAPI.Application.DTOs.ClassroomUser;
+
 
 namespace KlockanAPI.Presentation.Tests.Controllers;
 
 public class ClassroomsControllerTests
 {
     private readonly IClassroomService _classroomService;
-    private readonly IScheduleService _scheduleService;
-
-    private readonly Mock<IClassroomService> _mockClassroomService;
-    private readonly Mock<IScheduleService> _mockScheduleService;
-
-    private readonly ClassroomsController _controller;
 
     public ClassroomsControllerTests()
     {
         _classroomService = Substitute.For<IClassroomService>();
-        _scheduleService = Substitute.For<IScheduleService>();
     }
 
-    private ClassroomsController GetControllerInstance() => new(_classroomService, _scheduleService);
+    private ClassroomsController GetControllerInstance() => new(_classroomService);
 
     [Fact]
     public async Task GetAllClassrooms_ShouldReturnOk()
@@ -81,26 +69,26 @@ public class ClassroomsControllerTests
         // Arrange
 
         //DTO CREATE/CLASSROOM/SCHEDULE
-        CreateClassroomScheduleDTO schedule1 = new CreateClassroomScheduleDTO
+        var schedule1 = new UpdateScheduleDTO
         {
             WeekdayId = 1,
             StartTime = new TimeOnly(18, 00, 00)
         };
 
-        CreateClassroomScheduleDTO schedule2 = new CreateClassroomScheduleDTO
+        var schedule2 = new UpdateScheduleDTO
         {
             WeekdayId = 1,
             StartTime = new TimeOnly(19, 00, 00)
         };
 
-        List<CreateClassroomScheduleDTO> createClassroomScheduleDTO = new List<CreateClassroomScheduleDTO> { schedule1, schedule2 };
+        List<UpdateScheduleDTO> updateScheduleDTO = new List<UpdateScheduleDTO> { schedule1, schedule2 };
 
         var createClassroomDTO = new CreateClassroomDTO
         {
             CourseId = 1,
             ProgramId = 1,
             StartDate = new DateOnly(2024, 2, 23),
-            Schedule = createClassroomScheduleDTO
+            Schedule = updateScheduleDTO
         };
 
         var createdClassrrom = new ClassroomDTO();
@@ -114,10 +102,8 @@ public class ClassroomsControllerTests
             .Setup(m => m.CreateClassroomAsync(It.IsAny<CreateClassroomDTO>()))
             .ReturnsAsync(createdClassrrom);
 
-
-
         // Create an instance of the controller with the mocked services.
-        var controller = new ClassroomsController(mockClassroomService.Object, mockScheduleService.Object);
+        var controller = new ClassroomsController(mockClassroomService.Object);
 
         // Act
         var result = await controller.CreateClassroom(createClassroomDTO);
@@ -137,7 +123,94 @@ public class ClassroomsControllerTests
             // Fail the test if the value is not of the expected type
             Assert.True(false, "Unexpected type returned from the action.");
         }
-
     }
 
+
+    [Fact]
+    public async Task DeleteClassroom_ShouldReturnOk()
+    {
+        ClassroomDTO sampleClassroom = new ClassroomDTO
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        _classroomService.DeleteClassroomAsync(1).Returns(Task.FromResult<ClassroomDTO?>(sampleClassroom));
+
+        var controller = GetControllerInstance();
+
+        var result = await controller.DeleteClassroom(1);
+
+        result.Should().BeOfType<ActionResult<ClassroomDTO>>();
+
+        result.Result.Should().BeOfType<OkObjectResult>();
+
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+
+        var okResult = result?.Result as OkObjectResult;
+        var classroomData = okResult?.Value as ClassroomDTO;
+        classroomData.Should().BeEquivalentTo(classroomData);
+    }
+
+    [Fact]
+    public async Task UpdateClassroom_ShouldReturnOk()
+    {
+        // Arrange
+        var controller = GetControllerInstance();
+
+        ClassroomDTO classroomDTO = new ClassroomDTO
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 2, 23),
+            CourseId = 1,
+            ProgramId = 1,
+        };
+
+        var updateClassroomDTO = new UpdateClassroomDTO
+        {
+            Id = classroomDTO.Id,
+            StartDate = new DateOnly(2024, 7, 7),
+            CourseId = 2,
+            ProgramId = 2,
+        };
+
+        _classroomService.UpdateClassroomAsync(updateClassroomDTO)
+            .Returns(Task.FromResult(classroomDTO));
+
+        // Act
+        var result = await controller.UpdateClassroom(classroomDTO.Id, updateClassroomDTO);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<ClassroomDTO>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+    }
+
+    [Fact]
+    public async Task UpdateClassroomUsers_ShouldReturnOk()
+    {
+        // Arrange
+        var classroomController = GetControllerInstance();
+
+        UpdateClassroomUsersDTO updateClassroomUsersDTO = new UpdateClassroomUsersDTO()
+        {
+            Id = 1,
+            Users = new List<UpdateClassroomUserDTO>() {
+                new UpdateClassroomUserDTO() { UserId = 1, RoleId = 2 },
+            }
+
+        };
+
+        _classroomService.UpdateClassroomUsersAsync(updateClassroomUsersDTO).Returns(new List<ClassroomUserDTO>());
+
+        // Act
+        var result = await classroomController.UpdateClassroomUsers(1, updateClassroomUsersDTO);
+
+        // Assert
+        result.Should().BeOfType<ActionResult<List<ClassroomUserDTO>>>();
+        result.Result.Should().BeOfType<OkObjectResult>();
+        (result?.Result as OkObjectResult)?.StatusCode.Should().Be(200);
+    }
 }

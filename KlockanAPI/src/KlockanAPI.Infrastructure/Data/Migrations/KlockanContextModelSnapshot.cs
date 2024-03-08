@@ -61,7 +61,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 1,
                             Code = "BA",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9514),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4388),
                             Name = "Buenos Aires"
                         },
                         new
@@ -69,7 +69,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 2,
                             Code = "COR",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9516),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4390),
                             Name = "Córdoba"
                         },
                         new
@@ -77,7 +77,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 3,
                             Code = "ROS",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9517),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4391),
                             Name = "Rosario"
                         },
                         new
@@ -85,7 +85,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 4,
                             Code = "MDZ",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9519),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4392),
                             Name = "Mendoza"
                         },
                         new
@@ -93,7 +93,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 5,
                             Code = "TUC",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9520),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4393),
                             Name = "San Miguel de Tucumán"
                         },
                         new
@@ -101,7 +101,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 6,
                             Code = "LP",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9521),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4394),
                             Name = "La Plata"
                         },
                         new
@@ -109,7 +109,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 7,
                             Code = "MDQ",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9522),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4395),
                             Name = "Mar del Plata"
                         },
                         new
@@ -117,7 +117,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 8,
                             Code = "SLA",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9523),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4396),
                             Name = "Salta"
                         },
                         new
@@ -125,7 +125,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 9,
                             Code = "SFN",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9524),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4397),
                             Name = "Santa Fe"
                         },
                         new
@@ -133,7 +133,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 10,
                             Code = "SJU",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9526),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4398),
                             Name = "San Juan"
                         },
                         new
@@ -141,7 +141,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 11,
                             Code = "TUC",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9527),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4399),
                             Name = "Tucumán"
                         },
                         new
@@ -149,7 +149,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 12,
                             Code = "NEU",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9528),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4400),
                             Name = "Neuquén"
                         },
                         new
@@ -157,7 +157,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 13,
                             Code = "BHI",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9529),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4401),
                             Name = "Bahía Blanca"
                         },
                         new
@@ -165,7 +165,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 14,
                             Code = "RES",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9530),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4402),
                             Name = "Resistencia"
                         },
                         new
@@ -173,7 +173,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 15,
                             Code = "FOR",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9531),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4403),
                             Name = "Formosa"
                         },
                         new
@@ -181,7 +181,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 16,
                             Code = "COR",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9532),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4404),
                             Name = "Corrientes"
                         },
                         new
@@ -189,7 +189,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 17,
                             Code = "POS",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9533),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4405),
                             Name = "Posadas"
                         },
                         new
@@ -197,7 +197,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 18,
                             Code = "JUJ",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9534),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4406),
                             Name = "San Salvador de Jujuy"
                         },
                         new
@@ -205,7 +205,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 19,
                             Code = "PAR",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9535),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4407),
                             Name = "Paraná"
                         },
                         new
@@ -213,7 +213,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 20,
                             Code = "SRO",
                             CountryId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9536),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4408),
                             Name = "Santa Rosa"
                         },
                         new
@@ -221,7 +221,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 21,
                             Code = "LP",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9537),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4409),
                             Name = "La Paz"
                         },
                         new
@@ -229,7 +229,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 22,
                             Code = "SCZ",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9538),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4410),
                             Name = "Santa Cruz de la Sierra"
                         },
                         new
@@ -237,7 +237,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 23,
                             Code = "CBBA",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9539),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4411),
                             Name = "Cochabamba"
                         },
                         new
@@ -245,7 +245,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 24,
                             Code = "SUC",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9540),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4412),
                             Name = "Sucre"
                         },
                         new
@@ -253,7 +253,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 25,
                             Code = "TJA",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9541),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4413),
                             Name = "Tarija"
                         },
                         new
@@ -261,7 +261,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 26,
                             Code = "PTS",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9542),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4414),
                             Name = "Potosí"
                         },
                         new
@@ -269,7 +269,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 27,
                             Code = "ORU",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9543),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4415),
                             Name = "Oruro"
                         },
                         new
@@ -277,7 +277,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 28,
                             Code = "CBI",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9544),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4416),
                             Name = "Cobija"
                         },
                         new
@@ -285,7 +285,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 29,
                             Code = "TRI",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9544),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4417),
                             Name = "Trinidad"
                         },
                         new
@@ -293,7 +293,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 30,
                             Code = "RIB",
                             CountryId = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9545),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4418),
                             Name = "Riberalta"
                         },
                         new
@@ -301,7 +301,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 31,
                             Code = "SP",
                             CountryId = 3,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9546),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4419),
                             Name = "São Paulo"
                         },
                         new
@@ -309,7 +309,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 32,
                             Code = "RJ",
                             CountryId = 3,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9547),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4420),
                             Name = "Rio de Janeiro"
                         },
                         new
@@ -317,7 +317,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 33,
                             Code = "SCL",
                             CountryId = 4,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9549),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4421),
                             Name = "Santiago"
                         },
                         new
@@ -325,7 +325,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 34,
                             Code = "VAL",
                             CountryId = 4,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9550),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4422),
                             Name = "Valparaíso"
                         },
                         new
@@ -333,7 +333,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 35,
                             Code = "BOG",
                             CountryId = 5,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9551),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4423),
                             Name = "Bogotá"
                         },
                         new
@@ -341,7 +341,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 36,
                             Code = "MDE",
                             CountryId = 5,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9552),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4424),
                             Name = "Medellín"
                         },
                         new
@@ -349,7 +349,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 37,
                             Code = "SJ",
                             CountryId = 6,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9553),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4425),
                             Name = "San José"
                         },
                         new
@@ -357,7 +357,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 38,
                             Code = "LM",
                             CountryId = 6,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9554),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4426),
                             Name = "Limon"
                         },
                         new
@@ -365,7 +365,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 39,
                             Code = "LH",
                             CountryId = 7,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9555),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4427),
                             Name = "La Habana"
                         },
                         new
@@ -373,7 +373,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 40,
                             Code = "SC",
                             CountryId = 7,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9556),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4428),
                             Name = "Santiago de Cuba"
                         },
                         new
@@ -381,7 +381,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 41,
                             Code = "SD",
                             CountryId = 8,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9557),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4429),
                             Name = "Santo Domingo"
                         },
                         new
@@ -389,7 +389,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 42,
                             Code = "SC",
                             CountryId = 8,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9558),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4430),
                             Name = "Santiago de los Caballeros"
                         },
                         new
@@ -397,7 +397,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 43,
                             Code = "QT",
                             CountryId = 9,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9559),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4453),
                             Name = "Quito"
                         },
                         new
@@ -405,7 +405,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 44,
                             Code = "GQ",
                             CountryId = 9,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9560),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4454),
                             Name = "Guayaquil"
                         },
                         new
@@ -413,7 +413,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 45,
                             Code = "SS",
                             CountryId = 10,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9561),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4455),
                             Name = "San Salvador"
                         },
                         new
@@ -421,7 +421,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 46,
                             Code = "SA",
                             CountryId = 10,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9562),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4456),
                             Name = "Santa Ana"
                         },
                         new
@@ -429,7 +429,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 47,
                             Code = "GC",
                             CountryId = 11,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9563),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4457),
                             Name = "Guatemala City"
                         },
                         new
@@ -437,7 +437,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 48,
                             Code = "QZ",
                             CountryId = 11,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9612),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4458),
                             Name = "Quetzaltenango"
                         },
                         new
@@ -445,7 +445,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 49,
                             Code = "PA",
                             CountryId = 12,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9613),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4459),
                             Name = "Port-au-Prince"
                         },
                         new
@@ -453,7 +453,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 50,
                             Code = "CH",
                             CountryId = 12,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9614),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4460),
                             Name = "Cap-Haïtien"
                         },
                         new
@@ -461,7 +461,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 51,
                             Code = "TG",
                             CountryId = 13,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9615),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4461),
                             Name = "Tegucigalpa"
                         },
                         new
@@ -469,7 +469,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 52,
                             Code = "SPS",
                             CountryId = 13,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9616),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4462),
                             Name = "San Pedro Sula"
                         },
                         new
@@ -477,7 +477,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 53,
                             Code = "MXC",
                             CountryId = 14,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9617),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4463),
                             Name = "Mexico City"
                         },
                         new
@@ -485,7 +485,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 54,
                             Code = "GDL",
                             CountryId = 14,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9618),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4464),
                             Name = "Guadalajara"
                         },
                         new
@@ -493,7 +493,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 55,
                             Code = "MN",
                             CountryId = 15,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9619),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4465),
                             Name = "Managua"
                         },
                         new
@@ -501,7 +501,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 56,
                             Code = "LN",
                             CountryId = 15,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9620),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4466),
                             Name = "León"
                         },
                         new
@@ -509,7 +509,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 57,
                             Code = "PC",
                             CountryId = 16,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9621),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4467),
                             Name = "Panama City"
                         },
                         new
@@ -517,7 +517,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 58,
                             Code = "DV",
                             CountryId = 16,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9622),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4468),
                             Name = "David"
                         },
                         new
@@ -525,7 +525,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 59,
                             Code = "ASU",
                             CountryId = 17,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9623),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4469),
                             Name = "Asunción"
                         },
                         new
@@ -533,7 +533,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 60,
                             Code = "CDE",
                             CountryId = 17,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9624),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4470),
                             Name = "Ciudad del Este"
                         },
                         new
@@ -541,7 +541,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 61,
                             Code = "LM",
                             CountryId = 18,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9625),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4471),
                             Name = "Lima"
                         },
                         new
@@ -549,7 +549,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 62,
                             Code = "AR",
                             CountryId = 18,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9626),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4472),
                             Name = "Arequipa"
                         },
                         new
@@ -557,7 +557,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 63,
                             Code = "SJ",
                             CountryId = 19,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9627),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4473),
                             Name = "San Juan"
                         },
                         new
@@ -565,7 +565,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 64,
                             Code = "PC",
                             CountryId = 19,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9628),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4474),
                             Name = "Ponce"
                         },
                         new
@@ -573,7 +573,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 65,
                             Code = "MTV",
                             CountryId = 20,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9629),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4475),
                             Name = "Montevideo"
                         },
                         new
@@ -581,7 +581,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 66,
                             Code = "ST",
                             CountryId = 20,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9629),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4476),
                             Name = "Salto"
                         },
                         new
@@ -589,7 +589,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 67,
                             Code = "CCS",
                             CountryId = 21,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9630),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4477),
                             Name = "Caracas"
                         },
                         new
@@ -597,7 +597,7 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                             Id = 68,
                             Code = "MAR",
                             CountryId = 21,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9631),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4478),
                             Name = "Maracaibo"
                         });
                 });
@@ -733,147 +733,147 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         {
                             Id = 1,
                             Code = "AR",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9400),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4247),
                             Name = "Argentina"
                         },
                         new
                         {
                             Id = 2,
                             Code = "BO",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9401),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4249),
                             Name = "Bolivia"
                         },
                         new
                         {
                             Id = 3,
                             Code = "BR",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9402),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4250),
                             Name = "Brazil"
                         },
                         new
                         {
                             Id = 4,
                             Code = "CL",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9403),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4251),
                             Name = "Chile"
                         },
                         new
                         {
                             Id = 5,
                             Code = "CO",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9404),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4252),
                             Name = "Colombia"
                         },
                         new
                         {
                             Id = 6,
                             Code = "CR",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9405),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4253),
                             Name = "Costa Rica"
                         },
                         new
                         {
                             Id = 7,
                             Code = "CU",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9406),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4254),
                             Name = "Cuba"
                         },
                         new
                         {
                             Id = 8,
                             Code = "DO",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9407),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4255),
                             Name = "Dominican Republic"
                         },
                         new
                         {
                             Id = 9,
                             Code = "EC",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9408),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4255),
                             Name = "Ecuador"
                         },
                         new
                         {
                             Id = 10,
                             Code = "SV",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9409),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4256),
                             Name = "El Salvador"
                         },
                         new
                         {
                             Id = 11,
                             Code = "GT",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9409),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4257),
                             Name = "Guatemala"
                         },
                         new
                         {
                             Id = 12,
                             Code = "HT",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9410),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4258),
                             Name = "Haiti"
                         },
                         new
                         {
                             Id = 13,
                             Code = "HN",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9411),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4336),
                             Name = "Honduras"
                         },
                         new
                         {
                             Id = 14,
                             Code = "MX",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9412),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4338),
                             Name = "Mexico"
                         },
                         new
                         {
                             Id = 15,
                             Code = "NI",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9413),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4339),
                             Name = "Nicaragua"
                         },
                         new
                         {
                             Id = 16,
                             Code = "PA",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9414),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4340),
                             Name = "Panama"
                         },
                         new
                         {
                             Id = 17,
                             Code = "PY",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9415),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4340),
                             Name = "Paraguay"
                         },
                         new
                         {
                             Id = 18,
                             Code = "PE",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9470),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4341),
                             Name = "Peru"
                         },
                         new
                         {
                             Id = 19,
                             Code = "PR",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9471),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4342),
                             Name = "Puerto Rico"
                         },
                         new
                         {
                             Id = 20,
                             Code = "UY",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9472),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4343),
                             Name = "Uruguay"
                         },
                         new
                         {
                             Id = 21,
                             Code = "VE",
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9473),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4344),
                             Name = "Venezuela"
                         });
                 });
@@ -993,6 +993,9 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
 
                     b.Property<int>("SessionNumber")
                         .HasColumnType("integer");
+
+                    b.Property<string>("ThirdPartyId")
+                        .HasColumnType("text");
 
                     b.Property<TimeOnly>("Time")
                         .HasColumnType("time without time zone");
@@ -1119,13 +1122,13 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9883),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4798),
                             Name = "Present"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9885),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4799),
                             Name = "Absent"
                         });
                 });
@@ -1218,25 +1221,25 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9697),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4542),
                             Name = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9699),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4544),
                             Name = "Trainer"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9700),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4545),
                             Name = "Student"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9701),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4546),
                             Name = "Guest"
                         });
                 });
@@ -1364,10 +1367,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Avatar = "https://randomuser.me/api/portraits/men/81.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/men/30.jpg",
                             Birthdate = new DateOnly(1990, 5, 15),
                             CityId = 1,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9758),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4615),
                             Email = "martin.lopez@jala.university",
                             FirstName = "Martín",
                             LastName = "López",
@@ -1376,10 +1379,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Avatar = "https://randomuser.me/api/portraits/women/24.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/women/88.jpg",
                             Birthdate = new DateOnly(1988, 8, 20),
                             CityId = 3,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9799),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4661),
                             Email = "lucia.martinez@jala.university",
                             FirstName = "Lucía",
                             LastName = "Martínez",
@@ -1388,10 +1391,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 3,
-                            Avatar = "https://randomuser.me/api/portraits/men/73.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/men/33.jpg",
                             Birthdate = new DateOnly(1992, 3, 10),
                             CityId = 21,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9805),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4666),
                             Email = "carlos.gutierrez@jala.university",
                             FirstName = "Carlos",
                             LastName = "Gutiérrez",
@@ -1400,10 +1403,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 4,
-                            Avatar = "https://randomuser.me/api/portraits/women/38.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/women/45.jpg",
                             Birthdate = new DateOnly(1991, 11, 25),
                             CityId = 22,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9808),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4669),
                             Email = "maria.perez@jala.university",
                             FirstName = "María",
                             LastName = "Pérez",
@@ -1412,10 +1415,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 5,
-                            Avatar = "https://randomuser.me/api/portraits/men/93.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/men/53.jpg",
                             Birthdate = new DateOnly(1985, 7, 3),
                             CityId = 35,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9811),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4745),
                             Email = "alejandro.rodriguez@jala.university",
                             FirstName = "Alejandro",
                             LastName = "Rodríguez",
@@ -1424,10 +1427,10 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 6,
-                            Avatar = "https://randomuser.me/api/portraits/women/61.jpg",
+                            Avatar = "https://randomuser.me/api/portraits/women/13.jpg",
                             Birthdate = new DateOnly(1989, 9, 12),
                             CityId = 36,
-                            CreatedAt = new DateTime(2024, 2, 22, 15, 34, 37, 278, DateTimeKind.Utc).AddTicks(9815),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4749),
                             Email = "camila.gomez@jala.university",
                             FirstName = "Camila",
                             LastName = "Gómez",
@@ -1464,43 +1467,43 @@ namespace KlockanAPI.Infrastructure.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4185),
                             Name = "Sunday"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4187),
                             Name = "Monday"
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4188),
                             Name = "Tuesday"
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4189),
                             Name = "Wednesday"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4189),
                             Name = "Thursday"
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4190),
                             Name = "Friday"
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 3, 6, 5, 53, 13, 343, DateTimeKind.Utc).AddTicks(4191),
                             Name = "Saturday"
                         });
                 });

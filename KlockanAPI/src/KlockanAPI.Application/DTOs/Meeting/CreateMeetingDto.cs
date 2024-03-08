@@ -1,7 +1,7 @@
 ﻿
 namespace KlockanAPI.Application.DTOs.Meeting;
 
-public class CreateMeetingDto
+public class CreateMultipleMeetingsDto
 {
     public DateOnly Date { get; set; }
     public TimeOnly Time { get; set; }

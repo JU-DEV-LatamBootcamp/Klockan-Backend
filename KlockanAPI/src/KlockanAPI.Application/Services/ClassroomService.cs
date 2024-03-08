@@ -4,7 +4,7 @@ using KlockanAPI.Application.Services.Interfaces;
 using KlockanAPI.Infrastructure.Repositories.Interfaces;
 using KlockanAPI.Domain.Models;
 using KlockanAPI.Application.CrossCutting;
-using KlockanAPI.Application.DTOs.Schedule;
+using KlockanAPI.Application.DTOs.ClassroomUser;
 using KlockanAPI.Application.DTOs.User;
 
 namespace KlockanAPI.Application.Services;
@@ -13,12 +13,18 @@ public class ClassroomService : IClassroomService
 {
     private readonly IClassroomRepository _classroomRepository;
     private readonly IMeetingRepository _meetingRepository;
+    private readonly IClassroomUserRepository _classroomUserRepository;
     private readonly IMapper _mapper;
 
-    public ClassroomService(IClassroomRepository classroomRepository, IMapper mapper, IMeetingRepository meetingRepository)
+    public ClassroomService(
+        IClassroomRepository classroomRepository,
+        IMeetingRepository meetingRepository,
+        IClassroomUserRepository classroomUserRepository,
+        IMapper mapper)
     {
         _classroomRepository = classroomRepository;
         _meetingRepository = meetingRepository;
+        _classroomUserRepository = classroomUserRepository;
         _mapper = mapper;
     }
 
@@ -55,24 +61,20 @@ public class ClassroomService : IClassroomService
         return _mapper.Map<IEnumerable<User>>(classroomUsers);
     }
 
-    public List<CreateScheduleDTO> MapCreateClassroomSchedulesDTOsToCreateScheduleDTOs(int id, List<CreateClassroomScheduleDTO> classroomSchedules)
+    public async Task<ClassroomDTO> UpdateClassroomAsync(UpdateClassroomDTO updateClassroomDTO)
     {
-        var schedules = classroomSchedules.Aggregate(
-            new List<CreateScheduleDTO>(),
-            (schedules, createClassroomSchedule) =>
-            {
-                var newSchedule = new CreateScheduleDTO(
-                    createClassroomSchedule.WeekdayId,
-                    id,
-                    createClassroomSchedule.StartTime
-                );
-                schedules.Add(newSchedule);
+        var id = updateClassroomDTO.Id;
+        var dbClassroom = await _classroomRepository.GetClassroomByIdAsync(id);
+        NotFoundException.ThrowIfNull(dbClassroom, $"Classroom with id {id} not found");
 
-                return schedules;
-            }
-        );
+        var classroom = _mapper.Map<Classroom>(updateClassroomDTO);
+        var schedules = _mapper.Map<List<Schedule>>(classroom);
 
-        return schedules;
+        classroom.Schedule = schedules;
+
+        var udpatedClassroom = await _classroomRepository.UpdateClassroomAsync(classroom);
+
+        return _mapper.Map<ClassroomDTO>(udpatedClassroom);
     }
 
     public async Task<ClassroomDTO?> DeleteClassroomAsync(int id)
@@ -99,5 +101,16 @@ public class ClassroomService : IClassroomService
             throw new NotFoundException(e.Message);
         }
     }
-}
 
+    public async Task<List<ClassroomUserDTO>> UpdateClassroomUsersAsync(UpdateClassroomUsersDTO updateClassroomUsersDTO)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(updateClassroomUsersDTO.Id);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with id {updateClassroomUsersDTO.Id} not found");
+
+        var classroomUsers = _mapper.Map<List<ClassroomUser>>(updateClassroomUsersDTO);
+
+        var udpatedClassroomUsers = await _classroomUserRepository.UpdateClassroomUsersAsync(updateClassroomUsersDTO.Id, classroomUsers);
+
+        return _mapper.Map<List<ClassroomUserDTO>>(udpatedClassroomUsers);
+    }
+}

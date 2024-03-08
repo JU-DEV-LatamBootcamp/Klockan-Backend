@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NSubstitute;
 
-namespace KlockanAPI.Presentation.Tests;
+namespace KlockanAPI.Presentation.Tests.Controllers;
 
 public class CountriesControllerTests
 {
