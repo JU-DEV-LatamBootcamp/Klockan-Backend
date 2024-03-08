@@ -9,7 +9,8 @@ public interface IClassroomRepository
     Task<IEnumerable<Classroom>?> GetClassroomsByProgramIdAsync(int programId);
     Task<Classroom> CreateClassroomAsync(Classroom classroom);
 
-    Task<Classroom?> GetClassroomByIdAsync(int id);
-
+    Task<Classroom> GetClassroomByIdAsync(int id);
+    Task<IEnumerable<User>> GetClassroomUsersAsync(int id);
     Task<Classroom> DeleteClassroomAsync(Classroom classroom);
+    Task<User> RemoveUserFromClassroomAsync(Classroom classroom, User user);
 }
