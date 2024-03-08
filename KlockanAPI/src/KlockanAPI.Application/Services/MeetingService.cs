@@ -49,6 +49,21 @@ public class MeetingService : IMeetingService
         return _mapper.Map<MeetingDto>(createdMeeting);
     }
 
+    public async Task<MeetingDto> UpdateMeeting(UpdateMeetingDto meetingDto, int meetingId)
+    {
+        var meeting = await _meetingRepository.GetMeetingById(meetingId);
+        NotFoundException.ThrowIfNull(meeting, $"Meeting with id {meetingId} was not found");
+
+        // TODO: Update on thirdParty
+        meeting.Date = meetingDto.Date;
+        meeting.Time = meetingDto.Time;
+        meeting.UpdatedAt = DateTime.UtcNow;
+        
+        var updatedMeeting = await _meetingRepository.UpdateMeeting(meeting, meetingId);
+
+        return _mapper.Map<MeetingDto>(updatedMeeting);
+    }
+
     public async Task<List<MeetingDto>> CreateMultipleMeetingAsync(CreateMultipleMeetingsScheduleDTO createMultipleMeetingDTO)
 
     {
