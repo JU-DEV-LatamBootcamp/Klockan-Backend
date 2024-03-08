@@ -1,5 +1,6 @@
 ﻿# Klockan-Backend
-
+ 
+Demo example of CI/CD
 
 ## Folder Structure
 
@@ -196,3 +197,4 @@ Add the following configurations to the project's `VS Code` settings file, `.vsc
   }
 }
 ```
+
