@@ -31,7 +31,7 @@ public static class ApplicactionServiceRegistration
 
         services.AddHttpClient<WebexService>(client =>
         {
-            client.BaseAddress = new Uri(configuration["Webex:MeetingsApiUrl"]);
+            client.BaseAddress = new Uri(configuration["Webex:MeetingsApiUrl"]);            
             client.DefaultRequestHeaders.Authorization =
                 new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", configuration["Webex:AccessToken"]);
         });
