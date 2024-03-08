@@ -88,6 +88,7 @@ public class MeetingService : IMeetingService
                     ClassroomId = createMultipleMeetingDTO.ClassroomId,
                     Date = dateofweek,
                     Time = schedule.StartTime,
+                    TrainerId = 0 //Trainer agregar
                 };
 
                 var meeting = _mapper.Map<Meeting>(createMeeting);
