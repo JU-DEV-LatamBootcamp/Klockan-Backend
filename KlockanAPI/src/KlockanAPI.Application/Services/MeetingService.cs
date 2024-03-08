@@ -90,7 +90,7 @@ public class MeetingService : IMeetingService
                     ClassroomId = createMultipleMeetingDTO.ClassroomId,
                     Date = dateofweek,
                     Time = schedule.StartTime,
-                    TrainerId = 9 //Trainer agregar
+                    TrainerId = 11 //Trainer agregar
                 };
                 string thirdPartyId = await _thirdPartyMeeting.CreateMeetingAsync(createMeeting);
                 var meeting = _mapper.Map<Meeting>(createMeeting);
