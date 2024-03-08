@@ -11,6 +11,7 @@ public class MeetingRepository : IMeetingRepository
     private readonly KlockanContext _context;
 
     public MeetingRepository(KlockanContext context)
+    
     {
         _context = context;
     }
