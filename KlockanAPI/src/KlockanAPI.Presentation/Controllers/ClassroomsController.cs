@@ -27,6 +27,15 @@ public class ClassroomsController : ControllerBase
         return Ok(classrooms);
     }
 
+    [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ClassroomDTO>> GetClassroomById(int id, bool populate)
+    {
+        var classroom = await _classroomService.GetClassroomByIdAsync(id, populate);
+        return Ok(classroom);
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
