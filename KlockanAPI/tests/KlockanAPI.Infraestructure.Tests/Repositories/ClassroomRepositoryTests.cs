@@ -159,6 +159,33 @@ public class ClassroomRepositoryTests : IDisposable
         Assert.NotNull(result);
         Assert.Equal(classroom.Id, result!.Id);
     }
+    
+    /*[Fact]
+    public async Task GetClassroomByIdAsyncWithPopulateArgTrue_ShouldReturnClassroomWithPopulatedDataIfExists()
+    {
+        // Arrange
+        var classroom = new Classroom
+        {
+            Id = 1,
+            StartDate = new DateOnly(2024, 1, 23),
+            CourseId = 1,
+            ProgramId = 1
+        };
+
+        _context.Classrooms.Add(classroom);
+        await _context.SaveChangesAsync();
+
+        var repository = new ClassroomRepository(_context);
+
+        // Act
+        var result = await repository.GetClassroomByIdAsync(1, true);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.NotNull(result.Course);
+        Assert.NotNull(result.Program);
+        Assert.Equal(classroom.Id, result!.Id);
+    }*/
 
     [Fact]
     public async Task GetClassroomByIdAsync_ShouldReturnNullIfNotExists()

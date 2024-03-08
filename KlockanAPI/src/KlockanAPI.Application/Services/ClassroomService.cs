@@ -78,4 +78,11 @@ public class ClassroomService : IClassroomService
 
         return _mapper.Map<List<ClassroomUserDTO>>(udpatedClassroomUsers);
     }
+
+    public async Task<ClassroomDTO> GetClassroomByIdAsync(int id, bool populate)
+    {
+        var classroom = await _classroomRepository.GetClassroomByIdAsync(id, populate);
+        NotFoundException.ThrowIfNull(classroom, $"Classroom with id {id} not found");
+        return _mapper.Map<ClassroomDTO>(classroom!);
+    }
 }

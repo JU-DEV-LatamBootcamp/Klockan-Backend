@@ -67,10 +67,12 @@ public class ClassroomRepository : IClassroomRepository
         return classrooms.Count > 0 ? classrooms : null;
     }
 
-    public async Task<Classroom?> GetClassroomByIdAsync(int id)
+    public async Task<Classroom?> GetClassroomByIdAsync(int id, bool populate = false)
     {
-        var result = _context.Classrooms.AsNoTracking()
-            .Where((classroom) => classroom.Id == id);
+        IQueryable<Classroom> result = _context.Classrooms;
+        if (populate)
+            result = result.Include(c => c.Course).Include(p => p.Program);
+        result = result.AsNoTracking().Where((classroom) => classroom.Id == id);
 
         var classroom = result.Count() > 0 ? result.First() : null;
 
